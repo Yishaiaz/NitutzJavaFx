@@ -21,9 +21,11 @@
                         <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="profile">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem fx:id="menuItem_create" mnemonicParsing="false" onAction="#onClickCreateProfile" text="create" />
+                  <MenuItem fx:id="menuItem_update" mnemonicParsing="false" onAction="#onClickUpdateProfile" text="update" />
+                  <MenuItem fx:id="menuItem_delete" mnemonicParsing="false" onAction="#onClickDeleteProfile" text="delete" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -35,19 +37,23 @@
         </MenuBar>
     </top>
     <center>
-        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="btn_profile" mnemonicParsing="false" text="log in/sign in">
-                    <font>
-                        <Font size="10.0" />
-                    </font>
+            <VBox alignment="TOP_RIGHT">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <children>
+                      <Button fx:id="btn_profile" contentDisplay="TOP" mnemonicParsing="false" onAction="#onClickLogin" text="login/sign up">
+                          <font>
+                              <Font size="10.0" />
+                          </font>
+                      </Button>
+               </children>
+            </VBox>
+                <Label alignment="TOP_RIGHT" text="vacation4U">
                     <VBox.margin>
-                        <Insets left="500.0" top="10.0" />
-                    </VBox.margin>
-                </Button>
-                <Label alignment="TOP_LEFT" text="vecation4U">
-                    <VBox.margin>
-                        <Insets left="200.0" />
+                        <Insets />
                     </VBox.margin>
                     <font>
                         <Font size="34.0" />
@@ -55,14 +61,14 @@
                 </Label>
                 <Label text="search for vecations!">
                     <VBox.margin>
-                        <Insets left="200.0" />
+                        <Insets />
                     </VBox.margin>
                 </Label>
                 <ToolBar prefHeight="40.0" prefWidth="200.0">
                     <items>
-                        <Button fx:id="btn_StartSearch" />
-                        <TextField fx:id="textField_Search" promptText="destanation" />
-                        <Button fx:id="btn_cleanSearch" />
+                        <Button fx:id="btn_StartSearch" onAction="#onClickSearchUser" text="search user" />
+                        <TextField fx:id="textField_Search" promptText="User name" />
+                        <Button fx:id="btn_cleanSearch" text="clear search" />
                         <Label fx:id="labelMatches" />
                     </items>
                     <VBox.margin>
