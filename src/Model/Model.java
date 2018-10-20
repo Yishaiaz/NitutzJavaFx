@@ -4,6 +4,8 @@ import DataBaseConnection.IdbConnection;
 import EntriesObject.IEntry;
 import EntriesObject.User;
 
+
+import java.sql.Date;
 import java.util.Observable;
 
 public class Model extends Observable implements IModel {
@@ -27,7 +29,19 @@ public class Model extends Observable implements IModel {
 
     @Override
     public boolean CreateAccount(String username, String password, String birthdate, String fName, String lName, String city) {
-        return false;
+        boolean ans = false;
+        Date d = Date.valueOf(birthdate);
+        IEntry user = new User(username,password, d,fName,lName,city);
+        try{
+            user.insertToDb(this.db);
+            ans=true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }finally {
+            // @Yaniv -  i don't really know what to do here once the user is in the db, so for now i just print to the console "hello [user_firstname+user_lastname]"
+            System.out.println("Hello "+((User) user).getUser_firstname()+" "+ ((User) user).getUser_lastname());
+        }
+        return ans;
     }
 
     @Override
