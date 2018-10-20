@@ -49,7 +49,7 @@ public class CreateAcountControlle{
                 checkDate();
 
                 if(checkUserNAme()&&checkPassword()&&validatePassword()&&checkFirstNAme()&& checkLastName() && checkCity()&& checkDate()){
-                        m_controller.
+                        
 
 
                         fld_birthDate.getEditor().getText();
