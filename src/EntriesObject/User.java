@@ -37,7 +37,7 @@ public class User extends AEntry{
      */
     public User() {
         super();
-//        this.entryColumnNames=this.getClass().getDeclaredFields();
+
     }
 
     @Override
@@ -46,9 +46,10 @@ public class User extends AEntry{
     }
 
     @Override
-    public String[] getColumnsTitles() {
-        return super.getColumnsTitles();
+    public boolean validateEntry() {
+        return false;
     }
+
 
     @Override
     public String getIdentifierValue() {
@@ -75,7 +76,7 @@ public class User extends AEntry{
 
 
     @Override
-    public void deleteFromDb(IdbConnection idbConnection) {
+    public void deleteFromDb(IdbConnection idbConnection) throws Exception{
         idbConnection.deleteById(this);
     }
 

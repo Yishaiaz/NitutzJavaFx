@@ -7,24 +7,29 @@ import java.sql.Date;
 
 public class main {
     public static void main (String[] args){
-        SqliteDbConnection test=new SqliteDbConnection(true);
+        try{
+            SqliteDbConnection test=new SqliteDbConnection(true);
 
 
-        AEntry testEntry= new User("JhonTest","testPass", Date.valueOf("2010-01-01"),"testFN","testLN","testCity");
+            AEntry testEntry= new User("JhonTest","testPass", Date.valueOf("2010-01-01"),"testFN","testLN","testCity");
 
-        test.createNewTable( testEntry);
+            test.createNewTable( testEntry);
 
-        testEntry.insertToDb(test);
-//        testEntry.deleteFromDb(test);
-        for (String s :
-                test.getEntryById("JhonTest",testEntry)) {
-            System.out.println(s+",");
+            testEntry.insertToDb(test);
+    //        testEntry.deleteFromDb(test);
+            for (String s :
+                    test.getEntryById("JhonTest",testEntry)) {
+                System.out.println(s+",");
+            }
+            String[] testValues = {"JhonTest","password123","2010-01-02","yishaia","zabary","haifa"};
+            test.updateEntry(testEntry,testValues);
+            String[] fieldsTochangeTeat={"user_password","user_firstname"};
+            test.getSpecificData(testEntry,"JhonTest",fieldsTochangeTeat);
+            test.deleteAllFromTable("Users");
+
+        }catch(Exception e){
+            System.out.println(e.getMessage());
         }
-        String[] testValues = {"JhonTest","password123","2010-01-02","yishaia","zabary","haifa"};
-        test.updateEntry(testEntry,testValues);
-        String[] fieldsTochangeTeat={"user_password","user_firstname"};
-        test.getSpecificData(testEntry,"JhonTest",fieldsTochangeTeat);
-        test.deleteAllFromTable("Users");
 //        this is a test for the branch of tamir
 //        for (String s :
 //                test.getEntryById("Users","1",testEntry)) {
