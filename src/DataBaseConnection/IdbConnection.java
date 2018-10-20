@@ -7,25 +7,25 @@ import java.util.LinkedList;
 
 public interface IdbConnection {
 
-    void connectToDb();
+    void connectToDb() throws Exception;
 
-    void createNewTable(IEntry entry);
+    void createNewTable(IEntry entry) throws Exception;
 
-    String[] getEntryById(String entryId, IEntry entry);
+    String[] getEntryById(String entryId, IEntry entry) throws Exception;
 
-    LinkedList<String[]> getAllFromTable(IEntry entry);
+    LinkedList<String[]> getAllFromTable(IEntry entry) throws Exception;
 
-    void insert(IEntry entry);//should db connection use be implemented inside an entry object?
+    void insert(IEntry entry) throws Exception;//should db connection use be implemented inside an entry object?
 
-    void updateEntry(IEntry entry, String[] newValues);
+    void updateEntry(IEntry entry, String[] newValues) throws Exception;
 
-    void deleteAllFromTable(String tableName);
+    void deleteAllFromTable(String tableName) throws Exception;
 
     void deleteDb(String dbName);
 
-    void deleteById(IEntry entry);
+    void deleteById(IEntry entry) throws Exception;
 
-   ArrayList<String> getSpecificData(IEntry entry, String entryId, String[] namesOfSpecificField);
+   ArrayList<String> getSpecificData(IEntry entry, String entryId, String[] namesOfSpecificField) throws Exception;
 
-    void closeConnection();
+    void closeConnection() throws Exception;
 }

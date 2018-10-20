@@ -20,7 +20,7 @@ public class SqliteDbConnection implements IdbConnection {
      * //no id - use username
      * creates a db using name from config.properties file
      */
-    public SqliteDbConnection(boolean create) {
+    public SqliteDbConnection(boolean create) throws Exception {
         props = new Properties();
         String propFileName = "config.properties";
         try {
@@ -51,7 +51,7 @@ public class SqliteDbConnection implements IdbConnection {
 
     }
 
-    public void connectToDb() {
+    public void connectToDb() throws Exception{
         conn = null;
         try {
             // db parameters
@@ -63,12 +63,13 @@ public class SqliteDbConnection implements IdbConnection {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void createNewTable(IEntry entry) {
+    public void createNewTable(IEntry entry) throws Exception{
         this.connectToDb();
 
         // SQLite connection string
@@ -92,14 +93,15 @@ public class SqliteDbConnection implements IdbConnection {
             stmt.execute(sql);
         } catch (SQLException e) {
             System.out.println("//////////FOR DEBUGGING////////dont forget to connect to db! ");
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
 
 
     }
 
     @Override
-    public void insert(IEntry entry) {
+    public void insert(IEntry entry) throws Exception{
         this.connectToDb();
 
         String generatedId="";
@@ -116,14 +118,15 @@ public class SqliteDbConnection implements IdbConnection {
             generatedId += Integer.toString(pstmt.getGeneratedKeys().getInt(1));
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
 
 
     }
 
     @Override
-    public String[] getEntryById(String entryId, IEntry entry) {
+    public String[] getEntryById(String entryId, IEntry entry)throws Exception {
         this.connectToDb();
         entryId="'"+entryId+"'";
 
@@ -144,7 +147,8 @@ public class SqliteDbConnection implements IdbConnection {
                     ans[i]=rs.getString(columnsNames[i]);
                 }
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+//                System.out.println(e.getMessage());
+                throw new Exception(e.getMessage());
             }
             return ans;
         }
@@ -153,7 +157,7 @@ public class SqliteDbConnection implements IdbConnection {
 
 
     @Override
-    public void deleteAllFromTable(String tableName) {
+    public void deleteAllFromTable(String tableName)throws Exception {
         this.connectToDb();
 
         String sql = "DELETE FROM "+tableName;
@@ -165,7 +169,8 @@ public class SqliteDbConnection implements IdbConnection {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -175,7 +180,7 @@ public class SqliteDbConnection implements IdbConnection {
     }
 
     @Override
-    public void updateEntry(IEntry entry, String[] newValues) {
+    public void updateEntry(IEntry entry, String[] newValues)throws Exception {
         this.connectToDb();
 
         String fieldNamesForSql=createSqlStringForEditing(entry,newValues);
@@ -190,12 +195,13 @@ public class SqliteDbConnection implements IdbConnection {
             // update
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
     @Override
-    public void deleteById(IEntry entry) {
+    public void deleteById(IEntry entry) throws Exception{
         this.connectToDb();
 
         String sql = "DELETE FROM "+entry.getTableName()+" WHERE "+entry.getIdentifiers()+" = " +"'"+entry.getIdentifierValue()+"';";
@@ -206,13 +212,14 @@ public class SqliteDbConnection implements IdbConnection {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
 
     @Override
-    public LinkedList<String[]> getAllFromTable(IEntry entry) {
+    public LinkedList<String[]> getAllFromTable(IEntry entry) throws Exception{
         this.connectToDb();
 
         LinkedList<String[]> ans=new LinkedList<String[]>();
@@ -236,14 +243,15 @@ public class SqliteDbConnection implements IdbConnection {
                 ans.add(tempStringArray);
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
 
         return ans;
     }
 
     @Override
-    public ArrayList<String> getSpecificData(IEntry entry, String entryId, String[] namesOfSpecificField) {
+    public ArrayList<String> getSpecificData(IEntry entry, String entryId, String[] namesOfSpecificField)throws Exception {
         ArrayList<String> ans=new ArrayList<>();
         this.connectToDb();
         entryId="'"+entryId+"'";
@@ -262,7 +270,8 @@ public class SqliteDbConnection implements IdbConnection {
                     ans.add(rs.getString(namesOfSpecificField[i]));
                 }
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+//                System.out.println(e.getMessage());
+                throw new Exception(e.getMessage());
             }
             return ans;
         }
@@ -272,14 +281,15 @@ public class SqliteDbConnection implements IdbConnection {
     }
 
     @Override
-    public void closeConnection() {
+    public void closeConnection() throws Exception{
         try {
             if (this.conn != null) {
                 this.conn.close();
             }
 
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -294,7 +304,7 @@ public class SqliteDbConnection implements IdbConnection {
         }
         return ans.substring(0,ans.length()-1);
     }
-    private String createSqlStringValues(IEntry entry){
+    private String createSqlStringValues(IEntry entry) throws Exception{
         String ans="" ;
         for (String s:entry.getAllData()
         ) {

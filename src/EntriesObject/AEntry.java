@@ -27,7 +27,7 @@ public abstract class AEntry implements IEntry {
     }
 
     @Override
-    public void insertToDb(IdbConnection idbConnection){
+    public void insertToDb(IdbConnection idbConnection) throws Exception{
         idbConnection.insert(this);
     }
 
