@@ -2,7 +2,7 @@ package EntriesObject;
 
 import DataBaseConnection.IdbConnection;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class User extends AEntry{
 //    private String[] entryColumnNames= new String[6];
@@ -92,5 +92,29 @@ public class User extends AEntry{
             ", user_lastname='" + user_lastname + '\'' +
             ", user_city='" + user_city + '\'' +
             '}';
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public String getUser_password() {
+        return user_password;
+    }
+
+    public Date getUser_birthdate() {
+        return user_birthdate;
+    }
+
+    public String getUser_firstname() {
+        return user_firstname;
+    }
+
+    public String getUser_lastname() {
+        return user_lastname;
+    }
+
+    public String getUser_city() {
+        return user_city;
     }
 }
