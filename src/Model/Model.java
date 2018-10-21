@@ -70,7 +70,22 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public User LogIn(String username, String password) {
-        return null;
+    public String LogIn(String username, String password) {
+        try {
+           User userFromDB= SearchUser(username);
+           if(userFromDB.getUser_password().equals(password)) {
+               loggedUser = username;
+               return loggedUser;
+           }
+           return null;
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public void logOut() {
+        loggedUser=null;
     }
 }
