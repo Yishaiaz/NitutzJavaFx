@@ -60,7 +60,20 @@ public class View implements Observer {
     }
 
     public void onClickCreateProfile(){
-
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("CreateAcount/CreateAcount.fxml"));
+        AnchorPane create = null;
+        try {
+            create = loader.load();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        Scene creatAcount = new Scene(create);
+        CreateAcountControlle ca = loader.getController();
+        ca.setController(m_controller);// sets the controller
+        Stage popUp = new Stage();
+        popUp.setScene(creatAcount);
+        popUp.show();
     }
 
     public void onClickUpdateProfile(){
@@ -120,21 +133,6 @@ public class View implements Observer {
         btn_createAccount.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 onClickCreateProfile();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("CreateAcount/CreateAcount.fxml"));
-                AnchorPane create = null;
-                try {
-                    create = loader.load();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                Scene creatAcount = new Scene(create);
-                CreateAcountControlle ca = loader.getController();
-                ca.setController(m_controller);// sets the controller
-                Stage popUp = new Stage();
-                popUp.setScene(creatAcount);
-                popUp.show();
-
             }
         });
 
