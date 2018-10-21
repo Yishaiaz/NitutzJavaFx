@@ -41,6 +41,7 @@ public class Model extends Observable implements IModel {
             // @Yaniv -  i don't really know what to do here once the user is in the db, so for now i just print to the console "hello [user_firstname+user_lastname]"
             System.out.println("Hello "+((User) user).getUser_firstname()+" "+ ((User) user).getUser_lastname());
         }
+
         return ans;
     }
 
