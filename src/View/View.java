@@ -114,6 +114,7 @@ public class View implements Observer {
         dialog.getDialogPane().getButtonTypes().add(btn_cancel );
 
         //on click handlers
+
         /**
          * opens the "createAccount" popup
          */
@@ -134,6 +135,12 @@ public class View implements Observer {
                 Stage popUp = new Stage();
                 popUp.setScene(creatAcount);
                 popUp.show();
+            }});
+
+
+        btn_createAccount.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                onClickCreateProfile();
 
             }
         });
@@ -146,7 +153,8 @@ public class View implements Observer {
 
         // Show dialog
         dialog.showAndWait();
-
     }
+
 }
+
 
