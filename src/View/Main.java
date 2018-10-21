@@ -34,9 +34,6 @@ public class Main extends Application {
             controller.addObserver(view);
             //--------------
             primaryStage.show();
-
-            model.setLoggedUser("Dan");
-            System.out.println(view.loggedUser);
         }
         catch (Exception e){
             System.out.println(e.getLocalizedMessage());
