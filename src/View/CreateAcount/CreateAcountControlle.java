@@ -34,6 +34,14 @@ public class CreateAcountControlle{
         public Label lbl_error_biirthdate;
 
 
+    /**
+     * sets the controller
+     * @param controller - the controler of the program
+     */
+    public void setController(Controller controller) {
+        this.m_controller = controller;
+    }
+
         /**
          * Activated when cancel is pressed.
          * cancels the create account popup.
@@ -58,7 +66,7 @@ public class CreateAcountControlle{
                 boolean goodLastName =checkLastName();
                 boolean goodCity =checkCity();
                 boolean goodDate=checkDate();
-                
+
                 if(goodUserName && goodPassword && goodVerifyPassword && goodfirstName && goodLastName && goodCity && goodDate){
                         // change the dat format
                         String correctDateFormat = changeDateFormat(fld_birthDate.getEditor().getText());
@@ -71,7 +79,8 @@ public class CreateAcountControlle{
                 }
         }
 
-        /**
+    //<editor-fold desc="User Input Validation">
+    /**
          * checks that the date is not empty.
          * @return true if user has selected a date
          */
@@ -94,7 +103,7 @@ public class CreateAcountControlle{
          */
         private String changeDateFormat(String text) {
                 String [] s = text.split("/");
-                return s[2]+"-"+s[1]+"-"+s[0];
+                return s[2]+"-"+s[0]+"-"+s[1];
         }
 
         /**
@@ -189,12 +198,7 @@ public class CreateAcountControlle{
 
                 ///check if user exists
         }
+    //</editor-fold>
 
-        /**
-         * sets the controller
-         * @param controller - the controler of the program
-         */
-        public void setController(Controller controller) {
-                this.m_controller = controller;
-        }
+
 }
