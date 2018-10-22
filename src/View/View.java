@@ -77,7 +77,7 @@ public class View implements Observer {
     }
 
     public void onClickUpdateProfile(){
-
+//
     }
 
     public void onClickDeleteProfile(){
@@ -100,12 +100,6 @@ public class View implements Observer {
         Button loginBtn= new Button("Login");
         Button btn_createAccount= new Button("Create Account");
 
-        //on click handlers
-        loginBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-
-            }
-        });
 
         // Create layout and add to dialog
         GridPane grid = new GridPane();
