@@ -12,7 +12,7 @@ import Model.IModel;
 
 public class Controller extends Observable implements Observer {
     private IModel model;
-    public StringProperty loggedUser = new SimpleStringProperty("");
+    public StringProperty  loggedUser=new SimpleStringProperty("");
 
     public Controller(IModel model) {
         this.model = model;
@@ -20,7 +20,6 @@ public class Controller extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        loggedUser.set(model.getLoggedUser());
         setChanged();
         notifyObservers();
     }
@@ -45,5 +44,26 @@ public class Controller extends Observable implements Observer {
         if (user==null)
             return false;
         return true;
+    }
+    /**
+     * login the input user by the username and password
+     * @param username- the user name to login.
+     * @param password- the user password to loin.
+     * @return the user name if the user name and password are valid, otherwise returns null.
+     */
+    public String logIn(String username, String password){
+        return model.LogIn(username,password);
+
+    }
+
+    /**
+     * logout the current user in the system.
+     */
+    public void logOut(){
+        model.logOut();
+    }
+
+    public String getLoggedUser() {
+        return model.getLoggedUser();
     }
 }
