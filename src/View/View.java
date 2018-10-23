@@ -1,8 +1,10 @@
 package View;
 
 import Controller.Controller;
+import EntriesObject.IEntry;
 import EntriesObject.User;
 import View.CreateAcount.CreateAcountControlle;
+import View.UpdateProfile.UpdateAccount;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +24,7 @@ import java.util.Observer;
 import java.util.Optional;
 
 public class View implements Observer {
-    public String loggedUser;
+    public IEntry loggedUser = null;
     private Controller m_controller;
 
     //fxml widgets
@@ -40,7 +42,7 @@ public class View implements Observer {
     }
 
     private void bindProperties(Controller controller) {
-        loggedUser=controller.loggedUser.toString();
+        loggedUser=controller.loggedUser;
     }
 
     @Override
@@ -81,7 +83,23 @@ public class View implements Observer {
     }
 
     public void onClickUpdateProfile() {
-
+        if(this.loggedUser!=null){
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("UpdateProfile/UpdateAccount.fxml"));
+            AnchorPane create = null;
+            try {
+                create = loader.load();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            Scene updateAcount = new Scene(create);
+            UpdateAccount uA = loader.getController();
+            uA.setController(m_controller);// sets the controller
+            uA.setParameters((User)this.loggedUser);
+            Stage popUp = new Stage();
+            popUp.setScene(updateAcount);
+            popUp.show();
+        }
     }
 
     public void onClickDeleteProfile() {
@@ -104,14 +122,6 @@ public class View implements Observer {
         TextField text2 = new TextField();
         Button loginBtn = new Button("Login");
         Button btn_createAccount = new Button("Create Account");
-
-        //on click handlers
-        loginBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-
-            }
-        });
 
         // Create layout and add to dialog
         GridPane grid = new GridPane();
@@ -172,7 +182,7 @@ public class View implements Observer {
      * @param password- the user password to loin.
      */
     private void logInProfileToDB(String username, String password) {
-        String userNameFromDb=m_controller.logIn(username, password);
+        User userNameFromDb=(User)m_controller.logIn(username, password);
         if(userNameFromDb!=null)
             loggedUser=userNameFromDb;
 

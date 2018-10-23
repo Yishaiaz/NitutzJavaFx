@@ -1,5 +1,6 @@
 package Controller;
 
+import EntriesObject.IEntry;
 import EntriesObject.User;
 import Model.Model;
 import View.View;
@@ -12,7 +13,7 @@ import Model.IModel;
 
 public class Controller extends Observable implements Observer {
     private IModel model;
-    public StringProperty  loggedUser=new SimpleStringProperty("");
+    public User  loggedUser=new User();
 
     public Controller(IModel model) {
         this.model = model;
@@ -40,7 +41,7 @@ public class Controller extends Observable implements Observer {
      * @return - true if the User exists in the DB
      */
     public boolean checkIfUserExists(String userName) {
-        User user = model.SearchUser(userName);
+        IEntry user = model.SearchUser(userName);
         if (user==null)
             return false;
         return true;
@@ -51,7 +52,7 @@ public class Controller extends Observable implements Observer {
      * @param password- the user password to loin.
      * @return the user name if the user name and password are valid, otherwise returns null.
      */
-    public String logIn(String username, String password){
+    public IEntry logIn(String username, String password){
         return model.LogIn(username,password);
 
     }
@@ -63,7 +64,13 @@ public class Controller extends Observable implements Observer {
         model.logOut();
     }
 
-    public String getLoggedUser() {
+    public IEntry getLoggedUser() {
         return model.getLoggedUser();
+    }
+
+    public IEntry updateUser(User user){
+        loggedUser=user;
+        model.UpdateAccount(user);
+        return user;
     }
 }

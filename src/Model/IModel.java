@@ -1,12 +1,13 @@
 package Model;
 
+import EntriesObject.IEntry;
 import EntriesObject.User;
 
 public interface IModel {
     boolean CreateAccount(String username, String password, String birthdate, String fName, String lName, String city);
-    User SearchUser(String username);
-    void UpdateAccount(String username, String password, String birthdate, String fName, String lName, String city);
-    String getLoggedUser();
+    IEntry SearchUser(String username);
+    void UpdateAccount(User user);
+    IEntry getLoggedUser();
 
     /**
      * login the input user by the username and password
@@ -14,7 +15,7 @@ public interface IModel {
      * @param password- the user password to loin.
      * @return the user name if the user name and password are valid, otherwise returns null.
      */
-    String LogIn(String username, String password);
+    IEntry LogIn(String username, String password);
 
     /**
      * logout the current user in the system.
