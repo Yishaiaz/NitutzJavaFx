@@ -36,7 +36,7 @@ public class View implements Observer {
     public MenuItem menuItem_update;
     public MenuItem menuItem_delete;
 
-    public void setController(Controller controller) {
+    private void setController(Controller controller) {
         m_controller = controller;
         bindProperties(m_controller);
     }
@@ -147,29 +147,21 @@ public class View implements Observer {
         /**
          * opens the "createAccount" popup
          */
-        btn_createAccount.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                onClickCreateProfile();
-            }
-        });
+        btn_createAccount.setOnAction(e -> onClickCreateProfile());
 
-        loginBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String userName = text1.getText();
-                String password = text2.getText();
-                logInProfileToDB(userName, password);
-                if (loggedUser != null) {
-                    btn_profile.setText("Log Out");
-                    dialog.close();
-                } else {
-                    lbl_loginError.setText("Invalid password or user name");
-                    text1.clear();
-                    text2.clear();
-                }
-
+        loginBtn.setOnAction(e -> {
+            String userName = text1.getText();
+            String password = text2.getText();
+            logInProfileToDB(userName, password);
+            if (loggedUser != null) {
+                btn_profile.setText("Log Out");
+                dialog.close();
+            } else {
+                lbl_loginError.setText("Invalid password or user name");
+                text1.clear();
+                text2.clear();
             }
+
         });
 
         // Show dialog
