@@ -10,18 +10,18 @@ import java.util.Observable;
 
 public class Model extends Observable implements IModel {
     private IdbConnection db;
-    private String loggedUser;
+    private IEntry loggedUser;
 
     public Model(IdbConnection db) {
         this.db = db;
     }
 
     @Override
-    public String getLoggedUser() {
+    public IEntry getLoggedUser() {
         return loggedUser;
     }
 
-    public void setLoggedUser(String loggedUser) {
+    public void setLoggedUser(User loggedUser) {
         this.loggedUser = loggedUser;
         setChanged();
         notifyObservers();
@@ -32,13 +32,13 @@ public class Model extends Observable implements IModel {
         boolean ans = false;
         Date d = Date.valueOf(birthdate);
         IEntry user = new User(username,password, d,fName,lName,city);
+        this.loggedUser=(IEntry)user;
         try{
             user.insertToDb(this.db);
             ans=true;
         }catch (Exception e){
             System.out.println(e.getMessage());
         }finally {
-            // @Yaniv -  i don't really know what to do here once the user is in the db, so for now i just print to the console "hello [user_firstname+user_lastname]"
             System.out.println("Hello "+((User) user).getUser_firstname()+" "+ ((User) user).getUser_lastname());
         }
 
@@ -65,16 +65,21 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public void UpdateAccount(String username, String password, String birthdate, String fName, String lName, String city) {
-
+    public void UpdateAccount(User user) {
+        this.loggedUser = user;
+        try{
+            db.updateEntry(user, user.getAllData());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
-    public String LogIn(String username, String password) {
+    public IEntry LogIn(String username, String password){
         try {
            User userFromDB= SearchUser(username);
            if(userFromDB.getUser_password().equals(password)) {
-               loggedUser = username;
+               loggedUser = userFromDB;
                return loggedUser;
            }
            return null;
