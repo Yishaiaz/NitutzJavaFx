@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="372.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.UpdateProfile.UpdateAccount">
+    <children>
+        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+            <center>
+                <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="319.0" prefWidth="580.0" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </BorderPane.margin>
+                    <children>
+                        <VBox layoutY="2.0" prefHeight="327.0" prefWidth="521.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="59.0" AnchorPane.topAnchor="2.0">
+                            <children>
+                                <Separator prefWidth="200.0" />
+                                <GridPane prefWidth="468.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.6666259765625" minWidth="10.0" prefWidth="80.66668955485027" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.6666259765625" minWidth="10.0" prefWidth="101.33331298828124" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="482.0000228881836" minWidth="10.0" prefWidth="165.33337402343747" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="482.0000228881836" minWidth="10.0" prefWidth="27.999959309895814" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="482.0000228881836" minWidth="10.0" prefWidth="207.33333333333331" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    </rowConstraints>
+                                    <children>
+
+                                        <Label text="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <PasswordField fx:id="fld_password" promptText="select password" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                        <Label fx:id="lbl_error_password" text="password error" textFill="#ca0a0a" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+
+                                        <Label text="Verify Password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                        <PasswordField fx:id="fld_verifyPassword" layoutX="244.0" layoutY="73.0" promptText="verify password" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                        <Label fx:id="lbl_error_verifyPassword" layoutX="425.0" layoutY="77.0" text="Password doesn't match" textFill="#ca0a0a" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+
+                                        <Label text="First Name" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <TextField fx:id="fld_firstName" promptText="enter first name" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                        <Label fx:id="lbl_error_firstName" text="error first name" textFill="#ca0a0a" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+
+                                        <Label layoutX="145.0" layoutY="137.0" text="Last Name" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                                        <TextField fx:id="fld_lastName" layoutX="244.0" layoutY="133.0" promptText="enter last name" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                        <Label fx:id="lbl_error_lastName" layoutX="425.0" layoutY="137.0" text="Error lastname" textFill="#ca0a0a" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+
+                                        <Label text="City" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                        <TextField fx:id="fld_city" promptText="enter city" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                        <Label fx:id="lbl_error_city" text="error city" textFill="#ca0a0a" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+
+
+                                        <Label text="Birthdate" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                        <DatePicker fx:id="fld_birthDate" prefHeight="25.0" prefWidth="248.0" promptText="select date" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                        <Label fx:id="lbl_error_birthdate" text="error birthday" textFill="#ca0a0a" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                                    </children>
+                                </GridPane>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <Button fx:id="btn_updateAccount" mnemonicParsing="false" onAction="#updateAccount" prefHeight="28.0" prefWidth="104.0" text="Update Account">
+                                            <HBox.margin>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                        <Button fx:id="btn_cancel" mnemonicParsing="false" onAction="#cancel" prefHeight="28.0" prefWidth="104.0" text="Cancel">
+                                            <HBox.margin>
+                                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+            </center>
+            <top>
+                <Label text="Create Your Free Acount Today!" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+            </top>
+        </BorderPane>
+    </children>
+</AnchorPane>
