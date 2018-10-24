@@ -127,8 +127,44 @@ public class View implements Observer {
         }
     }
 
-    public void onClickDeleteProfile() {
+    public void onClickDeleteProfile(){
+        if (loggedUser != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete Account Validation");
+            alert.setContentText("Are you sure you want to delete your accoung?\n By pressing Yes your account will be deleted permanently");
+            ButtonType okButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+            alert.getButtonTypes().setAll(okButton, noButton);
+            alert.showAndWait().ifPresent(type -> {
+                if (type.getText() == "Yes") {
+                    //Dan - Delete after finish
+                    System.out.println("Yes");
+                    //
+                    boolean res = m_controller.DeleteAccount(loggedUser);
 
+                    if (!res)
+                        DeletionFailed();
+                    else
+                        logOutProfileFromDB();
+                    DeletionSucceeded();
+                }
+            });
+        }
+    }
+
+    private void DeletionFailed(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Deletion failed!");
+        alert.setContentText("There was a problem while deleting. Please try again");
+        alert.show();
+    }
+
+    private void DeletionSucceeded(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Deletion Succeeded!");
+        alert.setHeaderText("Your account has been deleted successfully.");
+        alert.setContentText("You will be crawling back!!!");
+        alert.show();
     }
 
     private void displayLoginDialog() {
