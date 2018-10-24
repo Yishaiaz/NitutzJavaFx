@@ -2,6 +2,7 @@ package DataBaseConnection;
 
 
 import EntriesObject.IEntry;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -9,16 +10,30 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Properties;
 
-
+/**
+ * SqliteDbConnection is an implementation of IdbConnection interface.
+ * communicates with a local database, which it's name and location is configured in resources/config.properties.
+ *
+ * contains two private fields - props which is the properties of the data base from the said configuration file.
+ * conn = the Connection object to the db iteslef.
+ *
+ * this class uses the sqlite-jdbc-3.23.1 drivers module in order to communicate with a database.
+ *
+ * for more thorough documentation on the function of the class:
+ * @see IdbConnection
+ *
+ */
 public class SqliteDbConnection implements IdbConnection {
 
     private Properties props;
     private Connection conn;
 
     /**
-     * //table name from entry
-     * //no id - use username
-     * creates a db using name from config.properties file
+     * creates the initial database if not existent.
+     * throws error if the communication with the db doesn't succeed.
+     * pass the parameter create = True
+     * @param create - boolean
+     * @throws Exception - an SQL type exception
      */
     public SqliteDbConnection(boolean create) throws Exception {
         props = new Properties();
@@ -36,21 +51,18 @@ public class SqliteDbConnection implements IdbConnection {
 
                 String url = props.getProperty("dbUrl");
 
-                try (Connection conn = DriverManager.getConnection(url)) {
-                    if (conn != null) {
-                        DatabaseMetaData meta = conn.getMetaData();
-                        System.out.println("The driver name is " + meta.getDriverName());
-                        System.out.println("A new database has been created.");
-                    }
-
-                } catch (SQLException e) {
-                    System.out.println(e.getMessage());
+                Connection conn = DriverManager.getConnection(url) ;
+                if (conn != null) {
+                    DatabaseMetaData meta = conn.getMetaData();
+                    System.out.println("The driver name is " + meta.getDriverName());
+                    System.out.println("A new database has been created.");
                 }
             }
         }
 
     }
 
+    @Override
     public void connectToDb() throws Exception{
         conn = null;
         try {
@@ -104,7 +116,6 @@ public class SqliteDbConnection implements IdbConnection {
     public void insert(IEntry entry) throws Exception{
         this.connectToDb();
 
-        String generatedId="";
 
         String fieldNamesForSql=createSqlStringColumns(entry);
 
@@ -115,7 +126,6 @@ public class SqliteDbConnection implements IdbConnection {
         try (Connection conn = this.conn;
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.executeUpdate();
-            generatedId += Integer.toString(pstmt.getGeneratedKeys().getInt(1));
 
         } catch (SQLException e) {
 //            System.out.println(e.getMessage());
@@ -175,8 +185,8 @@ public class SqliteDbConnection implements IdbConnection {
     }
 
     @Override
-    public void deleteDb(String dbName) {
-
+    public void deleteDb(String dbName) throws Exception{
+        throw new NotImplementedException();
     }
 
     @Override
@@ -294,8 +304,11 @@ public class SqliteDbConnection implements IdbConnection {
     }
 
 
-
-
+    /**
+     * a private function to create a single string, suitable for Sqlite queries.
+     * @param entry - IEntry
+     * @return String, the names of the columns separated by a comma
+     */
     private String createSqlStringColumns(IEntry entry){
         String ans="" ;
         for (String s:entry.getColumnsTitles()
@@ -304,7 +317,14 @@ public class SqliteDbConnection implements IdbConnection {
         }
         return ans.substring(0,ans.length()-1);
     }
-    private String createSqlStringValues(IEntry entry) throws Exception{
+
+    /**
+     * a private function to create a single string, suitable for Sqlite queries.
+     * @param entry - IEntry
+     * @return String, the values of all the fields of the given entry
+     * @throws Exception - an SQL type exception
+     */
+    private String createSqlStringValues(IEntry entry) {
         String ans="" ;
         for (String s:entry.getAllData()
         ) {
@@ -312,6 +332,14 @@ public class SqliteDbConnection implements IdbConnection {
         }
         return ans.substring(0,ans.length()-1);
     }
+
+    /**
+     * a private function to create a single string, suitable for Sqlite queries.
+     * this returns a string in the following structure: "[nameOField]=[ValueOfField], [nameOField]=[ValueOfField] ,....."
+     * @param entry - IEntry
+     * @param newValues - String[] - all the new values, include all values, including ones who don't need to change.
+     * @return
+     */
     private String createSqlStringForEditing(IEntry entry,String[] newValues){
         String ans="";
         int i=0;

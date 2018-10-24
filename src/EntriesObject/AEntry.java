@@ -4,13 +4,31 @@ import DataBaseConnection.IdbConnection;
 
 import java.lang.reflect.Field;
 
+/**
+ * an abstract class implementing the IEntry interface.
+ * this is to avoid code duplication between IEntry implementation.
+ *
+ * for more documentation:
+ * @see IEntry - interface
+ * @see User - as an example
+ */
 public abstract class AEntry implements IEntry {
     protected String[] entryColumnNames;
 
+    /**
+     * @deprecated - mainly for testing
+     * a constructor. creates a field that holds all the column names of the implementing class.
+     * @param entryColumnNames
+     */
     public AEntry(String[] entryColumnNames) {
         this.entryColumnNames = entryColumnNames;
     }
 
+    /**
+     * an empty constructor.
+     * populates the field that holds all the column names of the implementing class.
+     *
+     */
     public AEntry() {
         this.entryColumnNames=new String[this.getClass().getDeclaredFields().length];
         int i=0;
