@@ -4,8 +4,17 @@ import DataBaseConnection.IdbConnection;
 
 import java.sql.Date;
 
+/**
+ * a full implementation of the IEntry interface.
+ * represents a User Object with the following fields: [user_name, user_password, user_birthdate, user_firstname, user_lastname, user_city ].
+ * extends the abstract class AEntry.
+ *
+ * for more documentation:
+ * @see IEntry - interface
+ * @see AEntry - abstract implementation
+ */
 public class User extends AEntry{
-//    private String[] entryColumnNames= new String[6];
+
     private String user_name;
     private String user_password;
     private Date user_birthdate;
@@ -45,6 +54,10 @@ public class User extends AEntry{
         return "Users";
     }
 
+    /**
+     * @deprecated
+     * @return
+     */
     @Override
     public boolean validateEntry() {
         return false;
@@ -94,26 +107,45 @@ public class User extends AEntry{
             '}';
     }
 
+    /**
+     * getter for the user name
+     * @return String
+     */
     public String getUser_name() {
         return user_name;
     }
-
+    /**
+     * getter for the user password
+     * @return String
+     */
     public String getUser_password() {
         return user_password;
     }
-
+    /**
+     * getter for the user birthdate
+     * @return String
+     */
     public Date getUser_birthdate() {
         return user_birthdate;
     }
-
+    /**
+     * getter for the user first name
+     * @return String
+     */
     public String getUser_firstname() {
         return user_firstname;
     }
-
+    /**
+     * getter for the user last name
+     * @return String
+     */
     public String getUser_lastname() {
         return user_lastname;
     }
-
+    /**
+     * getter for the user city
+     * @return String
+     */
     public String getUser_city() {
         return user_city;
     }
