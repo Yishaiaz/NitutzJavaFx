@@ -2,18 +2,13 @@ package Controller;
 
 import EntriesObject.IEntry;
 import EntriesObject.User;
-import Model.Model;
-import View.View;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import Model.IModel;
 
 import java.util.Observable;
 import java.util.Observer;
-import Model.IModel;
 
 public class Controller extends Observable implements Observer {
     private IModel model;
-    private User  loggedUser=new User();
 
     public Controller(IModel model) {
         this.model = model;
@@ -64,18 +59,18 @@ public class Controller extends Observable implements Observer {
         model.logOut();
     }
 
-    public IEntry getLoggedUser() {
-        return model.getLoggedUser();
+    public String getLoggedUser() {
+        if(model.getLoggedUser()!=null)
+            return model.getLoggedUser().getIdentifierValue();
+        return null;
     }
 
-    public IEntry updateUser(User user){
-        loggedUser=user;
-        model.UpdateAccount(user);
-        return user;
+    public void updateUser(String[] data){
+        model.UpdateAccount(data);
     }
 
-    public boolean DeleteAccount(IEntry user){
-        return model.DeleteUser(user);
+    public boolean DeleteAccount(){
+        return model.DeleteUser();
     }
 
     /**
@@ -89,6 +84,9 @@ public class Controller extends Observable implements Observer {
             return null;
         else return user.getAllData();
 
+    }
 
+    public String[] getLogedInUserDetails(){
+       return model.getLogedInUserDetails();
     }
 }

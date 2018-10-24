@@ -32,7 +32,6 @@ public class Model extends Observable implements IModel {
         boolean ans = false;
         Date d = Date.valueOf(birthdate);
         IEntry user = new User(username,password, d,fName,lName,city);
-        //this.loggedUser=(IEntry)user;
         setLoggedUser(user);
         try{
             user.insertToDb(this.db);
@@ -66,10 +65,10 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public void UpdateAccount(User user) {
-        this.loggedUser = user;
+    public void UpdateAccount(String[] data) {
+        setLoggedUser(new User(loggedUser.getIdentifierValue(),data[0],Date.valueOf(data[1]),data[2],data[3],data[4]));
         try{
-            db.updateEntry(user, user.getAllData());
+            db.updateEntry(loggedUser, loggedUser.getAllData());
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -80,7 +79,7 @@ public class Model extends Observable implements IModel {
         try {
            User userFromDB= SearchUser(username);
            if(userFromDB!= null && userFromDB.getUser_password().equals(password)) {
-               loggedUser = userFromDB;
+               setLoggedUser(userFromDB);
                return loggedUser;
            }
            return null;
@@ -92,18 +91,31 @@ public class Model extends Observable implements IModel {
 
     @Override
     public void logOut() {
-        loggedUser=null;
+        setLoggedUser(null);
     }
 
     @Override
-    public boolean DeleteUser(IEntry user) {
+    public boolean DeleteUser() {
         try {
-            user.deleteFromDb(db);
+            loggedUser.deleteFromDb(db);
         }
         catch (Exception e){
             System.out.println(e.getMessage());
             return false;
         }
+        logOut();
         return true;
+    }
+
+    @Override
+    public String[] getLogedInUserDetails() {
+        String[] ans;
+        try {
+            ans = db.getEntryById(loggedUser.getIdentifierValue(), new User());
+        }
+        catch (Exception e){
+            return null;
+        }
+        return ans;
     }
 }

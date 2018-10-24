@@ -5,12 +5,15 @@ import EntriesObject.IEntry;
 import EntriesObject.User;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class UpdateAccount {
 
-    private IEntry user;
+//    private IEntry user;
     //the main controller
     private Controller m_controller;
 
@@ -42,11 +45,12 @@ public class UpdateAccount {
     public void setController(Controller controller) {
         this.m_controller = controller;
     }
-    public void setParameters(User user){
-        this.user=user;
-        this.fld_firstName.setText(user.getUser_firstname());
-        this.fld_lastName.setText(user.getUser_lastname());
-        this.fld_city.setText(user.getUser_city());
+    public void setParameters(){
+        String[] data = m_controller.getLogedInUserDetails();
+        this.fld_firstName.setText(data[3]);
+        this.fld_lastName.setText(data[4]);
+        this.fld_city.setText(data[5]);
+        this.fld_birthDate.getEditor().setText(changeDateFormatBack(data[2]));
     }
 
     /**
@@ -65,19 +69,19 @@ public class UpdateAccount {
      * will close the popup screen only if the user has been successfully added to the DB.
      */
     public void updateAccount(){
+        setDateFormat();
         if(checkPassword() && validatePassword() && checkFirstNAme() && checkLastName() && checkCity()&& checkDate()){
             // change the dat format
             String correctDateFormat = changeDateFormat(fld_birthDate.getEditor().getText());
             //adds user to DB
             try{
-                User user=new User(this.user.getAllData()[0],
-                        this.fld_password.getText(),
-                        Date.valueOf(correctDateFormat),
+                String[] data = {this.fld_password.getText(),
+                       changeDateFormat( fld_birthDate.getEditor().getText()),
                         this.fld_firstName.getText(),
                         this.fld_lastName.getText(),
-                        this.fld_city.getText());
-                this.user=user;
-                m_controller.updateUser((User)this.user);
+                        this.fld_city.getText()};
+
+                m_controller.updateUser(data);
             }catch(Exception e){
                 System.out.println("something went wrong");
             }
@@ -104,6 +108,11 @@ public class UpdateAccount {
         return true;
     }
 
+
+    private String changeDateFormatBack(String text) {
+        String [] s = text.split("-");
+        return s[2]+"/"+s[1]+"/"+s[0];
+    }
     /**
      * changes the date format from "10,11,2012" to "2012-11-10".
      * @param text - A string such as "10,11,2012"
@@ -111,7 +120,7 @@ public class UpdateAccount {
      */
     private String changeDateFormat(String text) {
         String [] s = text.split("/");
-        return s[2]+"-"+s[0]+"-"+s[1];
+        return s[2]+"-"+s[1]+"-"+s[0];
     }
 
     /**
@@ -185,5 +194,29 @@ public class UpdateAccount {
         return true;
     }
 
+    private void setDateFormat() {
+        fld_birthDate.setConverter(new StringConverter<LocalDate>()
+        {
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            public String toString(LocalDate localDate)
+            {
+                if(localDate==null)
+                    return "";
+                return dateTimeFormatter.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String dateString)
+            {
+                if(dateString==null || dateString.trim().isEmpty())
+                {
+                    return null;
+                }
+                return LocalDate.parse(dateString,dateTimeFormatter);
+            }
+        });
+    }
 
 }

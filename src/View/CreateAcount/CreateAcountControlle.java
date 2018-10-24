@@ -3,6 +3,10 @@ package View.CreateAcount;
 import Controller.Controller;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CreateAcountControlle{
 
@@ -57,6 +61,7 @@ public class CreateAcountControlle{
      * will close the popup screen only if the user has been successfully added to the DB.
      */
     public void createAcount(){
+        setDateFormat();
 
         boolean goodUserName = checkUserNAme();
         boolean goodPassword =checkPassword();
@@ -76,6 +81,31 @@ public class CreateAcountControlle{
             Stage stage = (Stage) btn_cancel.getScene().getWindow();
             stage.close();
         }
+    }
+
+    private void setDateFormat() {
+        fld_birthDate.setConverter(new StringConverter<LocalDate>()
+        {
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            public String toString(LocalDate localDate)
+            {
+                if(localDate==null)
+                    return "";
+                return dateTimeFormatter.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String dateString)
+            {
+                if(dateString==null || dateString.trim().isEmpty())
+                {
+                    return null;
+                }
+                return LocalDate.parse(dateString,dateTimeFormatter);
+            }
+        });
     }
 
     //<editor-fold desc="User Input Validation">

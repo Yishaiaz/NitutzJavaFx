@@ -24,7 +24,7 @@ import java.util.Observer;
 import java.util.Optional;
 
 public class View implements Observer {
-    public IEntry loggedUser = null;
+    public String loggedUser = null;
     private Controller m_controller;
 
     //fxml widgets
@@ -39,18 +39,18 @@ public class View implements Observer {
 
     public void setController(Controller controller) {
         m_controller = controller;
-        bindProperties(m_controller);
-    }
-
-    private void bindProperties(Controller controller) {
-        //loggedUser=controller.loggedUser;
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == m_controller)
+        if (o == m_controller){
             loggedUser=m_controller.getLoggedUser();
-            btn_profile.setText("Log Out");
+            if(loggedUser==null)
+                btn_profile.setText("login/sign up");
+            else
+                btn_profile.setText("Log Out");
+        }
+
     }
 
     //onClick functions
@@ -65,21 +65,21 @@ public class View implements Observer {
             lbl_eror_searchUser.setVisible(true);
             return;
         }
-       String [] data =  m_controller.searchUser(textField_Search.getText());
-       if (data==null){
-           lbl_eror_searchUser.setText("User does not exist");
-           lbl_eror_searchUser.setVisible(true);
+        String [] data =  m_controller.searchUser(textField_Search.getText());
+        if (data==null){
+            lbl_eror_searchUser.setText("User does not exist");
+            lbl_eror_searchUser.setVisible(true);
 
 
-       }
+        }
 
-       else{
-           lbl_eror_searchUser.setVisible(false);
-           String message = "User name: "+data[0]+"\n"+"Birthdate: "+ data[2]+"\n"+"more information as needed...(to do)";
-           Alert userFoundAlert = new Alert(Alert.AlertType.INFORMATION);
-           userFoundAlert.setHeaderText(message);
-           userFoundAlert.showAndWait();
-       }
+        else{
+            lbl_eror_searchUser.setVisible(false);
+            String message = "User name: "+data[0]+"\n"+"Birthdate: "+ data[2]+"\n"+"more information as needed...(to do)";
+            Alert userFoundAlert = new Alert(Alert.AlertType.INFORMATION);
+            userFoundAlert.setHeaderText(message);
+            userFoundAlert.showAndWait();
+        }
 
     }
 
@@ -87,7 +87,7 @@ public class View implements Observer {
         if(loggedUser==null)
             displayLoginDialog();
         else
-            logOutProfileFromDB();
+            m_controller.logOut();
     }
 
     public void onClickCreateProfile() {
@@ -120,7 +120,7 @@ public class View implements Observer {
             Scene updateAcount = new Scene(create);
             UpdateAccount uA = loader.getController();
             uA.setController(m_controller);// sets the controller
-            uA.setParameters((User)this.loggedUser);
+            uA.setParameters();
             Stage popUp = new Stage();
             popUp.setScene(updateAcount);
             popUp.show();
@@ -137,16 +137,13 @@ public class View implements Observer {
             alert.getButtonTypes().setAll(okButton, noButton);
             alert.showAndWait().ifPresent(type -> {
                 if (type.getText() == "Yes") {
-                    //Dan - Delete after finish
-                    System.out.println("Yes");
-                    //
-                    boolean res = m_controller.DeleteAccount(loggedUser);
+                    boolean res = m_controller.DeleteAccount();
 
                     if (!res)
                         DeletionFailed();
-                    else
-                        logOutProfileFromDB();
-                    DeletionSucceeded();
+                    else{
+                        DeletionSucceeded();
+                    }
                 }
             });
         }
@@ -213,7 +210,6 @@ public class View implements Observer {
             public void handle(ActionEvent e) {
                 dialog.close();
                 onClickCreateProfile();
-                //btn_profile.setText("Log Out");
             }
         });
 
@@ -222,9 +218,8 @@ public class View implements Observer {
             public void handle(ActionEvent e) {
                 String userName = text1.getText();
                 String password = text2.getText();
-                logInProfileToDB(userName, password);
+                m_controller.logIn(userName, password);
                 if (loggedUser != null) {
-                    btn_profile.setText("Log Out");
                     dialog.close();
                 } else {
                     lbl_loginError.setText("Invalid password or user name");
@@ -237,26 +232,6 @@ public class View implements Observer {
 
         // Show dialog
         dialog.showAndWait();
-    }
-
-    /**
-     * login the input user to the database by the username and password
-     * @param username- the user name to login.
-     * @param password- the user password to loin.
-     */
-    private void logInProfileToDB(String username, String password) {
-        User userNameFromDb=(User)m_controller.logIn(username, password);
-        if(userNameFromDb!=null)
-            loggedUser=userNameFromDb;
-
-    }
-    /**
-     * logout the current user in the system loggedUser from the database.
-     */
-    private void logOutProfileFromDB() {
-        loggedUser = null;
-        btn_profile.setText("login/sign up");
-        m_controller.logOut();
     }
 }
 
