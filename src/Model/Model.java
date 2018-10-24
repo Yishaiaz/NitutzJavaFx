@@ -79,7 +79,7 @@ public class Model extends Observable implements IModel {
     public IEntry LogIn(String username, String password){
         try {
            User userFromDB= SearchUser(username);
-           if(userFromDB.getUser_password().equals(password)) {
+           if(userFromDB!= null && userFromDB.getUser_password().equals(password)) {
                loggedUser = userFromDB;
                return loggedUser;
            }
