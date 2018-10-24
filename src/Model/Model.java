@@ -94,4 +94,16 @@ public class Model extends Observable implements IModel {
     public void logOut() {
         loggedUser=null;
     }
+
+    @Override
+    public boolean DeleteUser(IEntry user) {
+        try {
+            user.deleteFromDb(db);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
 }
