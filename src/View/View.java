@@ -42,7 +42,7 @@ public class View implements Observer {
     }
 
     private void bindProperties(Controller controller) {
-        loggedUser=controller.loggedUser;
+        //loggedUser=controller.loggedUser;
     }
 
     @Override
@@ -50,7 +50,6 @@ public class View implements Observer {
         if (o == m_controller)
             loggedUser=m_controller.getLoggedUser();
             btn_profile.setText("Log Out");
-
     }
 
     //onClick functions
