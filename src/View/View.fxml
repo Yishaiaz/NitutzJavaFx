@@ -48,6 +48,9 @@
                           <font>
                               <Font size="10.0" />
                           </font>
+                     <VBox.margin>
+                        <Insets bottom="7.0" left="7.0" right="20.0" top="7.0" />
+                     </VBox.margin>
                       </Button>
                </children>
             </VBox>
