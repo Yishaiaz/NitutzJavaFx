@@ -6,7 +6,7 @@ import EntriesObject.User;
 public interface IModel {
     boolean CreateAccount(String username, String password, String birthdate, String fName, String lName, String city);
     IEntry SearchUser(String username);
-    void UpdateAccount(User user);
+    void UpdateAccount(String[] data);
     IEntry getLoggedUser();
 
 
@@ -25,8 +25,9 @@ public interface IModel {
 
     /**
      * deletes user from db and logging out
-     * @param user - the user to delete
      * @return true if succeed.
      */
-    boolean DeleteUser(IEntry user);
+    boolean DeleteUser();
+
+    String[] getLogedInUserDetails();
 }
