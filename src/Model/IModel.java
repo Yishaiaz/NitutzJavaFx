@@ -22,4 +22,11 @@ public interface IModel {
      * logout the current user in the system.
      */
     void logOut();
+
+    /**
+     * deletes user from db and logging out
+     * @param user - the user to delete
+     * @return true if succeed.
+     */
+    boolean DeleteUser(IEntry user);
 }
