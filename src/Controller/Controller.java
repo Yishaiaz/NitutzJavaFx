@@ -74,6 +74,10 @@ public class Controller extends Observable implements Observer {
         return user;
     }
 
+    public boolean DeleteAccount(IEntry user){
+        return model.DeleteUser(user);
+    }
+
     /**
      * searches if a given user name exists and return all its information
      * @param userName - the user name that is searched
