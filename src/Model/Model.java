@@ -21,7 +21,7 @@ public class Model extends Observable implements IModel {
         return loggedUser;
     }
 
-    public void setLoggedUser(User loggedUser) {
+    public void setLoggedUser(IEntry loggedUser) {
         this.loggedUser = loggedUser;
         setChanged();
         notifyObservers();
@@ -32,7 +32,8 @@ public class Model extends Observable implements IModel {
         boolean ans = false;
         Date d = Date.valueOf(birthdate);
         IEntry user = new User(username,password, d,fName,lName,city);
-        this.loggedUser=(IEntry)user;
+        //this.loggedUser=(IEntry)user;
+        setLoggedUser(user);
         try{
             user.insertToDb(this.db);
             ans=true;

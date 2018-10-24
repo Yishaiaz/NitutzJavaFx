@@ -49,6 +49,7 @@ public class View implements Observer {
     public void update(Observable o, Object arg) {
         if (o == m_controller)
             loggedUser=m_controller.getLoggedUser();
+            btn_profile.setText("Log Out");
 
     }
 
@@ -150,7 +151,9 @@ public class View implements Observer {
         btn_createAccount.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                dialog.close();
                 onClickCreateProfile();
+                //btn_profile.setText("Log Out");
             }
         });
 
