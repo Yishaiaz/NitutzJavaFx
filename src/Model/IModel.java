@@ -9,6 +9,7 @@ public interface IModel {
     void UpdateAccount(User user);
     IEntry getLoggedUser();
 
+
     /**
      * login the input user by the username and password
      * @param username- the user name to login.

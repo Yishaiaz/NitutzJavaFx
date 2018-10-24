@@ -28,6 +28,7 @@ public class View implements Observer {
     private Controller m_controller;
 
     //fxml widgets
+    public Label lbl_eror_searchUser;
     public TextField textField_Search;
     public Button btn_StartSearch;
     public Button btn_cleanSearch;
@@ -54,7 +55,31 @@ public class View implements Observer {
 
     //onClick functions
 
+    /**
+     * when search is presses - sends the user name to the controller and displays the searched users data from the DB.
+     * if the User doesnt exist, an error lable will be displayed.
+     */
     public void onClickSearchUser() {
+        if (textField_Search.getText().equals("")){
+            lbl_eror_searchUser.setText("Must enter User name");
+            lbl_eror_searchUser.setVisible(true);
+            return;
+        }
+       String [] data =  m_controller.searchUser(textField_Search.getText());
+       if (data==null){
+           lbl_eror_searchUser.setText("User does not exist");
+           lbl_eror_searchUser.setVisible(true);
+
+
+       }
+
+       else{
+           lbl_eror_searchUser.setVisible(false);
+           String message = "User name: "+data[0]+"\n"+"Birthdate: "+ data[2]+"\n"+"more information as needed...(to do)";
+           Alert userFoundAlert = new Alert(Alert.AlertType.INFORMATION);
+           userFoundAlert.setHeaderText(message);
+           userFoundAlert.showAndWait();
+       }
 
     }
 

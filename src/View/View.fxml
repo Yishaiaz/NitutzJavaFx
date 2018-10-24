@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.View">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.View">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
@@ -70,6 +70,7 @@
                         <TextField fx:id="textField_Search" promptText="User name" />
                         <Button fx:id="btn_cleanSearch" text="clear search" />
                         <Label fx:id="labelMatches" />
+                  <Label fx:id="lbl_eror_searchUser" prefHeight="17.0" prefWidth="138.0" text="User does not exist" textFill="#e50b0b" visible="false" />
                     </items>
                     <VBox.margin>
                         <Insets top="20.0" />
