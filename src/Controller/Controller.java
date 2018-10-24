@@ -13,7 +13,7 @@ import Model.IModel;
 
 public class Controller extends Observable implements Observer {
     private IModel model;
-    public User  loggedUser=new User();
+    private User  loggedUser=new User();
 
     public Controller(IModel model) {
         this.model = model;
@@ -72,5 +72,19 @@ public class Controller extends Observable implements Observer {
         loggedUser=user;
         model.UpdateAccount(user);
         return user;
+    }
+
+    /**
+     * searches if a given user name exists and return all its information
+     * @param userName - the user name that is searched
+     * @return - null if user doesnt exist, a string array of all the data if exists in the DB
+     */
+    public String[] searchUser(String userName){
+        IEntry user = model.SearchUser(userName);
+        if (user==null)
+            return null;
+        else return user.getAllData();
+
+
     }
 }
