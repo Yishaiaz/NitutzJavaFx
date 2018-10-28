@@ -4,6 +4,7 @@ import Controller.Controller;
 import EntriesObject.IEntry;
 import EntriesObject.User;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -219,4 +220,12 @@ public class UpdateAccount {
         });
     }
 
+    /**
+     * makes it so when thr user presses "Enter", the button "updateAcount will be pressed
+     * @param event - a keyboard event
+     */
+    public void onSearchPressed(KeyEvent event){
+        if(event!=null && event.getCode().getName().equals("Enter"))
+            updateAccount();
+    }
 }

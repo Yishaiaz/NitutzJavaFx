@@ -2,6 +2,7 @@ package View.CreateAcount;
 
 import Controller.Controller;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -83,6 +84,10 @@ public class CreateAcountControlle{
         }
     }
 
+    /**
+     * this function configures the DatePicker button to return the date in the following format:
+     * "DD/MM/yyyy
+     */
     private void setDateFormat() {
         fld_birthDate.setConverter(new StringConverter<LocalDate>()
         {
@@ -115,7 +120,7 @@ public class CreateAcountControlle{
      */
     private boolean checkDate() {
         if (fld_birthDate.getEditor().getText().equals("")) {
-            lbl_error_biirthdate.setText("must enter birth date");
+            lbl_error_biirthdate.setText("Must enter birth date");
             lbl_error_biirthdate.setVisible(true);
             return false;
         }
@@ -141,7 +146,7 @@ public class CreateAcountControlle{
      */
     private boolean checkCity() {
         if (fld_city.getText().equals("")) {
-            lbl_error_city.setText("must enter city");
+            lbl_error_city.setText("Must enter city");
             lbl_error_city.setVisible(true);
             return false;
         }
@@ -155,7 +160,7 @@ public class CreateAcountControlle{
      */
     private boolean checkLastName() {
         if (fld_lastName.getText().equals("")) {
-            lbl_error_lastName.setText("must enter last name");
+            lbl_error_lastName.setText("Must enter last name");
             lbl_error_lastName.setVisible(true);
             return false;
         }
@@ -169,7 +174,7 @@ public class CreateAcountControlle{
      */
     private boolean checkFirstNAme() {
         if (fld_firstName.getText().equals("")) {
-            lbl_error_firstName.setText("must enter first name");
+            lbl_error_firstName.setText("Must enter first name");
             lbl_error_firstName.setVisible(true);
             return false;
         }
@@ -184,7 +189,7 @@ public class CreateAcountControlle{
      */
     private boolean validatePassword() {
         if (!fld_password.getText().equals(fld_verifyPassword.getText())) {
-            lbl_error_verifyPassword.setText("passwords dont match");
+            lbl_error_verifyPassword.setText("Passwords dont match");
             lbl_error_verifyPassword.setVisible(true);
             return false;
         }
@@ -198,7 +203,7 @@ public class CreateAcountControlle{
      */
     private boolean checkPassword() {
         if (fld_password.getText().equals("")) {
-            lbl_error_password.setText("must enter a password");
+            lbl_error_password.setText("Must enter a password");
             lbl_error_password.setVisible(true);
             return false;
         }
@@ -229,5 +234,13 @@ public class CreateAcountControlle{
     }
     //</editor-fold>
 
+    /**
+     * makes it so when thr user presses "Enter", the button "CreateAcount will be pressed
+     * @param event - a keyboard event
+     */
+    public void onSearchPressed(KeyEvent event){
+        if(event!=null && event.getCode().getName().equals("Enter"))
+            createAcount();
+    }
 
 }
