@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="372.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.UpdateProfile.UpdateAccount">
+<AnchorPane minHeight="200.0" minWidth="200.0" prefHeight="372.0" prefWidth="532.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.UpdateProfile.UpdateAccount">
     <children>
-        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onSearchPressed" prefHeight="400.0" prefWidth="600.0">
             <center>
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="319.0" prefWidth="580.0" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
@@ -60,7 +60,7 @@
                                         <TextField fx:id="fld_firstName" promptText="enter first name" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                                         <Label fx:id="lbl_error_firstName" text="error first name" textFill="#ca0a0a" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="3" />
 
-                                        <Label layoutX="145.0" layoutY="137.0" text="Last Name" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                                        <Label layoutX="145.0" layoutY="137.0" text="Last Name" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                         <TextField fx:id="fld_lastName" layoutX="244.0" layoutY="133.0" promptText="enter last name" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                                         <Label fx:id="lbl_error_lastName" layoutX="425.0" layoutY="137.0" text="Error lastname" textFill="#ca0a0a" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="4" />
 

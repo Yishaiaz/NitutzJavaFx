@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -105,6 +106,9 @@ public class View implements Observer {
         Stage popUp = new Stage();
         popUp.setScene(creatAcount);
         popUp.show();
+
+
+
     }
 
     public void onClickUpdateProfile() {
@@ -232,6 +236,15 @@ public class View implements Observer {
 
         // Show dialog
         dialog.showAndWait();
+    }
+
+    public void onSearchPressed(KeyEvent event){
+        if(event!=null && event.getCode().getName().equals("Enter")){
+            onClickSearchUser();
+        }
+
+//        btn_StartSearch.req
+
     }
 }
 

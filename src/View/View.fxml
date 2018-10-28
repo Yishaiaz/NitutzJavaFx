@@ -70,7 +70,7 @@
                 <ToolBar prefHeight="40.0" prefWidth="200.0">
                     <items>
                         <Button fx:id="btn_StartSearch" onAction="#onClickSearchUser" text="search user" />
-                        <TextField fx:id="textField_Search" promptText="User name" />
+                        <TextField fx:id="textField_Search" onKeyPressed="#onSearchPressed" promptText="User name" />
                         <Button fx:id="btn_cleanSearch" text="clear search" />
                         <Label fx:id="labelMatches" />
                   <Label fx:id="lbl_eror_searchUser" prefHeight="17.0" prefWidth="138.0" text="User does not exist" textFill="#e50b0b" visible="false" />
