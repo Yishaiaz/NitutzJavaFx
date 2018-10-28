@@ -22,11 +22,11 @@ public class Main extends Application {
             //--------------
             primaryStage.setTitle("Vacation4U");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("View.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("/View.fxml").openStream());
             Scene scene = new Scene(root, 800, 650);
 
             scene.getStylesheets().clear();
-            scene.getStylesheets().add(getClass().getResource("mainScreenStyle.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/mainScreenStyle.css").toExternalForm());
             primaryStage.setScene(scene);
             //--------------
             View view = fxmlLoader.getController();

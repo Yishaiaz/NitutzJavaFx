@@ -39,12 +39,10 @@ public abstract class AEntry implements IEntry {
 
     }
 
-    @Override
     public String[] getColumnsTitles() {
         return entryColumnNames;
     }
 
-    @Override
     public void insertToDb(IdbConnection idbConnection) throws Exception{
         idbConnection.insert(this);
     }
