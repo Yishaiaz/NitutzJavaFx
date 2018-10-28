@@ -49,7 +49,6 @@ public class User extends AEntry{
 
     }
 
-    @Override
     public String getTableName() {
         return "Users";
     }
@@ -58,18 +57,14 @@ public class User extends AEntry{
      * @deprecated
      * @return
      */
-    @Override
     public boolean validateEntry() {
         return false;
     }
 
-
-    @Override
     public String getIdentifierValue() {
         return user_name;
     }
 
-    @Override
     public String[] getAllData() {
         String[] ans= new String[getColumnsTitles().length];
         ans[0]= user_name;
@@ -82,13 +77,12 @@ public class User extends AEntry{
         return ans;
     }
 
-    @Override
+
     public String getIdentifiers() {
         return "user_name";//change to user_name
     }
 
 
-    @Override
     public void deleteFromDb(IdbConnection idbConnection) throws Exception{
         idbConnection.deleteById(this);
     }

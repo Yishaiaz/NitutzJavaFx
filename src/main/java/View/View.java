@@ -93,7 +93,7 @@ public class View implements Observer {
 
     public void onClickCreateProfile() {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("CreateAcount/CreateAcount.fxml"));
+        loader.setLocation(getClass().getResource("/CreateAcount/CreateAcount.fxml"));
         AnchorPane create = null;
         try {
             create = loader.load();
@@ -114,7 +114,7 @@ public class View implements Observer {
     public void onClickUpdateProfile() {
         if(this.loggedUser!=null){
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("UpdateProfile/UpdateAccount.fxml"));
+            loader.setLocation(getClass().getResource("/UpdateProfile/UpdateAccount.fxml"));
             AnchorPane create = null;
             try {
                 create = loader.load();
