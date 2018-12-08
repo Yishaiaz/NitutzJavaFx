@@ -17,6 +17,9 @@ public class FlightEntry extends AEntry {
     private String flight_tickets_type="1 adult";
     private double flight_price=0;
 
+    public FlightEntry(String publisher_user_id){
+        this.publisher_user_id=publisher_user_id;
+    }
     public FlightEntry(String flight_id, String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price) {
         this.flight_id=flight_id;
         this.publisher_user_id = publisher_user_id;
@@ -41,6 +44,10 @@ public class FlightEntry extends AEntry {
 
     public String getPublisher_user_id() {
         return publisher_user_id;
+    }
+
+    public void setFlightId(String flight_id){
+        this.flight_id = flight_id;
     }
 
     public void setPublisher_user_id(String publisher_user_id) {

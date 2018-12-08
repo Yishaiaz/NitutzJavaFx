@@ -15,6 +15,7 @@ public class AMessage extends AEntry{
     protected String from_user_id ="";
     protected String flight_id ="";
 
+
     public AMessage(){
     }
     public AMessage(String user_owner_id){
@@ -48,5 +49,8 @@ public class AMessage extends AEntry{
     @Override
     public void deleteFromDb(IdbConnection idbConnection) throws Exception {
         idbConnection.deleteById(this);
+    }
+    public void setMessage_id(String message_id){
+        this.message_id= message_id;
     }
 }
