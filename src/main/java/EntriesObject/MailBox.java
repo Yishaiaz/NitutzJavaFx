@@ -24,7 +24,7 @@ public class MailBox {
                     messagesList.put(item[0], new PersonalMessage(item[0],item[1],item[2],item[3], new Date(item[5]), item[6]));
                 }
                 else{
-                    messagesList.put(item[0], new TransactionMessage(item[0],item[1],item[2],item[3], new Date(item[5]), item[6],item[7]));
+                    messagesList.put(item[0], new TransactionMessage(item[0],item[1],item[2],item[3], new Date(item[5]), item[6], item[8],Boolean.valueOf(item[9])));
                 }
             }
         }
