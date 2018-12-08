@@ -14,6 +14,7 @@ public class AMessage extends AEntry{
     protected Date message_date;
     protected String from_user_id ="";
     protected String flight_id ="";
+    protected boolean is_buyer=false;
 
 
     public AMessage(){
@@ -33,7 +34,17 @@ public class AMessage extends AEntry{
 
     @Override
     public String[] getAllData() {
-        throw new NotImplementedException();
+        String[] ans = new String[getColumnsTitles().length];
+        ans[0]= message_id;
+        ans[1]= user_owner_id;
+        ans[3]= title;
+        ans[4]= message_content;
+        ans[5] = String.valueOf(is_transaction);
+        ans[6]= message_date.toString();
+        ans[7]= from_user_id;
+        ans[8] = flight_id;
+        ans[9] = String.valueOf(is_buyer);
+        return ans;
     }
 
     @Override
