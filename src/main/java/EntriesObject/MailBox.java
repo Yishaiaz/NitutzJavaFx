@@ -52,8 +52,8 @@ public class MailBox {
         return messagesList.isEmpty();
     }
 
-    public String getTableName() {
-        return user_id+"_MessageTable";
+    public Map getAllMessages(){
+        return this.messagesList;
     }
 
 
