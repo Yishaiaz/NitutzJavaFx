@@ -51,6 +51,7 @@ public class MailBox {
         message.setMessage_id(String.valueOf(nextid));
         props.setProperty("nextMeassageId", String.valueOf(++nextid));
         try{
+            idbConnection.createNewTable(message.getTableName(), message.getColumnsTitles(), message.getIdentifiers());
             props.store(new FileOutputStream("config.properties"), null);
             message.insertToDb(idbConnection);
         }catch(Exception e){
