@@ -65,6 +65,6 @@ public abstract class AEntry implements IEntry {
             }
 
         }
-        return "entryColumnNames=" + columnString;
+        return "Entry Type="+this.getClass().getName()+"\nEntry Data Fields: " + columnString;
     }
 }

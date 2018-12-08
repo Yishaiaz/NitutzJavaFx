@@ -63,6 +63,21 @@ public class SqliteDbConnection implements IdbConnection {
     }
 
     @Override
+    public void deleteTable(IEntry entry) throws Exception{
+        this.connectToDb();
+        String sql= "drop table "+entry.getTableName();
+        try (Connection tempConn=this.conn;
+             Statement stmt = tempConn.createStatement()) {
+            // create a new table
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println("//////////FOR DEBUGGING////////dont forget to connect to db! ");
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
     public void connectToDb() throws Exception{
         conn = null;
         try {
