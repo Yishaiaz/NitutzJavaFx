@@ -2,11 +2,15 @@ package EntriesObject;
 
 import DataBaseConnection.IdbConnection;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class MailBox {
+    private Properties props;
     private String user_id;
     private IdbConnection idbConnection;
     private Map<String,AMessage> messagesList= new HashMap<>();
@@ -27,13 +31,28 @@ public class MailBox {
         catch(Exception e){
             System.out.println(e.getMessage());
         }
+        props = new Properties();
+        String propFileName = "config.properties";
+        try {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+            if (inputStream != null) {
+                props.load(inputStream);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+//            e.printStackTrace();
+        }
 
 
     }
     public void InsertEntry(AMessage message){
         messagesList.put(message.getIdentifierValue(),message);
+        int nextid = Integer.valueOf(props.getProperty("nextMeassageId"));
+        message.setMessage_id(String.valueOf(nextid));
+        props.setProperty("nextMeassageId", String.valueOf(++nextid));
         try{
-            idbConnection.insert(message);
+            props.store(new FileOutputStream("config.properties"), null);
+            message.insertToDb(idbConnection);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
