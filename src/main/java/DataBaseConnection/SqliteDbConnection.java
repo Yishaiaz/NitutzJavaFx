@@ -63,6 +63,21 @@ public class SqliteDbConnection implements IdbConnection {
     }
 
     @Override
+    public void deleteTable(IEntry entry) throws Exception{
+        this.connectToDb();
+        String sql= "drop table "+entry.getTableName();
+        try (Connection tempConn=this.conn;
+             Statement stmt = tempConn.createStatement()) {
+            // create a new table
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println("//////////FOR DEBUGGING////////dont forget to connect to db! ");
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
     public void connectToDb() throws Exception{
         conn = null;
         try {
@@ -352,4 +367,55 @@ public class SqliteDbConnection implements IdbConnection {
         return ans.substring(0,ans.length()-1);
     }
 
+    @Override
+    public void createNewTable(String tableName, String[] columnTitles, String identifier) throws Exception {
+        this.connectToDb();
+
+        // SQLite connection string
+
+        String tableColumnsSql ="" ;
+
+        //creating the sql string part with all the the column titles
+        for (String str :
+                columnTitles) {
+            tableColumnsSql += str + " text" + " NOT NULL,\n";
+        }
+
+        // SQL statement for creating a new table
+        String sql = "CREATE TABLE IF NOT EXISTS "+tableName+" ("
+                +tableColumnsSql
+                + "PRIMARY KEY ("+identifier+"));";
+
+        try (Connection tempConn=this.conn;
+             Statement stmt = tempConn.createStatement()) {
+            // create a new table
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println("//////////FOR DEBUGGING////////dont forget to connect to db! ");
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+
+
+    }
+
+    @Override
+    public void insertToDbByTableName(String tablename, IEntry entry) throws Exception{
+        this.connectToDb();
+
+        String fieldNamesForSql=createSqlStringColumns(entry);
+
+        String fieldValuesForSql=createSqlStringValues(entry) ;
+
+        String sql = "INSERT INTO "+tablename+"("+fieldNamesForSql+") VALUES("+fieldValuesForSql+")";
+
+        try (Connection conn = this.conn;
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+            throw new Exception(e.getMessage());
+        }
+    }
 }

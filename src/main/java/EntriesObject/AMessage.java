@@ -14,6 +14,8 @@ public class AMessage extends AEntry{
     protected Date message_date;
     protected String from_user_id ="";
     protected String flight_id ="";
+    protected boolean is_buyer=false;
+
 
     public AMessage(){
     }
@@ -32,7 +34,17 @@ public class AMessage extends AEntry{
 
     @Override
     public String[] getAllData() {
-        throw new NotImplementedException();
+        String[] ans = new String[getColumnsTitles().length];
+        ans[0]= message_id;
+        ans[1]= user_owner_id;
+        ans[2]= title;
+        ans[3]= message_content;
+        ans[4] = String.valueOf(is_transaction);
+        ans[5]= message_date.toString();
+        ans[6]= from_user_id;
+        ans[7] = flight_id;
+        ans[8] = String.valueOf(is_buyer);
+        return ans;
     }
 
     @Override
@@ -48,5 +60,8 @@ public class AMessage extends AEntry{
     @Override
     public void deleteFromDb(IdbConnection idbConnection) throws Exception {
         idbConnection.deleteById(this);
+    }
+    public void setMessage_id(String message_id){
+        this.message_id= message_id;
     }
 }

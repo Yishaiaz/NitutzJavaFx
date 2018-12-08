@@ -29,13 +29,19 @@ public class Model extends Observable implements IModel {
 
     @Override
     public boolean CreateAccount(String username, String password, String birthdate, String fName, String lName, String city) {
+        try {
+            db.createNewTable(new User());//creates user table if not exists
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         boolean ans = false;
         Date d = Date.valueOf(birthdate);
-        IEntry user = new User(username,password, d,fName,lName,city);
+        IEntry user = new User(username,password, d, fName,lName,city);
         setLoggedUser(user);
         try{
             user.insertToDb(this.db);
             ans=true;
+            ((User) user).createAllTables(db);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }finally {
