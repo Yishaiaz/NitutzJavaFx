@@ -21,6 +21,7 @@ public class User extends AEntry{
     private String user_firstname;
     private String user_lastname;
     private String user_city;
+    private String user_db_addresses;
 
     /**
      * constructor - create a user instance with all the data known
@@ -31,7 +32,7 @@ public class User extends AEntry{
      * @param user_lastname
      * @param user_city
      */
-    public User(String user_name, String user_password, Date user_birthdate, String user_firstname, String user_lastname, String user_city) {
+    public User(String user_name, String user_password, Date user_birthdate, String user_firstname, String user_lastname, String user_city, String user_db_addresses) {
         super();
         this.user_name = user_name;
         this.user_password = user_password;
@@ -39,6 +40,7 @@ public class User extends AEntry{
         this.user_firstname = user_firstname;
         this.user_lastname = user_lastname;
         this.user_city = user_city;
+        this.user_db_addresses = user_db_addresses;
     }
 
     /**
@@ -58,7 +60,7 @@ public class User extends AEntry{
      * @return
      */
     public boolean validateEntry() {
-        return false;
+        return true;
     }
 
     public String getIdentifierValue() {
@@ -73,7 +75,7 @@ public class User extends AEntry{
         ans[3]= user_firstname;
         ans[4]= user_lastname;
         ans[5]= user_city;
-
+        ans[6] = user_db_addresses;
         return ans;
     }
 

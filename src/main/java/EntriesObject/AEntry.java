@@ -47,6 +47,10 @@ public abstract class AEntry implements IEntry {
         idbConnection.insert(this);
     }
 
+    public void updateToDb(IdbConnection idbConnection, IEntry entry, String[] newValues) throws Exception{
+        idbConnection.updateEntry(entry, newValues);
+    }
+
     @Override
     public String toString() {
         String columnString="";
