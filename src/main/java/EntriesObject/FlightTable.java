@@ -21,7 +21,7 @@ public class FlightTable {
         this.idbConnection = idbConnection;
         try{
             for (String[] item: idbConnection.getAllFromTable(new FlightEntry(user_id))){
-                flightsList.put(item[0], new FlightEntry(item[0],item[1],item[2],new Date(item[3]),new Date(item[4]), item[5], Integer.valueOf(item[6]), item[7], Boolean.parseBoolean(item[8]), item[9], Double.parseDouble(item[10]), item[11], Boolean.valueOf(item[12])));
+                flightsList.put(item[0], new FlightEntry(item[0],item[1],item[2],new Date(item[3]),new Date(item[4]), item[5], Integer.valueOf(item[6]), item[7], Boolean.parseBoolean(item[8]), item[9], Double.parseDouble(item[10]), item[11], Boolean.valueOf(item[12]), item[13]));
             }
         }
         catch(Exception e){
