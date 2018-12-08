@@ -37,13 +37,13 @@ public class AMessage extends AEntry{
         String[] ans = new String[getColumnsTitles().length];
         ans[0]= message_id;
         ans[1]= user_owner_id;
-        ans[3]= title;
-        ans[4]= message_content;
-        ans[5] = String.valueOf(is_transaction);
-        ans[6]= message_date.toString();
-        ans[7]= from_user_id;
-        ans[8] = flight_id;
-        ans[9] = String.valueOf(is_buyer);
+        ans[2]= title;
+        ans[3]= message_content;
+        ans[4] = String.valueOf(is_transaction);
+        ans[5]= message_date.toString();
+        ans[6]= from_user_id;
+        ans[7] = flight_id;
+        ans[8] = String.valueOf(is_buyer);
         return ans;
     }
 
