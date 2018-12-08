@@ -31,7 +31,7 @@ public class Model extends Observable implements IModel {
     public boolean CreateAccount(String username, String password, String birthdate, String fName, String lName, String city) {
         boolean ans = false;
         Date d = Date.valueOf(birthdate);
-        IEntry user = new User(username,password, d,fName,lName,city);
+        IEntry user = new User(username,password,fName,lName,city);
         setLoggedUser(user);
         try{
             user.insertToDb(this.db);

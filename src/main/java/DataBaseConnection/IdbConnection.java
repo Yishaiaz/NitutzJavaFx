@@ -104,4 +104,7 @@ public interface IdbConnection {
      * @throws Exception - an SQL type exception
      */
     void closeConnection() throws Exception;
+
+    void deleteTable(IEntry entry) throws Exception;
+
 }
