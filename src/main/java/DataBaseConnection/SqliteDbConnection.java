@@ -152,7 +152,7 @@ public class SqliteDbConnection implements IdbConnection {
             try (Connection tempConn = this.conn;
                  Statement stmt  = tempConn.createStatement();
                  ResultSet rs    = stmt.executeQuery(sql)){
-//                ans[0]=rs.getString(entry.getIdentifiers());
+                ans[0]=rs.getString(entry.getIdentifiers());
                 for (int i = 0; i < columnsNames.length; i++) {
                     ans[i]=rs.getString(columnsNames[i]);
                 }
