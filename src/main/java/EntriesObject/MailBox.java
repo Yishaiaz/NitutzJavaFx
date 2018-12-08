@@ -52,7 +52,7 @@ public class MailBox {
         return messagesList.isEmpty();
     }
 
-    public Map getAllMessages(){
+    public Map<String, AMessage> getAllMessages(){
         return this.messagesList;
     }
 
