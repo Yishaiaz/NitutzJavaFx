@@ -45,10 +45,10 @@ public class FlightTable {
         flightsList.put(flightEntry.getIdentifierValue(),flightEntry);
         int nextid = Integer.valueOf(props.getProperty("nextFlightId"));
         flightEntry.setFlight_id(String.valueOf(nextid));
-
         props.setProperty("nextFlightId", String.valueOf(++nextid));
         try{
             props.store(new FileOutputStream("config.properties"), null);
+            idbConnection.createNewTable("general_flights_table", flightEntry.getColumnsTitles(), flightEntry.getIdentifiers());
             idbConnection.insertToDbByTableName("general_flights_table", flightEntry);
             flightEntry.insertToDb(idbConnection);
         }catch(Exception e){
