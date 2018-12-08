@@ -16,11 +16,13 @@ public class FlightEntry extends AEntry {
     private boolean is_return_flight_included = false;
     private String flight_tickets_type="1 adult";
     private double flight_price=0;
+    private String flight_status="";
+    private boolean is_buyer = false;
 
     public FlightEntry(String publisher_user_id){
         this.publisher_user_id=publisher_user_id;
     }
-    public FlightEntry(String flight_id, String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price) {
+    public FlightEntry(String flight_id, String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, boolean is_buyer) {
         this.flight_id=flight_id;
         this.publisher_user_id = publisher_user_id;
         this.airline_name = airline_name;
@@ -32,6 +34,8 @@ public class FlightEntry extends AEntry {
         this.is_return_flight_included = is_return_flight_included;
         this.flight_tickets_type = flight_tickets_type;
         this.flight_price = flight_price;
+        this.flight_status = flight_status;
+        this.is_buyer = is_buyer;
     }
 
     public String getFlight_id() {
@@ -44,6 +48,22 @@ public class FlightEntry extends AEntry {
 
     public String getPublisher_user_id() {
         return publisher_user_id;
+    }
+
+    public String getFlight_status() {
+        return flight_status;
+    }
+
+    public void setFlight_status(String flight_status) {
+        this.flight_status = flight_status;
+    }
+
+    public boolean isIs_buyer() {
+        return is_buyer;
+    }
+
+    public void setIs_buyer(boolean is_buyer) {
+        this.is_buyer = is_buyer;
     }
 
     public void setFlightId(String flight_id){
