@@ -48,6 +48,7 @@ public class FlightTable {
         props.setProperty("nextFlightId", String.valueOf(++nextid));
         try{
             props.store(new FileOutputStream("config.properties"), null);
+            idbConnection.insertToDbByTableName("general_flights_table", flightEntry);
             flightEntry.insertToDb(idbConnection);
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -57,6 +58,7 @@ public class FlightTable {
     public void deleteEntry(FlightEntry flightEntry){
         flightsList.remove(flightEntry.getIdentifierValue());
         try{
+            idbConnection.createNewTable("general_flights_table",flightEntry.getColumnsTitles(), flightEntry.getIdentifiers());
             idbConnection.deleteById(flightEntry);
         }catch(Exception e){
             System.out.println(e.getMessage());

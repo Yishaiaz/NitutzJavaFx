@@ -28,6 +28,15 @@ public interface IdbConnection {
      */
     void createNewTable(IEntry entry) throws Exception;
     /**
+     * creates a new table according to the given name of the table.
+     * this receives the column titles and the identifier field of table entries in order to construct the sql query.
+     * @param tableName - type String
+     * @param columnTitles - type String[], the names of the fields.
+     * @param identifier - the name of the identifier field of the entries.
+     * @throws Exception - an SQL type exception
+     */
+    void createNewTable(String tableName, String[] columnTitles, String identifier) throws Exception;
+    /**
      * returns an array of strings that contain all the data in string format of the entry, given the entry ID.
      * throws exception if the entry was not found in matching table
      * @param entry - type IEntry
@@ -106,5 +115,13 @@ public interface IdbConnection {
     void closeConnection() throws Exception;
 
     void deleteTable(IEntry entry) throws Exception;
+    /**
+     * inserts an entry to the appropriate table, if an error occurs throws an exception.
+     * this receives the table name in order to insert to the correct table.
+     * @param tablename - type String.
+     * @param entry - type IEntry
+     * @throws Exception - an SQL type exception
+     */
+    void insertToDbByTableName(String tablename, IEntry entry) throws Exception;
 
 }
