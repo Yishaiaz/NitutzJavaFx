@@ -61,7 +61,7 @@
                                     <Font size="10.0" />
                                 </font>
                             </Button>
-                        <Button fx:id="btn_mailBox" contentDisplay="TOP" disable="true" mnemonicParsing="false" text="Mail Box" GridPane.columnIndex="1">
+                        <Button fx:id="btn_postFlight" contentDisplay="TOP" disable="true" mnemonicParsing="false" onAction="#postFlightPressed" text="post new flight" GridPane.columnIndex="1">
                            <font>
                               <Font size="10.0" />
                            </font>
