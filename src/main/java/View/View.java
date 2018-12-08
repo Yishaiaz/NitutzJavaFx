@@ -34,6 +34,7 @@ public class View implements Observer {
     public Button btn_StartSearch;
     public Button btn_cleanSearch;
     public Button btn_profile;
+    public Button btn_mailBox;
     public MenuItem menuItem_create;
     public MenuItem menuItem_update;
     public MenuItem menuItem_delete;
@@ -46,10 +47,15 @@ public class View implements Observer {
     public void update(Observable o, Object arg) {
         if (o == m_controller){
             loggedUser=m_controller.getLoggedUser();
-            if(loggedUser==null)
+            if(loggedUser==null) {
                 btn_profile.setText("login/sign up");
-            else
+                btn_mailBox.setDisable(true);
+            }
+            else {
                 btn_profile.setText("Log Out");
+                btn_mailBox.setDisable(false);
+
+            }
         }
 
     }
@@ -246,5 +252,21 @@ public class View implements Observer {
 //        btn_StartSearch.req
 
     }
+
+//    public void mailBoxPressed(){
+//        if(loggedUser == null)
+//            return;
+//        MailBox mailBox = m_controller.getMailBox();
+//        if(mailBox == null) {
+//            System.out.println("error mail box not retrieved");
+//            return;
+//        }
+//        showMailBox(mailBox);
+//
+//    }
+//
+//    private void showMailBox(MailBox mailBox) {
+//        for(Message message:mailBox.getMessages)
+//    }
 }
 
