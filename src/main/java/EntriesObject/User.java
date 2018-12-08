@@ -1,6 +1,7 @@
 package EntriesObject;
 
 import DataBaseConnection.IdbConnection;
+import DataBaseConnection.SqliteDbConnection;
 
 import java.sql.Date;
 
@@ -21,7 +22,7 @@ public class User extends AEntry{
     private String user_firstname;
     private String user_lastname;
     private String user_city;
-    private String user_db_addresses;
+    private String user_mailbox_addresss;
 
     /**
      * constructor - create a user instance with all the data known
@@ -32,7 +33,7 @@ public class User extends AEntry{
      * @param user_lastname
      * @param user_city
      */
-    public User(String user_name, String user_password, Date user_birthdate, String user_firstname, String user_lastname, String user_city, String user_db_addresses) {
+    public User(String user_name, String user_password, Date user_birthdate, String user_firstname, String user_lastname, String user_city) {
         super();
         this.user_name = user_name;
         this.user_password = user_password;
@@ -40,7 +41,7 @@ public class User extends AEntry{
         this.user_firstname = user_firstname;
         this.user_lastname = user_lastname;
         this.user_city = user_city;
-        this.user_db_addresses = user_db_addresses;
+        this.user_mailbox_addresss = user_name + "_mailbox";
     }
 
     /**
@@ -49,6 +50,53 @@ public class User extends AEntry{
     public User() {
         super();
 
+    }
+
+    public void createAllTables(IdbConnection db){
+        createMessagesTable(db);
+        createFlightsTable(db);
+    }
+
+    private void deleteAllSubTables(IdbConnection db){
+        deleteMessageTable(db);
+        deleteFlightsTable(db);
+
+    }
+
+    private void createMessagesTable(IdbConnection db){
+        try {
+            AMessage messageEntry = new AMessage(user_name);
+            db.createNewTable(messageEntry);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createFlightsTable(IdbConnection db){
+        try{
+            FlightEntry flightEntry = new FlightEntry(user_name);
+            db.createNewTable(flightEntry);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void deleteMessageTable(IdbConnection db){
+        try {
+            AMessage messageEntry = new AMessage(user_name);
+            db.deleteTable(messageEntry);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void deleteFlightsTable(IdbConnection db){
+        try {
+            FlightEntry flightEntry = new FlightEntry(user_name);
+            db.deleteTable(flightEntry);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public String getTableName() {
@@ -75,7 +123,7 @@ public class User extends AEntry{
         ans[3]= user_firstname;
         ans[4]= user_lastname;
         ans[5]= user_city;
-        ans[6] = user_db_addresses;
+        ans[6] = user_mailbox_addresss;
         return ans;
     }
 
@@ -86,6 +134,7 @@ public class User extends AEntry{
 
 
     public void deleteFromDb(IdbConnection idbConnection) throws Exception{
+        deleteAllSubTables(idbConnection);
         idbConnection.deleteById(this);
     }
 
