@@ -18,11 +18,12 @@ public class FlightEntry extends AEntry {
     private double flight_price=0;
     private String flight_status="";
     private boolean is_buyer = false;
+    private String flight_destination;
 
     public FlightEntry(String publisher_user_id){
         this.publisher_user_id=publisher_user_id;
     }
-    public FlightEntry(String flight_id, String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, boolean is_buyer) {
+    public FlightEntry(String flight_id, String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, boolean is_buyer, String flight_destination) {
         this.flight_id=flight_id;
         this.publisher_user_id = publisher_user_id;
         this.airline_name = airline_name;
@@ -36,8 +37,16 @@ public class FlightEntry extends AEntry {
         this.flight_price = flight_price;
         this.flight_status = flight_status;
         this.is_buyer = is_buyer;
+        this.flight_destination = flight_destination;
     }
 
+    public String getFlight_destination() {
+        return flight_destination;
+    }
+
+    public void setFlight_destination(String flight_destination) {
+        this.flight_destination = flight_destination;
+    }
 
     public String getFlight_id() {
         return flight_id;
@@ -173,6 +182,7 @@ public class FlightEntry extends AEntry {
         ans[10] = String.valueOf(flight_price);
         ans[11] = flight_status;
         ans[12] = String.valueOf(is_buyer);
+        ans[13] = flight_destination;
         return ans;
     }
 
