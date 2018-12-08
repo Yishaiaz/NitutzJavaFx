@@ -38,6 +38,7 @@ public class FlightEntry extends AEntry {
         this.is_buyer = is_buyer;
     }
 
+
     public String getFlight_id() {
         return flight_id;
     }
@@ -170,6 +171,8 @@ public class FlightEntry extends AEntry {
         ans[8] = String.valueOf(is_return_flight_included);
         ans[9] = flight_tickets_type;
         ans[10] = String.valueOf(flight_price);
+        ans[11] = flight_status;
+        ans[12] = String.valueOf(is_buyer);
         return ans;
     }
 
