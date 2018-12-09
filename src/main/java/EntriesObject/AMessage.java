@@ -3,6 +3,7 @@ package EntriesObject;
 import DataBaseConnection.IdbConnection;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 
 public class AMessage extends AEntry{
@@ -18,6 +19,13 @@ public class AMessage extends AEntry{
 
 
     public AMessage(){
+        Field[] fields= AMessage.class.getDeclaredFields();
+        this.entryColumnNames=new String[fields.length];
+        int i=0;
+        for (Field field:fields) {
+            entryColumnNames[i]= field.getName();
+            i++;
+        }
     }
     public AMessage(String user_owner_id){
         this.user_owner_id = user_owner_id;
@@ -34,7 +42,7 @@ public class AMessage extends AEntry{
 
     @Override
     public String[] getAllData() {
-        String[] ans = new String[getColumnsTitles().length];
+        String[] ans = new String[this.getColumnsTitles().length];
         ans[0]= message_id;
         ans[1]= user_owner_id;
         ans[2]= title;

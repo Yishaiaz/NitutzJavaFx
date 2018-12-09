@@ -30,6 +30,8 @@ public abstract class AEntry implements IEntry {
      *
      */
     public AEntry() {
+        Class class1=this.getClass();
+        Field[] fields = class1.getDeclaredFields();
         this.entryColumnNames=new String[this.getClass().getDeclaredFields().length];
         int i=0;
         for (Field field:this.getClass().getDeclaredFields()) {
