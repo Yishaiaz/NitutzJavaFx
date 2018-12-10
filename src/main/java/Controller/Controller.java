@@ -2,8 +2,9 @@ package Controller;
 
 import EntriesObject.IEntry;
 import Model.IModel;
-import User.MailBox.MailBox;
+import User.MailBox.Message;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -95,10 +96,10 @@ public class Controller extends Observable implements Observer {
     }
 
     /**
-     * getter for the user's mailbox
-     * @return the logged user's mailbox
+     * gets the user's messages
+     * @return a collection of all the logged user's messages in mailbox
      */
-    public MailBox getMailBox() {
-        return model.getMailBox();
+    public Collection<Message> getUsersMessages() {
+        return model.getUsersMessages();
     }
 }
