@@ -32,9 +32,13 @@ public class MailDisplayer extends GridPane {
     public static MailDisplayer getHeaders(){
         MailDisplayer ans = new MailDisplayer(null);
         ans.lbl_fromUser = new Label("From");
+        ans.lbl_fromUser.setStyle("-fx-fill: RED;-fx-font-weight:bold;");
         ans.lbl_title = new Label("Title");
+        ans.lbl_title.setStyle("-fx-fill: RED;-fx-font-weight:bold;");
         ans.lbl_date = new Label("Date");
+        ans.lbl_date.setStyle("-fx-fill: RED;-fx-font-weight:bold;");
         Label lbl_isTransaction = new Label("Is Transaction");
+        lbl_isTransaction.setStyle("-fx-fill: RED;-fx-font-weight:bold;");
         ans.add(ans.lbl_fromUser, 0, 0);
         ans.add(ans.lbl_title, 1, 0);
         ans.add(ans.lbl_date, 2, 0);
