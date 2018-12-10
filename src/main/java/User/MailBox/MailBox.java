@@ -50,7 +50,7 @@ public class MailBox {
     private void createUserDataBases(){
         //creating the transaction message database for specific user
         try{
-            this.idbConnection.createNewTable(user_id+"_transactions_message_table", new TransactionMessage("random").getColumnsTitles(), new TransactionMessage("random").getIdentifiers());
+            this.idbConnection.createNewTable(user_id+"_transactions_message_table", new Message("random").getColumnsTitles(), new Message("random").getIdentifiers());
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
