@@ -2,11 +2,6 @@ package Flight;
 
 import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Properties;
