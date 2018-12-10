@@ -13,7 +13,7 @@ public class MailBox {
     private Properties props;
     private String user_id;
     private IdbConnection idbConnection;
-    private Map<String,AMessage> messagesList= new HashMap<>();
+    private Map<String, Message> messagesList= new HashMap<>();
 
     public MailBox(String user_id, IdbConnection idbConnection) {
         //create the transaction and personal message table for the user, if they already exist, it will NOT overwrite
@@ -21,12 +21,12 @@ public class MailBox {
         this.idbConnection = idbConnection;
         this.createUserDataBases();
         try{
-            for (String[] item: idbConnection.getAllFromTable(new TransactionMessage(user_id))){
+            for (String[] item: idbConnection.getAllFromTable(new Message(user_id))){
 //                if(item[4].equals("false")){
 //                    messagesList.put(item[0], new PersonalMessage(item[0],item[1],item[2],item[3], new Date(item[5]), item[6]));
 //                }
 //                else{
-                    messagesList.put(item[0], new TransactionMessage(item[0],item[1],item[3],new Date(item[4]),item[5], item[6],Boolean.valueOf(item[7])));
+                    messagesList.put(item[0], new Message(item[0],item[1],item[3],new Date(item[4]),item[5], item[6]));
 //                }
             }
         }
@@ -56,7 +56,7 @@ public class MailBox {
         }
     }
 
-    public void InsertEntry(AMessage message){
+    public void InsertEntry(Message message){
         messagesList.put(message.getIdentifierValue(),message);
         int nextid = Integer.valueOf(props.getProperty("nextMeassageId"));
         message.setMessage_id(String.valueOf(nextid));
@@ -69,22 +69,15 @@ public class MailBox {
         }
     }
 
-    public void SendRegularMessage(String receiverId, AMessage message){
+    public void sendMessage(String receiverId, Message message){
         try{
             idbConnection.insertToDbByTableName(receiverId+"_mailbox", message);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
     }
-    public void sendTransactionMessage(String receiverId, TransactionMessage transactionMessage){
-        try{
-            idbConnection.insertToDbByTableName(receiverId+"_transactions_message_table", transactionMessage);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
 
-    public void deleteEntry(AMessage message){
+    public void deleteEntry(Message message){
         messagesList.remove(message.getIdentifierValue());
         try{
             idbConnection.deleteById(message);
@@ -93,11 +86,11 @@ public class MailBox {
         }
     }
 
-    public boolean isEnpty(){
+    public boolean isEmpty(){
         return messagesList.isEmpty();
     }
 
-    public Map<String, AMessage> getAllMessages(){
+    public Map<String, Message> getAllMessages(){
         return this.messagesList;
     }
 

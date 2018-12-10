@@ -4,7 +4,7 @@ import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
 import Flight.FlightEntry;
 import EntriesObject.IEntry;
-import User.MailBox.AMessage;
+import User.MailBox.Message;
 
 import java.sql.Date;
 
@@ -68,7 +68,7 @@ public class User extends AEntry{
 
     private void createMessagesTable(IdbConnection db){
         try {
-            AMessage messageEntry = new AMessage(user_name);
+            Message messageEntry = new Message(user_name);
             db.createNewTable(messageEntry);
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -86,7 +86,7 @@ public class User extends AEntry{
 
     private void deleteMessageTable(IdbConnection db){
         try {
-            AMessage messageEntry = new AMessage(user_name);
+            Message messageEntry = new Message(user_name);
             db.deleteTable(messageEntry);
         }catch (Exception e){
             System.out.println(e.getMessage());
