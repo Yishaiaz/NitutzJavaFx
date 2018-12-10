@@ -17,6 +17,10 @@ public class MailDisplayer extends GridPane {
     private Label lbl_date; //message's date
     private CheckBox cb_isTransaction; //is transaction message
 
+    /**
+     * Constructor
+     * @param msg - the message to display
+     */
     public MailDisplayer(AMessage msg) {
         setMessage(msg);
         getColumnConstraints().add(new ColumnConstraints(75));
@@ -25,6 +29,10 @@ public class MailDisplayer extends GridPane {
         getColumnConstraints().add(new ColumnConstraints(100));
     }
 
+    /**
+     * create displayer for the message headers
+     * @return - MailDisplayer with the headers of the fields
+     */
     public static MailDisplayer getHeaders(){
         MailDisplayer ans = new MailDisplayer(null);
         ans.lbl_fromUser = new Label("From");
