@@ -34,6 +34,10 @@ public class MailBoxDisplayer extends ListView {
         init();
     }
 
+    public List<MailDisplayer> getMessages(){
+        return messages;
+    }
+
     /**
      * initializing all the fields
      */
