@@ -3,7 +3,6 @@ package Transaction;
 import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
 import User.MailBox.Message;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
