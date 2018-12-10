@@ -281,10 +281,10 @@ public class View implements Observer {
         Label lbl_to = new Label("Arrival at: ");
         Label lbl_depDate =  new Label("Departure date: ");
         Label lbl_arrDate =  new Label("Arrival date:");
-        Label lbl_price = new Label("asked price:");
+        Label lbl_price = new Label("asked price($):");
         Label lbl_airline = new Label("Air line:");
         Label lbl_luagage = new Label("Luggage type");
-        Label lbl_numOfTickets = new Label("num of tickets");
+        Label lbl_numOfTickets = new Label("number of tickets");
         Label lbl_returnFlight = new Label("return flight included");
         Label lbl_ticketType = new Label("ticket type");
 
@@ -352,18 +352,32 @@ public class View implements Observer {
                     alert.showAndWait();
                     return;
                 }
+                try{
+                    Integer.valueOf(txt_numOfTickets.getText());
+                    Double.valueOf(txt_price.getText());
+
+                }
+                catch (Exception ee){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("number error");
+                    alert.setContentText("number of tickets or price not compatible numbers");
+                    alert.showAndWait();
+                    return;
+                }
                 Map fields = new HashMap<String,String>();
+
                 fields.put("from",txt_from.getText());
                 fields.put("to",txt_to.getText());
-                fields.put("depDate",dp_depDate.getEditor().getText());
-                fields.put("arrDate",dp_arrDate.getEditor().getText());
+                fields.put("depDate",changeDateFormat(dp_depDate.getEditor().getText()));
+                fields.put("arrDate",changeDateFormat(dp_arrDate.getEditor().getText()));
                 fields.put("price",txt_price.getText());
                 fields.put("airline",txt_airLine.getText());
                 fields.put("luggage",txt_luagage.getText());
                 fields.put("numOfTickets",txt_numOfTickets.getText());
                 fields.put("ticketType",txt_ticketType.getText());
-                fields.put("returnFlight",cb_returnFlight.isSelected());
+                fields.put("returnFlight","true");//cb_returnFlight.isSelected());
                 dialog.close();
+                System.out.println(dp_arrDate.getEditor().getText());
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 if(m_controller.postVacation(fields)) {
@@ -382,6 +396,10 @@ public class View implements Observer {
             }
         });
         dialog.showAndWait();
+    }
+    private String changeDateFormat(String text) {
+        String [] s = text.split("/");
+        return s[2]+"-"+s[1]+"-"+s[0];
     }
 
 }
