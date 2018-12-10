@@ -55,6 +55,13 @@ public class FlightEntry extends AEntry {
     }
 
     @Override
+    public String[] getColumnsTitles() {
+        String[] ans = {"flight_id","publisher_user_id", "airline_name", "flight_start_date", "flight_end_date", "flight_lagguage_type", "flight_number_of_tickets", "flight_origin_country_code",
+                "is_return_flight_included", "flight_tickets_type", "flight_price", "flight_status", "flight_destination"};
+        return ans;
+    }
+
+    @Override
     public boolean validateEntry() {
         return true;
     }
