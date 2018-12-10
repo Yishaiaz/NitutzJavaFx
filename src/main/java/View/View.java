@@ -1,10 +1,7 @@
 package View;
 
 import Controller.Controller;
-import User.MailBox.MailBox;
 import View.CreateAcount.CreateAcountControlle;
-import View.Displayers.MailBoxDisplayer;
-import View.Displayers.MailDisplayer;
 import View.UpdateProfile.UpdateAccount;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,8 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -35,7 +30,6 @@ public class View implements Observer {
     public Button btn_cleanSearch;
     public Button btn_profile;
     public Button btn_postFlight;
-    public Button btn_mailbox;
     public MenuItem menuItem_create;
     public MenuItem menuItem_update;
     public MenuItem menuItem_delete;
@@ -51,39 +45,17 @@ public class View implements Observer {
             if(loggedUser==null) {
                 btn_profile.setText("login/sign up");
                 btn_postFlight.setDisable(true);
-                btn_mailbox.setDisable(true);
-                btn_mailbox.setVisible(false);
             }
             else {
                 btn_profile.setText("Log Out");
                 btn_postFlight.setDisable(false);
-                btn_mailbox.setDisable(false);
-                btn_mailbox.setVisible(true);
+
             }
         }
 
     }
 
     //onClick functions
-
-    public void onClickMailBox(){
-        //init mailbox and displayers
-        MailBox mailBox = m_controller.getMailBox();
-        MailBoxDisplayer mailBoxDisplayer = new MailBoxDisplayer(mailBox.getAllMessages().values());
-
-        //set maildisplayer as an opening messageDisplayer button
-        for (MailDisplayer mail: mailBoxDisplayer.getMessages()){
-        }
-
-        //opens popup
-        final Stage dialog = new Stage();
-        dialog.initModality(Modality.NONE);
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(mailBoxDisplayer);
-        Scene dialogScene = new Scene(dialogVbox, 500, 200);
-        dialog.setScene(dialogScene);
-        dialog.show();
-    }
 
     /**
      * when search is presses - sends the user name to the controller and displays the searched users data from the DB.

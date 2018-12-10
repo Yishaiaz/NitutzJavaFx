@@ -3,7 +3,10 @@ package Flight;
 import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
 
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.Properties;
 
 public class FlightEntry extends AEntry {
     private String flight_id="";
@@ -18,14 +21,31 @@ public class FlightEntry extends AEntry {
     private String flight_tickets_type="1 adult";
     private double flight_price=0;
     private String flight_status="";
-    private boolean is_buyer = false;
     private String flight_destination;
 
     public FlightEntry(String publisher_user_id){
         this.publisher_user_id=publisher_user_id;
     }
-    public FlightEntry(String flight_id, String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, boolean is_buyer, String flight_destination) {
-        this.flight_id=flight_id;
+    public FlightEntry(String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, String flight_destination) {
+        Properties props = new Properties();
+        String propFileName = "config.properties";
+        try {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+            if (inputStream != null) {
+                props.load(inputStream);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+//            e.printStackTrace();
+        }
+        int nextid = Integer.valueOf(props.getProperty("nextFlightId"));
+        props.setProperty("nextFlightId", String.valueOf(++nextid));
+        try{
+            props.store(new FileOutputStream("config.properties"), null);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        this.flight_id=String.valueOf(nextid);
         this.publisher_user_id = publisher_user_id;
         this.airline_name = airline_name;
         this.flight_start_date = flight_start_date;
@@ -37,12 +57,7 @@ public class FlightEntry extends AEntry {
         this.flight_tickets_type = flight_tickets_type;
         this.flight_price = flight_price;
         this.flight_status = flight_status;
-        this.is_buyer = is_buyer;
         this.flight_destination = flight_destination;
-    }
-
-    public void setFlight_id(String flight_id) {
-        this.flight_id = flight_id;
     }
 
     @Override
@@ -70,8 +85,7 @@ public class FlightEntry extends AEntry {
         ans[9] = flight_tickets_type;
         ans[10] = String.valueOf(flight_price);
         ans[11] = flight_status;
-        ans[12] = String.valueOf(is_buyer);
-        ans[13] = flight_destination;
+        ans[12] = flight_destination;
         return ans;
     }
 
