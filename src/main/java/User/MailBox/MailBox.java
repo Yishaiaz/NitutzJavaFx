@@ -4,6 +4,7 @@ import DataBaseConnection.IdbConnection;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.sql.Date;
 import java.util.*;
 
 public class MailBox {
@@ -23,7 +24,7 @@ public class MailBox {
 //                    messagesList.put(item[0], new PersonalMessage(item[0],item[1],item[2],item[3], new Date(item[5]), item[6]));
 //                }String message_id,  String user_owner_id, String title, String message_content, Date message_date, String from_user_id, String transaction_id) {
 //                else{
-                    messagesList.put(item[0], new Message(item[0],item[1],item[3],item[4],new Date(item[5]),item[6], item[7]));
+                    messagesList.put(item[0], new Message(item[0],item[1],item[3],item[4],Date.valueOf(item[5]),item[6], item[7]));
 //                }
             }
         }
