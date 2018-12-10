@@ -4,6 +4,7 @@ import Controller.Controller;
 import User.MailBox.MailBox;
 import View.CreateAcount.CreateAcountControlle;
 import View.Displayers.MailBoxDisplayer;
+import View.Displayers.MailDisplayer;
 import View.UpdateProfile.UpdateAccount;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -66,13 +67,17 @@ public class View implements Observer {
     //onClick functions
 
     public void onClickMailBox(){
+        //init mailbox and displayers
         MailBox mailBox = m_controller.getMailBox();
         MailBoxDisplayer mailBoxDisplayer = new MailBoxDisplayer(mailBox.getAllMessages().values());
+
+        //set maildisplayer as an opening messageDisplayer button
+        for (MailDisplayer mail: mailBoxDisplayer.getMessages()){
+        }
 
         //opens popup
         final Stage dialog = new Stage();
         dialog.initModality(Modality.NONE);
-//        dialog.initOwner(primaryStage);
         VBox dialogVbox = new VBox(20);
         dialogVbox.getChildren().add(mailBoxDisplayer);
         Scene dialogScene = new Scene(dialogVbox, 500, 200);
