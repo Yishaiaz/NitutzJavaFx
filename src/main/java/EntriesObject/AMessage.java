@@ -46,7 +46,10 @@ public class AMessage extends AEntry{
         ans[2]= title;
         ans[3]= message_content;
         ans[4] = String.valueOf(is_transaction);
-        ans[5]= message_date.toString();
+        String date = message_date.getDate()<10?"0"+message_date.getDate():message_date.getDate()+"";
+        date += message_date.getMonth()<10?".0"+message_date.getMonth():"."+message_date.getMonth();
+        date += ("."+message_date.getYear());
+        ans[5]= date;
         ans[6]= from_user_id;
         ans[7] = flight_id;
         ans[8] = String.valueOf(is_buyer);
@@ -67,6 +70,12 @@ public class AMessage extends AEntry{
     public void deleteFromDb(IdbConnection idbConnection) throws Exception {
         idbConnection.deleteById(this);
     }
+
+    @Override
+    public boolean equals(Object o){
+        return ((o instanceof AMessage) && ((AMessage)o).message_id.equals(message_id));
+    }
+
     public void setMessage_id(String message_id){
         this.message_id= message_id;
     }
