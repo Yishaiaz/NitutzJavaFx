@@ -1,15 +1,17 @@
 package Transaction;
 
 import DataBaseConnection.IdbConnection;
+import DataBaseConnection.SqliteDbConnection;
 import EntriesObject.AEntry;
 import User.MailBox.Message;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
+import java.util.LinkedList;
 
 /**
  * available statuses:
- * For Sale, Offer Received, Offer Approved, Closed, Rejected
+ * Offer Received, Offer Approved, Closed, Rejected
  *
  */
 public class TransactionsEntry extends AEntry {
@@ -41,7 +43,7 @@ public class TransactionsEntry extends AEntry {
      */
     public TransactionsEntry(String transaction_number,Date date,String sellerUser_id,String buyerUser_id,String transaction_status,
                              String flight_id,String number_of_tickets,String amountPayed,IdbConnection idbConnection) throws Exception{
-        String[] statuses={"For Sale","Offer Received","Offer Approved","Closed","Rejected"};
+        String[] statuses={"Offer Received","Offer Approved","Closed","Rejected"};
         ArrayList<String> possible_statuses= new ArrayList<String>();
         for(String s:statuses){
             possible_statuses.add(s);
@@ -61,12 +63,25 @@ public class TransactionsEntry extends AEntry {
         sendOfferRecivedMsg();
     }
 
+    public TransactionsEntry(TransactionsEntry other,IdbConnection idbConnection){
+        String[] a = other.getAllData();
+        this.transaction_number = a[0];
+        this.sellerUser_id=a[1];
+        this.buyerUser_id=a[2];
+        this.number_of_tickets=a[3];
+        this.amountPayed=a[4];
+        this.flight_id=a[5];
+        this.transaction_date = Date.valueOf(a[6]);
+        this.transaction_status=a[7];
+        this.idbConnection= idbConnection;
+    }
+
     private void sendOfferRecivedMsg() {
         //String message_id,  String user_owner_id, String title,String buyerUser_id, Date message_date, String from_user_id, String transaction_id) {
         //need to change msg. to not have id.
 
         String msgContent="You got an offer from userName about your postDetails";
-        Message message=new Message("-1",sellerUser_id,"Offer Recived",msgContent,new Date(),"-1",transaction_number);
+        Message message=new Message("-1",sellerUser_id,"Offer Recived",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
         sendMessage(sellerUser_id,message);
     }
 
@@ -74,7 +89,7 @@ public class TransactionsEntry extends AEntry {
         //String message_id,  String user_owner_id, String title,String buyerUser_id, Date message_date, String from_user_id, String transaction_id) {
         //need to change msg.
         String msgContent="";
-        Message message=new Message("-1",sellerUser_id,"Offer Recived",msgContent,new Date(),"-1",transaction_number);
+        Message message=new Message("-1",sellerUser_id,"Offer Recived",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
         sendMessage(buyerUser_id,message);
     }
 
@@ -141,11 +156,32 @@ public class TransactionsEntry extends AEntry {
         idbConnection.deleteById(this);
     }
 
-    public void getAllTransactionsByUserId(IdbConnection idbConnection,String user_id){
+    public void updateTransactionStatus(String newStatus) throws Exception{
+        String[] statuses={"Offer Received","Offer Approved","Closed","Rejected"};
+        ArrayList<String> possible_statuses= new ArrayList<String>();
+        for(String s:statuses){
+            possible_statuses.add(s);
+        }
+        if(!possible_statuses.contains(newStatus)){
+            throw new Exception("status not valid");
+        }
+        String[] ans=getAllData();
+        ans[4] = newStatus;
+        idbConnection.updateEntry(this, ans);
+    }
+
+    public LinkedList<TransactionsEntry> getAllTransactionsByUserId(IdbConnection idbConnection){
         try{
-            idbConnection.getAllFromTable(this);
+            LinkedList<String[]> all=idbConnection.getAllFromTable(this);
+            LinkedList<TransactionsEntry> transactionsEntries = new LinkedList<>();
+            for(String[] r:all){
+                transactionsEntries.add(new TransactionsEntry(r[0],Date.valueOf(r[1]),r[2],r[3],r[4],r[5],r[6],r[7],idbConnection));
+            }
+            return transactionsEntries;
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
+        return null;
+
     }
 }
