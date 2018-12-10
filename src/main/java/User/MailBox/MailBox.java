@@ -69,7 +69,7 @@ public class MailBox {
         }
     }
 
-    public void SendMessage(String receiverId, AMessage message){
+    public void SendRegularMessage(String receiverId, AMessage message){
         try{
             idbConnection.insertToDbByTableName(receiverId+"_mailbox", message);
         }catch(Exception e){
