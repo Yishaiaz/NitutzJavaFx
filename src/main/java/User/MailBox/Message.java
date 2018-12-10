@@ -89,4 +89,8 @@ public class Message extends AEntry {
     public void deleteFromDb(IdbConnection idbConnection) throws Exception {
         idbConnection.deleteById(this);
     }
+
+    public boolean isTransaction(){
+        return !this.transaction_id.equals("");
+    }
 }
