@@ -119,7 +119,7 @@ public class View implements Observer {
         dialog.initModality(Modality.NONE);
         VBox dialogVbox = new VBox(20);
         dialogVbox.getChildren().add(mailBoxDisplayer);
-        Scene dialogScene = new Scene(dialogVbox, 500, 200);
+        Scene dialogScene = new Scene(dialogVbox, 500, 500);
         dialog.setScene(dialogScene);
         dialog.show();
     }
@@ -151,7 +151,7 @@ public class View implements Observer {
             bb.getButtons().addAll(btn_accept, btn_decline);
             dialogVbox.getChildren().add(bb);
         }
-        Scene dialogScene = new Scene(dialogVbox, 500, 200);
+        Scene dialogScene = new Scene(dialogVbox, 500, 500);
         dialog.setScene(dialogScene);
         dialog.show();
     }
