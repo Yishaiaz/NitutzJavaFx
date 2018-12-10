@@ -1,6 +1,7 @@
 package Model;
 
 import EntriesObject.IEntry;
+import User.MailBox.MailBox;
 
 public interface IModel {
     boolean CreateAccount(String username, String password, String birthdate, String fName, String lName, String city);
@@ -29,4 +30,10 @@ public interface IModel {
     boolean DeleteUser();
 
     String[] getLogedInUserDetails();
+
+    /**
+     * getter for the logged user's mailbox
+     * @return the logged user's mailbox, return null if not logged
+     */
+    MailBox getMailBox();
 }

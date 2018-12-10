@@ -2,6 +2,7 @@ package Controller;
 
 import EntriesObject.IEntry;
 import Model.IModel;
+import User.MailBox.MailBox;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -87,5 +88,13 @@ public class Controller extends Observable implements Observer {
 
     public String[] getLogedInUserDetails(){
        return model.getLogedInUserDetails();
+    }
+
+    /**
+     * getter for the user's mailbox
+     * @return the logged user's mailbox
+     */
+    public MailBox getMailBox() {
+        return model.getMailBox();
     }
 }
