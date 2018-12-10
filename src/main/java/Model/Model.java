@@ -2,6 +2,7 @@ package Model;
 
 import DataBaseConnection.IdbConnection;
 import EntriesObject.IEntry;
+import User.MailBox.MailBox;
 import User.User;
 
 
@@ -123,5 +124,12 @@ public class Model extends Observable implements IModel {
             return null;
         }
         return ans;
+    }
+
+    @Override
+    public MailBox getMailBox() {
+        if (loggedUser == null)
+            return null;
+        return new MailBox(loggedUser.getIdentifierValue(), db);
     }
 }
