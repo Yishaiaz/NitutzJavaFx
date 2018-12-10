@@ -5,10 +5,12 @@ import EntriesObject.AEntry;
 import EntriesObject.IEntry;
 import Flight.FlightEntry;
 import User.MailBox.MailBox;
+import User.MailBox.Message;
 import User.User;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Observable;
 
@@ -157,9 +159,9 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public MailBox getMailBox() {
+    public Collection<Message> getUsersMessages() {
         if (loggedUser == null)
             return null;
-        return new MailBox(loggedUser.getIdentifierValue(), db);
+        return new MailBox(loggedUser.getIdentifierValue(), db).getAllMessages().values();
     }
 }

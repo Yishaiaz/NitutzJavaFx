@@ -2,7 +2,9 @@ package Model;
 
 import EntriesObject.IEntry;
 import User.MailBox.MailBox;
+import User.MailBox.Message;
 
+import java.util.Collection;
 import java.util.Map;
 
 public interface IModel {
@@ -36,8 +38,8 @@ public interface IModel {
     String[] getLogedInUserDetails();
 
     /**
-     * getter for the logged user's mailbox
-     * @return the logged user's mailbox, return null if not logged
+     * getter for the logged user's messages in his mailbox
+     * @return a collection of all the logged user's messages in mailbox, return null if not logged
      */
-    MailBox getMailBox();
+    Collection<Message> getUsersMessages();
 }

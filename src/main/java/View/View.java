@@ -1,7 +1,7 @@
 package View;
 
 import Controller.Controller;
-import User.MailBox.MailBox;
+import User.MailBox.Message;
 import View.CreateAcount.CreateAcountControlle;
 import View.Displayers.MailBoxDisplayer;
 import View.UpdateProfile.UpdateAccount;
@@ -20,10 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class View implements Observer {
     public String loggedUser = null;
@@ -96,8 +93,8 @@ public class View implements Observer {
     }
 
     public void onClickMailBox(){
-        MailBox mailBox = m_controller.getMailBox();
-        MailBoxDisplayer mailBoxDisplayer = new MailBoxDisplayer(mailBox.getAllMessages().values());
+        Collection<Message> messageCollection = m_controller.getUsersMessages();
+        MailBoxDisplayer mailBoxDisplayer = new MailBoxDisplayer(messageCollection);
 
         //opens popup
         final Stage dialog = new Stage();
