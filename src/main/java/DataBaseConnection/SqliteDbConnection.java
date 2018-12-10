@@ -259,7 +259,7 @@ public class SqliteDbConnection implements IdbConnection {
             while (rs.next()) {
                 String[] columns=entry.getColumnsTitles();
                 tempStringArray = new String[columns.length+1];
-                tempStringArray[0]=Integer.toString(rs.getInt("id"));
+                tempStringArray[0]=Integer.toString(rs.getInt(entry.getIdentifiers()));
                 for (int i = 1; i < columns.length+1; i++) {
                     tempStringArray[i]=rs.getString(columns[i-1]);
                 }
