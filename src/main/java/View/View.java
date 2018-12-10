@@ -34,6 +34,7 @@ public class View implements Observer {
     public Button btn_StartSearch;
     public Button btn_cleanSearch;
     public Button btn_profile;
+    public Button btn_postFlight;
     public MenuItem menuItem_create;
     public MenuItem menuItem_update;
     public MenuItem menuItem_delete;
@@ -46,10 +47,15 @@ public class View implements Observer {
     public void update(Observable o, Object arg) {
         if (o == m_controller){
             loggedUser=m_controller.getLoggedUser();
-            if(loggedUser==null)
+            if(loggedUser==null) {
                 btn_profile.setText("login/sign up");
-            else
+                btn_postFlight.setDisable(true);
+            }
+            else {
                 btn_profile.setText("Log Out");
+                btn_postFlight.setDisable(false);
+
+            }
         }
 
     }
@@ -242,9 +248,88 @@ public class View implements Observer {
         if(event!=null && event.getCode().getName().equals("Enter")){
             onClickSearchUser();
         }
-
-//        btn_StartSearch.req
-
     }
+
+    public void postFlightPressed(){
+
+        Dialog dialog = new Dialog();
+        dialog.setHeaderText("Post your flight");
+        dialog.setResizable(true);
+
+        // Widgets
+        Label lbl_from = new Label("Departure from: ");
+        Label lbl_to = new Label("Arrival at: ");
+        Label lbl_depDate =  new Label("Departure date: ");
+        Label lbl_arrDate =  new Label("Arrival date:");
+        Label lbl_price = new Label("asked price:");
+        Label lbl_airline = new Label("Air line:");
+        Label lbl_luagage = new Label("Luggage type");
+        Label lbl_numOfTickets = new Label("num of tickets");
+        Label lbl_returnFlight = new Label("return flight included");
+        Label lbl_ticketType = new Label("ticket type");
+
+        TextField txt_from = new TextField();
+        TextField txt_to = new TextField();
+        DatePicker dp_depDate = new DatePicker();
+        DatePicker dp_arrDate = new DatePicker();
+        TextField txt_price = new TextField();
+        TextField txt_airLine = new TextField();
+        TextField txt_luagage = new TextField();
+        TextField txt_numOfTickets = new TextField();
+        CheckBox cb_returnFlight = new CheckBox();
+        TextField txt_ticketType = new TextField();
+        cb_returnFlight.setSelected(false);
+
+
+        Button btn_postFlight = new Button("post flight");
+
+        // Create layout and add to dialog
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 35, 20, 35));
+        grid.add(lbl_from, 1, 1); // col=1, row=1
+        grid.add(txt_from, 2, 1);
+        grid.add(lbl_to, 1, 2); // col=1, row=2
+        grid.add(txt_to, 2, 2);
+        grid.add(lbl_depDate, 1, 3);
+        grid.add(dp_depDate, 2, 3);
+        grid.add(lbl_arrDate, 1, 4);
+        grid.add(dp_arrDate, 2, 4);
+        grid.add(lbl_numOfTickets,1,5);
+        grid.add(txt_numOfTickets,2,5);
+        grid.add(lbl_airline,1,6);
+        grid.add(txt_airLine,2,6);
+        grid.add(lbl_price,1,7);
+        grid.add(txt_price,2,7);
+        grid.add(lbl_luagage,1,8);
+        grid.add(txt_luagage,2,8);
+        grid.add(lbl_returnFlight,1,9);
+        grid.add(cb_returnFlight,2,9);
+        grid.add(lbl_ticketType,1,10);
+        grid.add(txt_ticketType,2,10);
+
+        grid.add(btn_postFlight, 2, 11);
+        dialog.getDialogPane().setContent(grid);
+
+        // Add button to dialog
+        ButtonType btn_cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().add(btn_cancel);
+
+        //on click handlers
+        /**
+         * opens the "createAccount" popup
+         */
+        btn_postFlight.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                dialog.close();
+//                postFlight();
+            }
+        });
+        dialog.showAndWait();
+    }
+
 }
 
