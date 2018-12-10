@@ -16,7 +16,7 @@ public class Message extends AEntry {
     protected String transaction_id;
 
     public Message(String user_owner_id){
-        transaction_id=user_owner_id;
+        this.user_owner_id=user_owner_id;
     }
     public Message(String message_id,  String user_owner_id, String title, String message_content, Date message_date, String from_user_id, String transaction_id) {
         this.message_id=message_id;
