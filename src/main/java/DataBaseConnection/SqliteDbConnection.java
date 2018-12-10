@@ -146,8 +146,6 @@ public class SqliteDbConnection implements IdbConnection {
 //            System.out.println(e.getMessage());
             throw new Exception(e.getMessage());
         }
-
-
     }
 
     @Override

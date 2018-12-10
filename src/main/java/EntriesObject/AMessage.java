@@ -1,8 +1,6 @@
 package EntriesObject;
 
 import DataBaseConnection.IdbConnection;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.lang.reflect.Field;
 import java.util.Date;
 
