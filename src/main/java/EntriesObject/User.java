@@ -194,4 +194,8 @@ public class User extends AEntry{
     public String getUser_city() {
         return user_city;
     }
+
+    public void insert(IEntry user){
+
+    }
 }

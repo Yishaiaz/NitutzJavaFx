@@ -58,6 +58,14 @@ public class MailBox {
         }
     }
 
+    public void SendMessage(String receiverId, AMessage message){
+        try{
+            idbConnection.insertToDbByTableName(receiverId+"_mailbox", message);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void deleteEntry(AMessage message){
         messagesList.remove(message.getIdentifierValue());
         try{
