@@ -420,6 +420,10 @@ public class View implements Observer {
                 }
                 Map fields = new HashMap<String,String>();
 
+                String returnFlightIncluded = "false";
+                if(cb_returnFlight.isSelected())
+                    returnFlightIncluded = "true";
+
                 fields.put("from",txt_from.getText());
                 fields.put("to",txt_to.getText());
                 fields.put("depDate",changeDateFormat(dp_depDate.getEditor().getText()));
@@ -429,7 +433,7 @@ public class View implements Observer {
                 fields.put("luggage",txt_luagage.getText());
                 fields.put("numOfTickets",txt_numOfTickets.getText());
                 fields.put("ticketType",txt_ticketType.getText());
-                fields.put("returnFlight","true");//cb_returnFlight.isSelected());
+                fields.put("returnFlight",returnFlightIncluded);//cb_returnFlight.isSelected());
                 dialog.close();
                 System.out.println(dp_arrDate.getEditor().getText());
 
