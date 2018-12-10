@@ -56,38 +56,17 @@ public class User extends AEntry{
     }
 
     public void createAllTables(IdbConnection db){
-        createMessagesTable(db);
         createFlightsTable(db);
     }
 
     private void deleteAllSubTables(IdbConnection db){
-        deleteMessageTable(db);
         deleteFlightsTable(db);
-
-    }
-
-    private void createMessagesTable(IdbConnection db){
-        try {
-            AMessage messageEntry = new AMessage(user_name);
-            db.createNewTable(messageEntry);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
     }
 
     private void createFlightsTable(IdbConnection db){
         try{
             FlightEntry flightEntry = new FlightEntry(user_name);
             db.createNewTable(flightEntry);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void deleteMessageTable(IdbConnection db){
-        try {
-            AMessage messageEntry = new AMessage(user_name);
-            db.deleteTable(messageEntry);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
