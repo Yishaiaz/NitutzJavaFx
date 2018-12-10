@@ -1,11 +1,11 @@
 package View.Displayers;
 
-import User.MailBox.TransactionMessage;
+import User.MailBox.Message;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 public class TransactionMessageDisplayer extends BorderPane {
-    TransactionMessage msg;
+    Message msg;
     Label lbl_fromUser;
     Label lbl_title;
 }

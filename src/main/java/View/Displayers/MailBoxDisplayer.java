@@ -1,6 +1,6 @@
 package View.Displayers;
 
-import User.MailBox.AMessage;
+import User.MailBox.Message;
 import javafx.scene.control.ListView;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class MailBoxDisplayer extends ListView {
      * Constructor
      * @param messageList - the list of messages to display
      */
-    public MailBoxDisplayer(List<AMessage> messageList){
+    public MailBoxDisplayer(List<Message> messageList){
         setMessages(messageList);
     }
 
@@ -21,11 +21,11 @@ public class MailBoxDisplayer extends ListView {
      * setter for the messages to display
      * @param messageList - a list of messages to display
      */
-    public void setMessages(List<AMessage> messageList){
+    public void setMessages(List<Message> messageList){
         if (messageList == null)
             return;
         MailDisplayer currrent;
-        for (AMessage msg: messageList){
+        for (Message msg: messageList){
             currrent = new MailDisplayer(msg);
             currrent.setPrefWidth(450);
             messages.add(currrent);
