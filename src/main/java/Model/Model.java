@@ -7,7 +7,6 @@ import Flight.FlightEntry;
 import User.MailBox.MailBox;
 import User.User;
 
-
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Map;
@@ -19,6 +18,12 @@ public class Model extends Observable implements IModel {
 
     public Model(IdbConnection db) {
         this.db = db;
+        try {
+            db.createNewTable(new FlightEntry(""));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("error create flight table");
+        }
     }
 
     @Override
@@ -108,7 +113,11 @@ public class Model extends Observable implements IModel {
             boolean returnFlight = false;
             if (fields.get("returnFlight").equals("true"))
                 returnFlight = true;
-            AEntry post = new FlightEntry(loggedUser.getIdentifierValue(), fields.get("airline"), new SimpleDateFormat("dd/MM/yyyy").parse(fields.get("depDate")), new SimpleDateFormat("dd/MM/yyyy").parse(fields.get("arrDate")), fields.get("luggage"), (int) Integer.valueOf(fields.get("numOfTickets")), fields.get("from"), returnFlight, fields.get("ticketType"), (double) Double.valueOf(fields.get("price")), fields.get("For Sale"), fields.get("to"));
+//            System.out.println(fields.get("airline")+"123");
+//            Date d = Date.valueOf(fields.get("depDate"));
+
+
+            AEntry post = new FlightEntry(loggedUser.getIdentifierValue(), fields.get("airline"), Date.valueOf(fields.get("depDate")), Date.valueOf(fields.get("arrDate")), fields.get("luggage"), (int) Integer.valueOf(fields.get("numOfTickets")), fields.get("from"), returnFlight, fields.get("ticketType"), (double) Double.valueOf(fields.get("price")), "For Sale", fields.get("to"));
             post.insertToDb(db);
             return true;
         } catch (Exception e) {
