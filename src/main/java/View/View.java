@@ -4,6 +4,8 @@ import Controller.Controller;
 import User.MailBox.Message;
 import View.CreateAcount.CreateAcountControlle;
 import View.Displayers.MailBoxDisplayer;
+import View.Displayers.MailDisplayer;
+import View.Displayers.MessageDisplayer;
 import View.UpdateProfile.UpdateAccount;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,6 +15,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -92,19 +95,73 @@ public class View implements Observer {
 
     }
 
-    public void onClickMailBox(){
-        Collection<Message> messageCollection = m_controller.getUsersMessages();
-        MailBoxDisplayer mailBoxDisplayer = new MailBoxDisplayer(messageCollection);
+    /**
+     * logged user clicked on mailbox
+     */
+    public void onClickMailBox() {
+        //init mailbox and displayer
+        Collection<Message> usersMessages = m_controller.getUsersMessages();
+        MailBoxDisplayer mailBoxDisplayer = new MailBoxDisplayer(usersMessages);
+
+        //set action on mailDisplayers
+        for (MailDisplayer mailDisplayer : mailBoxDisplayer.getMessages()) {
+            mailDisplayer.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 2) {
+                        onClickMessage(mailDisplayer);
+                    }
+                }
+            });
+        }
 
         //opens popup
         final Stage dialog = new Stage();
         dialog.initModality(Modality.NONE);
-//        dialog.initOwner(primaryStage);
         VBox dialogVbox = new VBox(20);
         dialogVbox.getChildren().add(mailBoxDisplayer);
         Scene dialogScene = new Scene(dialogVbox, 500, 200);
         dialog.setScene(dialogScene);
         dialog.show();
+    }
+
+    /**
+     * logged user clicked on
+     * @param mail
+     */
+    public void onClickMessage (MailDisplayer mail){
+        //init message displayer;
+        MessageDisplayer md = mail.getMessageDisplayer();
+
+
+        //opens popup
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.NONE);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(md);
+        if (md.isTransaction()) {
+            ButtonBar bb = new ButtonBar();
+            Button btn_accept = new Button("Accept");
+            Button btn_decline = new Button("Decline");
+            btn_accept.setOnAction(event -> {
+                onClickAcceptMessage();
+            });
+            btn_decline.setOnAction(event -> {
+                onClickDeclineMessage();
+            });
+            bb.getButtons().addAll(btn_accept, btn_decline);
+            dialogVbox.getChildren().add(bb);
+        }
+        Scene dialogScene = new Scene(dialogVbox, 500, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
+    }
+
+    public void onClickAcceptMessage () {
+        System.out.println("Unimplemented: Message Accepted");
+    }
+
+    public void onClickDeclineMessage () {
+        System.out.println("Unimplemented: Message Declined");
     }
 
     public void onClickLogin() throws IOException {

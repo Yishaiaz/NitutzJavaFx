@@ -41,4 +41,8 @@ public class MailBoxDisplayer extends ListView {
         getItems().add(MailDisplayer.getHeaders());
         getItems().addAll(messages);
     }
+
+    public List<MailDisplayer> getMessages() {
+        return messages;
+    }
 }
