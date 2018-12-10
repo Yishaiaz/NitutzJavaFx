@@ -1,14 +1,13 @@
 package View.Displayers;
 
-import User.MailBox.AMessage;
-import User.MailBox.TransactionMessage;
+import User.MailBox.Message;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 public class MailDisplayer extends GridPane {
-    private AMessage msg; // the message
+    private Message msg; // the message
     private Label lbl_fromUser; //user that sent
     private Label lbl_title; //message's title
     private Label lbl_date; //message's date
@@ -18,7 +17,7 @@ public class MailDisplayer extends GridPane {
      * Constructor
      * @param msg - the message to display
      */
-    public MailDisplayer(AMessage msg) {
+    public MailDisplayer(Message msg) {
         setMessage(msg);
         getColumnConstraints().add(new ColumnConstraints(75));
         getColumnConstraints().add(new ColumnConstraints(100));
@@ -47,7 +46,7 @@ public class MailDisplayer extends GridPane {
      * sets the message to this displayer and initialize all fields
      * @param message - the message to display
      */
-    public void setMessage(AMessage message){
+    public void setMessage(Message message){
         if(message == null)
             return;
         msg = message;
@@ -67,7 +66,7 @@ public class MailDisplayer extends GridPane {
         lbl_title = new Label(msgData[2]);
         lbl_date = new Label(msgData[5]);
         cb_isTransaction = new CheckBox("");
-        if(msg instanceof TransactionMessage){
+        if(msg.isTransaction()){
             cb_isTransaction.setSelected(true);
         }
         else{
