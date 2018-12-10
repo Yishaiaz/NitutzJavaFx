@@ -3,8 +3,10 @@ package Flight;
 import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.Properties;
 
@@ -30,18 +32,23 @@ public class FlightEntry extends AEntry {
         Properties props = new Properties();
         String propFileName = "config.properties";
         try {
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+            FileInputStream inputStream = new FileInputStream(propFileName);
+            //InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
             if (inputStream != null) {
                 props.load(inputStream);
+                inputStream.close();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
 //            e.printStackTrace();
         }
         int nextid = Integer.valueOf(props.getProperty("nextFlightId"));
-        props.setProperty("nextFlightId", String.valueOf(++nextid));
+        nextid++;
+        props.setProperty("nextFlightId", String.valueOf(nextid+""));
         try{
-            props.store(new FileOutputStream("config.properties"), null);
+            FileOutputStream outputStream=new FileOutputStream("config.properties");
+            props.store(outputStream, null);
+            outputStream.close();
         }catch(Exception e){
             System.out.println(e.getMessage());
         }
@@ -67,7 +74,7 @@ public class FlightEntry extends AEntry {
 
     @Override
     public String getTableName() {
-        return this.publisher_user_id+"_flights_table";
+        return "flights_table";
     }
 
     @Override
