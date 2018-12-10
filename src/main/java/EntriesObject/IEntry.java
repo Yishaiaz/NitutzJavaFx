@@ -1,6 +1,7 @@
 package EntriesObject;
 
 import DataBaseConnection.IdbConnection;
+import User.User;
 
 /**
  * an interface to define the basic functions required from a entry representation class/module.

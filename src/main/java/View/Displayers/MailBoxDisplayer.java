@@ -1,6 +1,6 @@
 package View.Displayers;
 
-import EntriesObject.AMessage;
+import User.MailBox.AMessage;
 import javafx.scene.control.ListView;
 
 import java.util.ArrayList;

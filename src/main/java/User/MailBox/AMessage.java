@@ -1,10 +1,12 @@
-package EntriesObject;
+package User.MailBox;
 
 import DataBaseConnection.IdbConnection;
+import EntriesObject.AEntry;
+
 import java.lang.reflect.Field;
 import java.util.Date;
 
-public class AMessage extends AEntry{
+public class AMessage extends AEntry {
     protected String message_id="";
     protected String user_owner_id ="";
     protected String title="";

@@ -1,7 +1,6 @@
 package Model;
 
 import EntriesObject.IEntry;
-import EntriesObject.User;
 
 public interface IModel {
     boolean CreateAccount(String username, String password, String birthdate, String fName, String lName, String city);

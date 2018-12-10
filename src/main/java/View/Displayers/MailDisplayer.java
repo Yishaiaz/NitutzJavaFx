@@ -1,14 +1,11 @@
 package View.Displayers;
 
-import EntriesObject.AMessage;
-import EntriesObject.TransactionMessage;
-import javafx.scene.Node;
+import User.MailBox.AMessage;
+import User.MailBox.TransactionMessage;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-
-import java.util.List;
 
 public class MailDisplayer extends GridPane {
     private AMessage msg; // the message

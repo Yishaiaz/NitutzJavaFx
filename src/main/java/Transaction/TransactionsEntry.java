@@ -1,8 +1,9 @@
-package EntriesObject;
+package Transaction;
 
 import DataBaseConnection.IdbConnection;
+import EntriesObject.AEntry;
 
-public class TransactionsEntry extends AEntry{
+public class TransactionsEntry extends AEntry {
     private String transaction_number;
     private String flight_id;
     private String transaction_status;

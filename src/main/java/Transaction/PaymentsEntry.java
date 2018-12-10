@@ -1,6 +1,7 @@
-package EntriesObject;
+package Transaction;
 
 import DataBaseConnection.IdbConnection;
+import EntriesObject.AEntry;
 
 public class PaymentsEntry extends AEntry {
     protected String transactionNumber;

@@ -1,8 +1,5 @@
-package EntriesObject;
+package User.MailBox;
 
-import DataBaseConnection.IdbConnection;
-
-import java.lang.reflect.Field;
 import java.util.Date;
 
 public class PersonalMessage extends AMessage{

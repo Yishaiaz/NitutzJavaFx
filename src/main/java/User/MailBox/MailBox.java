@@ -1,4 +1,4 @@
-package EntriesObject;
+package User.MailBox;
 
 import DataBaseConnection.IdbConnection;
 

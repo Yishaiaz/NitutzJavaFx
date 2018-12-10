@@ -1,6 +1,6 @@
 package View.Displayers;
 
-import EntriesObject.TransactionMessage;
+import User.MailBox.TransactionMessage;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 

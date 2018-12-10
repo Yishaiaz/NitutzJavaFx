@@ -1,6 +1,7 @@
-package EntriesObject;
+package Flight;
 
 import DataBaseConnection.IdbConnection;
+import EntriesObject.AEntry;
 
 import java.util.Date;
 

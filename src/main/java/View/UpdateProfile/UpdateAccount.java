@@ -1,14 +1,11 @@
 package View.UpdateProfile;
 
 import Controller.Controller;
-import EntriesObject.IEntry;
-import EntriesObject.User;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 

@@ -1,8 +1,6 @@
 package View;
 
 import Controller.Controller;
-import EntriesObject.IEntry;
-import EntriesObject.User;
 import View.CreateAcount.CreateAcountControlle;
 import View.UpdateProfile.UpdateAccount;
 import javafx.event.ActionEvent;
@@ -10,19 +8,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Optional;
 
 public class View implements Observer {
     public String loggedUser = null;

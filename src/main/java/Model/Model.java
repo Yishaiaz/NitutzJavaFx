@@ -2,7 +2,7 @@ package Model;
 
 import DataBaseConnection.IdbConnection;
 import EntriesObject.IEntry;
-import EntriesObject.User;
+import User.User;
 
 
 import java.sql.Date;
