@@ -26,19 +26,7 @@ public class FlightEntry extends AEntry {
     }
 
     public FlightEntry(String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, String flight_destination, IdbConnection idbConnection) {
-        LinkedList<String[]> allflights = getAllFlights(idbConnection);
-        int i=0;
-        if(allflights==null){
-            i=0;
-        }
-        else{
-            try{
-                i=Integer.valueOf(allflights.peek()[0])+1;
-            }catch(Exception e){
-                System.out.println(e.getMessage());
-                i=0;
-            }
-        }
+        int i=this.getMaximumId(getAllFlights(idbConnection));
         this.flight_id=String.valueOf(i);
         this.publisher_user_id = publisher_user_id;
         this.airline_name = airline_name;
@@ -52,6 +40,13 @@ public class FlightEntry extends AEntry {
         this.flight_price = flight_price;
         this.flight_status = flight_status;
         this.flight_destination = flight_destination;
+    }
+
+    @Override
+    public String[] getColumnsTitles() {
+        String[] ans = {"flight_id","publisher_user_id", "airline_name", "flight_start_date", "flight_end_date", "flight_lagguage_type", "flight_number_of_tickets", "flight_origin_country_code",
+                "is_return_flight_included", "flight_tickets_type", "flight_price", "flight_status", "flight_destination"};
+        return ans;
     }
 
     @Override
@@ -108,5 +103,16 @@ public class FlightEntry extends AEntry {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    private int getMaximumId(LinkedList<String[]> all){
+        int max=0;
+        if (all==null || all.size()==0){
+            return 1;
+        }
+        for(String[] s: all){
+            if( Integer.valueOf(s[0]) > max) max =Integer.valueOf(s[0]);
+        }
+        return max+1;
     }
 }
