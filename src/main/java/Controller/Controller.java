@@ -4,6 +4,7 @@ import EntriesObject.IEntry;
 import Model.IModel;
 import User.MailBox.MailBox;
 
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,6 +29,9 @@ public class Controller extends Observable implements Observer {
 
         model.CreateAccount(username,password,birthdate,fName,lName,city);
 
+    }
+    public boolean postVacation(Map fields) {
+        return model.addPost(fields);
     }
 
     /**

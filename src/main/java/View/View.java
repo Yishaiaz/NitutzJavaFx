@@ -16,6 +16,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -323,8 +325,41 @@ public class View implements Observer {
         btn_postFlight.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
+                if(txt_from.getText().equals("") || txt_to.getText().equals("") || dp_depDate.getEditor().getText().equals("") ||  dp_arrDate.getEditor().getText().equals("") ||  txt_price.getText().equals("") ||  txt_airLine.getText().equals("") || txt_luagage.getText().equals("")
+                        || txt_numOfTickets.getText().equals("") || txt_ticketType.getText().equals("")){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("error");
+                    alert.setContentText("one or more of the fields was not filled correctly");
+                    alert.showAndWait();
+                    return;
+                }
+                Map fields = new HashMap<String,String>();
+                fields.put("from",txt_from.getText());
+                fields.put("to",txt_to.getText());
+                fields.put("depDate",dp_depDate.getEditor().getText());
+                fields.put("arrDate",dp_arrDate.getEditor().getText());
+                fields.put("price",txt_price.getText());
+                fields.put("airline",txt_airLine.getText());
+                fields.put("luggage",txt_luagage.getText());
+                fields.put("numOfTickets",txt_numOfTickets.getText());
+                fields.put("ticketType",txt_ticketType.getText());
+                fields.put("returnFlight",cb_returnFlight.isSelected());
                 dialog.close();
-//                postFlight();
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                if(m_controller.postVacation(fields)) {
+
+                    alert.setHeaderText("success");
+                    alert.setContentText("your vacation has been posted");
+                    dialog.close();
+                    alert.showAndWait();
+                }
+                else {
+                    alert.setAlertType(Alert.AlertType.ERROR);
+                    alert.setContentText("you post was not posted.. sorry");
+                    alert.showAndWait();
+                }
+
             }
         });
         dialog.showAndWait();

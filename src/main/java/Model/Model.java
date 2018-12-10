@@ -1,12 +1,16 @@
 package Model;
 
 import DataBaseConnection.IdbConnection;
+import EntriesObject.AEntry;
 import EntriesObject.IEntry;
+import Flight.FlightEntry;
 import User.MailBox.MailBox;
 import User.User;
 
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Map;
 import java.util.Observable;
 
 public class Model extends Observable implements IModel {
@@ -93,6 +97,23 @@ public class Model extends Observable implements IModel {
         }
         catch (Exception e){
             return null;
+        }
+    }
+
+    public boolean addPost(Map<String,String> fields) {
+        if (fields == null)
+            return false;
+
+        try {
+            boolean returnFlight = false;
+            if (fields.get("returnFlight").equals("true"))
+                returnFlight = true;
+            AEntry post = new FlightEntry(loggedUser.getIdentifierValue(), fields.get("airline"), new SimpleDateFormat("dd/MM/yyyy").parse(fields.get("depDate")), new SimpleDateFormat("dd/MM/yyyy").parse(fields.get("arrDate")), fields.get("luggage"), (int) Integer.valueOf(fields.get("numOfTickets")), fields.get("from"), returnFlight, fields.get("ticketType"), (double) Double.valueOf(fields.get("price")), fields.get("For Sale"), fields.get("to"));
+            post.insertToDb(db);
+            return true;
+        } catch (Exception e) {
+            System.out.println("model add post error");
+            return false;
         }
     }
 

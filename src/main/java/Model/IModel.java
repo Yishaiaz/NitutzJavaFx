@@ -3,6 +3,8 @@ package Model;
 import EntriesObject.IEntry;
 import User.MailBox.MailBox;
 
+import java.util.Map;
+
 public interface IModel {
     boolean CreateAccount(String username, String password, String birthdate, String fName, String lName, String city);
     IEntry SearchUser(String username);
@@ -17,6 +19,8 @@ public interface IModel {
      * @return the user name if the user name and password are valid, otherwise returns null.
      */
     IEntry LogIn(String username, String password);
+
+    boolean addPost(Map<String,String> fields);
 
     /**
      * logout the current user in the system.
