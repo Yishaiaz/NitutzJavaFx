@@ -1,6 +1,7 @@
 package EntriesObject;
 
 import DataBaseConnection.IdbConnection;
+import User.User;
 
 import java.lang.reflect.Field;
 

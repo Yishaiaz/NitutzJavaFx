@@ -1,7 +1,6 @@
 package Controller;
 
 import EntriesObject.IEntry;
-import EntriesObject.User;
 import Model.IModel;
 
 import java.util.Observable;

@@ -1,7 +1,10 @@
-package EntriesObject;
+package User;
 
 import DataBaseConnection.IdbConnection;
-import DataBaseConnection.SqliteDbConnection;
+import EntriesObject.AEntry;
+import Flight.FlightEntry;
+import EntriesObject.IEntry;
+import User.MailBox.AMessage;
 
 import java.sql.Date;
 
