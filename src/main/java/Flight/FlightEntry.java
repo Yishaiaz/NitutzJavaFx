@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Properties;
 
 public class FlightEntry extends AEntry {
@@ -28,31 +29,22 @@ public class FlightEntry extends AEntry {
     public FlightEntry(String publisher_user_id){
         this.publisher_user_id=publisher_user_id;
     }
-    public FlightEntry(String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, String flight_destination) {
-        Properties props = new Properties();
-        String propFileName = "config.properties";
-        try {
-            FileInputStream inputStream = new FileInputStream(propFileName);
-            //InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-            if (inputStream != null) {
-                props.load(inputStream);
-                inputStream.close();
+
+    public FlightEntry(String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, String flight_destination, IdbConnection idbConnection) {
+        LinkedList<String[]> allflights = getAllFlights(idbConnection);
+        int i=0;
+        if(allflights==null){
+            i=0;
+        }
+        else{
+            try{
+                i=Integer.valueOf(allflights.peek()[0])+1;
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+                i=0;
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-//            e.printStackTrace();
         }
-        int nextid = Integer.valueOf(props.getProperty("nextFlightId"));
-        nextid++;
-        props.setProperty("nextFlightId", String.valueOf(nextid+""));
-        try{
-            FileOutputStream outputStream=new FileOutputStream("config.properties");
-            props.store(outputStream, null);
-            outputStream.close();
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        this.flight_id=String.valueOf(nextid);
+        this.flight_id=String.valueOf(i);
         this.publisher_user_id = publisher_user_id;
         this.airline_name = airline_name;
         this.flight_start_date = flight_start_date;
@@ -113,5 +105,13 @@ public class FlightEntry extends AEntry {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+    public LinkedList<String[]> getAllFlights(IdbConnection idbConnection){
+        try{
+            return idbConnection.getAllFromTable(this);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }
