@@ -117,7 +117,7 @@ public class Model extends Observable implements IModel {
 //            Date d = Date.valueOf(fields.get("depDate"));
 
 
-            AEntry post = new FlightEntry(loggedUser.getIdentifierValue(), fields.get("airline"), Date.valueOf(fields.get("depDate")), Date.valueOf(fields.get("arrDate")), fields.get("luggage"), (int) Integer.valueOf(fields.get("numOfTickets")), fields.get("from"), returnFlight, fields.get("ticketType"), (double) Double.valueOf(fields.get("price")), "For Sale", fields.get("to"));
+            AEntry post = new FlightEntry(loggedUser.getIdentifierValue(), fields.get("airline"), Date.valueOf(fields.get("depDate")), Date.valueOf(fields.get("arrDate")), fields.get("luggage"), (int) Integer.valueOf(fields.get("numOfTickets")), fields.get("from"), returnFlight, fields.get("ticketType"), (double) Double.valueOf(fields.get("price")), "For Sale", fields.get("to"),db);
             post.insertToDb(db);
             return true;
         } catch (Exception e) {
