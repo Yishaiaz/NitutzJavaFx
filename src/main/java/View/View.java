@@ -85,6 +85,10 @@ public class View implements Observer {
 
     }
 
+    public void onClickMailBox(){
+
+    }
+
     public void onClickLogin() throws IOException {
         if(loggedUser==null)
             displayLoginDialog();

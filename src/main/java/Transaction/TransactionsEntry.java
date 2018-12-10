@@ -2,7 +2,7 @@ package Transaction;
 
 import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
-import User.MailBox.TransactionMessage;
+import User.MailBox.Message;
 
 import java.util.ArrayList;
 import java.util.Collection;
