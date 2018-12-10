@@ -2,6 +2,7 @@ package View.Displayers;
 
 import User.MailBox.Message;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
 public class MessageDisplayer extends VBox {
@@ -9,7 +10,8 @@ public class MessageDisplayer extends VBox {
     private Label lbl_fromUser;
     private Label lbl_title;
     private Label lbl_date;
-    private javafx.scene.control.TextArea ta_content;
+    private ListView lv_content;
+    private Label lbl_content;
 
     public MessageDisplayer(Message msg) {
         setMessage(msg);
@@ -20,15 +22,17 @@ public class MessageDisplayer extends VBox {
             return;
         message = msg;
         init();
-        getChildren().addAll(lbl_fromUser,lbl_title, lbl_date, ta_content);
+        getChildren().addAll(lbl_fromUser,lbl_title, lbl_date, lv_content);
     }
 
     private void init(){
         String[] msgData = message.getAllData();
-        lbl_fromUser = new Label(msgData[1]);
-        lbl_title = new Label(msgData[2]);
-        lbl_date = new Label(msgData[5]);
-        ta_content = new javafx.scene.control.TextArea(msgData[3]);
+        lbl_fromUser = new Label("Sent By:\t\t"+msgData[5]);
+        lbl_title = new Label("Subject:\t\t"+msgData[2]);
+        lbl_date = new Label("    Date:\t\t"+msgData[4]);
+        lbl_content = new Label(msgData[3]);
+        lv_content = new ListView();
+        lv_content.getItems().add(lbl_content);
     }
 
     public boolean isTransaction() {

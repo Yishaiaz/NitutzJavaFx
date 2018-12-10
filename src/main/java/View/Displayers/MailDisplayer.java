@@ -62,11 +62,11 @@ public class MailDisplayer extends GridPane {
      */
     private void init(){
         String[] msgData = msg.getAllData();
-        lbl_fromUser = new Label(msgData[1]);
+        lbl_fromUser = new Label(msgData[5]);
         lbl_title = new Label(msgData[2]);
-        lbl_date = new Label(msgData[5]);
+        lbl_date = new Label(msgData[4]);
         cb_isTransaction = new CheckBox("");
-        if(msg instanceof Message){
+        if(msg.isTransaction()){
             cb_isTransaction.setSelected(true);
         }
         else{
