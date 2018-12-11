@@ -75,7 +75,7 @@ public class Model extends Observable implements IModel {
         String[]transactionsEntry=null;
         try {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
-            TransactionsEntry transaction=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
+            TransactionsEntry transaction=new TransactionsEntry(transactionsEntry[0],Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
                     ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
             transaction.setTransaction_status("Offer Approved");
             db.updateEntry(transaction,transaction.getAllData());
@@ -89,7 +89,7 @@ public class Model extends Observable implements IModel {
         String[]transactionsEntry=null;
         try {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
-            TransactionsEntry transaction=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
+            TransactionsEntry transaction=new TransactionsEntry(transactionsEntry[0],Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
                     ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
             transaction.setTransaction_status("Rejected");
             db.updateEntry(transaction,transaction.getAllData());
@@ -103,7 +103,7 @@ public class Model extends Observable implements IModel {
         String[]transactionsEntry=null;
         try {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
-            TransactionsEntry transaction=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
+            TransactionsEntry transaction=new TransactionsEntry(transactionsEntry[0],Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
                     ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
             transaction.setTransaction_status("Closed");
             db.updateEntry(transaction,transaction.getAllData());
