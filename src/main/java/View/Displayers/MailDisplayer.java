@@ -19,7 +19,7 @@ public class MailDisplayer extends GridPane {
      */
     public MailDisplayer(Message msg) {
         setMessage(msg);
-        getColumnConstraints().add(new ColumnConstraints(75));
+        getColumnConstraints().add(new ColumnConstraints(120));
         getColumnConstraints().add(new ColumnConstraints(100));
         getColumnConstraints().add(new ColumnConstraints(100));
         getColumnConstraints().add(new ColumnConstraints(100));
