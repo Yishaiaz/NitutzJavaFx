@@ -21,12 +21,6 @@ public class Model extends Observable implements IModel {
 
     public Model(IdbConnection db) {
         this.db = db;
-        try {
-            db.createNewTable(new FlightEntry(""));
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("error create flight table");
-        }
     }
 
     @Override
@@ -34,6 +28,8 @@ public class Model extends Observable implements IModel {
         try {
             db.createNewTable(new TransactionsEntry());
             db.createNewTable(new PaymentsEntry());
+            db.createNewTable(new FlightEntry(""));
+            db.createNewTable(new User());
         } catch (Exception e) {
             e.printStackTrace();
         }
