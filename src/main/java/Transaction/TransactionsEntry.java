@@ -75,6 +75,9 @@ public class TransactionsEntry extends AEntry {
         if(transaction_status.equals("Closed")){
             sendOfferFinishedMsg();
         }
+        if(transaction_status.equals("Rejected")){
+            sendOfferRejectedMsg();
+        }
     }
 
     private void sendOfferRecivedMsg() {
@@ -90,6 +93,14 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="user: "+sellerUser_id+" approved your offer about flight post: "+flightDetails
                                     +System.getProperty("line.separator")+"to purchase press on payment link below.";
+        Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        sendMessage(buyerUser_id,message);
+    }
+
+    private void sendOfferRejectedMsg() {
+        String flightDetails = getFlightDetails();
+        String msgContent="user: "+sellerUser_id+" rejected your offer about flight post: "+flightDetails
+                +System.getProperty("line.separator")+"better luck next time (: .";
         Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
         sendMessage(buyerUser_id,message);
     }
