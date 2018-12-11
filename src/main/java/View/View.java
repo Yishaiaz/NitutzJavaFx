@@ -687,6 +687,7 @@ public class View implements Observer {
                     return;
                 }
                 m_controller.paymentAccepted(transactionID, txt_cardNumber.getText(),txt_expDAte.getText().substring(3), txt_expDAte.getText().substring(0,2), txt_csv.getText(),txt_payments.getText(), txt_ownerName.getText() );
+                dialog.close();
 
             }
 
