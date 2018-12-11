@@ -14,7 +14,7 @@ public class FlightBoard extends ListView {
      * Constructor for FlightBoard
      * @param flightEntries - a collection of the flights to show
      */
-    public FlightBoard(Collection<FlightEntry> flightEntries){
+    public FlightBoard(Collection<String[]> flightEntries){
         setFlights(flightEntries);
     }
 
@@ -22,11 +22,11 @@ public class FlightBoard extends ListView {
      * sets the flights to show
      * @param flightEntries - a collection of flights to show
      */
-    private void setFlights(Collection<FlightEntry> flightEntries) {
+    private void setFlights(Collection<String[]> flightEntries) {
         if(flightEntries == null)
             return;
         FlightDisplayer current;
-        for(FlightEntry flight:flightEntries){
+        for(String[] flight:flightEntries){
             current = new FlightDisplayer(flight);
             current.setPrefWidth(450);
             flights.add(current);

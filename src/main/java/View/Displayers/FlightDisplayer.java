@@ -1,14 +1,13 @@
 package View.Displayers;
 
-import Flight.FlightEntry;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
 public class FlightDisplayer extends GridPane {
-    private FlightEntry flight; //the flight to show
-    private Label lbl_fid; //flight id
+    private String[] flight; //the flightDets to show
+    private Label lbl_fid; //flightDets id
     private Label lbl_publisher; //who sells
     private Label lbl_dates; // fromDate - toDate
     private Label lbl_origin; // origin country
@@ -19,10 +18,10 @@ public class FlightDisplayer extends GridPane {
 
     /**
      * Constructor for the displayer
-     * @param flightEntry - the flight entry to show
+     * @param flightEntry - the flightDets entry to show
      */
-    public FlightDisplayer(FlightEntry flightEntry){
-        setFlight(flightEntry);
+    public FlightDisplayer(String[] flightEntry){
+        setFlightDets(flightEntry);
         getColumnConstraints().add(new ColumnConstraints(50));
         getColumnConstraints().add(new ColumnConstraints(75));
         getColumnConstraints().add(new ColumnConstraints(100));
@@ -33,7 +32,7 @@ public class FlightDisplayer extends GridPane {
     }
 
     /**
-     * create displayer for the flight headers
+     * create displayer for the flightDets headers
      * @return - FlightDisplayer with the headers of the fields.
      */
     public static FlightDisplayer getHeaders(){
@@ -59,10 +58,10 @@ public class FlightDisplayer extends GridPane {
     }
 
     /**
-     * sets the flight to this displayer and initialize all fields
-     * @param flightEntry - the flight entry to display
+     * sets the flightDets to this displayer and initialize all fields
+     * @param flightEntry - the flightDets entry to display
      */
-    private void setFlight(FlightEntry flightEntry) {
+    private void setFlightDets(String[] flightEntry) {
         if(flightEntry == null)
             return;
         flight = flightEntry;
@@ -74,22 +73,21 @@ public class FlightDisplayer extends GridPane {
      * initialize all the fields
      */
     private void init(){
-        String[] flightData = flight.getAllData();
-        lbl_fid = new Label(flightData[0]);
-        lbl_publisher = new Label(flightData[1]);
-        lbl_dates = new Label(flightData[3]+" - "+flightData[4]);
-        lbl_origin = new Label(flightData[7]);
-        lbl_destination = new Label(flightData[12]);
-        lbl_numOfTickets = new Label(flightData[6]);
+        lbl_fid = new Label(flight[0]);
+        lbl_publisher = new Label(flight[1]);
+        lbl_dates = new Label(flight[3]+" - "+flight[4]);
+        lbl_origin = new Label(flight[7]);
+        lbl_destination = new Label(flight[12]);
+        lbl_numOfTickets = new Label(flight[6]);
         cb_isReturn = new CheckBox();
-        if (flight.isReturnIncluded()){
+        if (flight[8].equals("true")){
             cb_isReturn.setSelected(true);
         }
         else {
             cb_isReturn.setSelected(false);
         }
         cb_isReturn.setDisable(true);
-        lbl_price = new Label(flightData[10]);
+        lbl_price = new Label(flight[10]);
     }
 
     public VacationDisplayer getVacationDisplayer(){return new VacationDisplayer(flight);}

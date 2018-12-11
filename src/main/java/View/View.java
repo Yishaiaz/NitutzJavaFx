@@ -165,7 +165,7 @@ public class View implements Observer {
 
     public void onClickFlightBoard() {
         //init
-        Collection<FlightEntry> flightEntries = m_controller.getFlightBoard();
+        Collection<String[]> flightEntries = m_controller.getFlightBoard();
         FlightBoard flightBoard = new FlightBoard(flightEntries);
 
         //set action on flightDisplayers;
@@ -383,7 +383,7 @@ public class View implements Observer {
     public void postFlightPressed() {
 
         Dialog dialog = new Dialog();
-        dialog.setHeaderText("Post your flight");
+        dialog.setHeaderText("Pkost your flight");
         dialog.setResizable(true);
 
         // Widgets
