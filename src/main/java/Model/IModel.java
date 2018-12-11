@@ -48,5 +48,5 @@ public interface IModel {
      * getter for all the posted flights
      * @return - a collection of flight entries from db(flights)
      */
-    Collection<FlightEntry> getFlightBoard();
+    Collection<String[]> getFlightBoard();
 }

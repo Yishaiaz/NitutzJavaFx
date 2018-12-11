@@ -104,7 +104,7 @@ public class Controller extends Observable implements Observer {
         return model.getUsersMessages();
     }
 
-    public Collection<FlightEntry> getFlightBoard() {
+    public Collection<String[]> getFlightBoard() {
         return model.getFlightBoard();
     }
 }
