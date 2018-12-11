@@ -1,6 +1,7 @@
 package Controller;
 
 import EntriesObject.IEntry;
+import Flight.FlightEntry;
 import Model.IModel;
 import User.MailBox.Message;
 
@@ -101,5 +102,9 @@ public class Controller extends Observable implements Observer {
      */
     public Collection<Message> getUsersMessages() {
         return model.getUsersMessages();
+    }
+
+    public Collection<FlightEntry> getFlightBoard() {
+        return model.getFlightBoard();
     }
 }
