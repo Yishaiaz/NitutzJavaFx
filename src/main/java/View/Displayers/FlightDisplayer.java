@@ -22,13 +22,13 @@ public class FlightDisplayer extends GridPane {
      */
     public FlightDisplayer(String[] flightEntry){
         setFlightDets(flightEntry);
-        getColumnConstraints().add(new ColumnConstraints(50));
         getColumnConstraints().add(new ColumnConstraints(75));
+        getColumnConstraints().add(new ColumnConstraints(75));
+        getColumnConstraints().add(new ColumnConstraints(200));
         getColumnConstraints().add(new ColumnConstraints(100));
         getColumnConstraints().add(new ColumnConstraints(100));
-        getColumnConstraints().add(new ColumnConstraints(50));
-        getColumnConstraints().add(new ColumnConstraints(50));
         getColumnConstraints().add(new ColumnConstraints(75));
+        getColumnConstraints().add(new ColumnConstraints(120));
     }
 
     /**
@@ -73,22 +73,26 @@ public class FlightDisplayer extends GridPane {
      * initialize all the fields
      */
     private void init(){
-        lbl_fid = new Label(flight[0]);
-        lbl_publisher = new Label(flight[1]);
-        lbl_dates = new Label(flight[3]+" - "+flight[4]);
-        lbl_origin = new Label(flight[7]);
-        lbl_destination = new Label(flight[12]);
-        lbl_numOfTickets = new Label(flight[6]);
+        lbl_fid = new Label(flight[1]);
+        lbl_publisher = new Label(flight[2]);
+        lbl_dates = new Label(flight[4].replace("-", "/")+" - "+flight[5].replace("-", "/"));
+        lbl_origin = new Label(flight[8]);
+        lbl_destination = new Label(flight[13]);
+        lbl_numOfTickets = new Label(flight[7]);
         cb_isReturn = new CheckBox();
-        if (flight[8].equals("true")){
+        if (flight[9].equals("true")){
             cb_isReturn.setSelected(true);
         }
         else {
             cb_isReturn.setSelected(false);
         }
         cb_isReturn.setDisable(true);
-        lbl_price = new Label(flight[10]);
+        lbl_price = new Label(flight[11]);
     }
 
     public VacationDisplayer getVacationDisplayer(){return new VacationDisplayer(flight);}
+
+    public String getFlightID(){
+        return lbl_fid.getText();
+    }
 }

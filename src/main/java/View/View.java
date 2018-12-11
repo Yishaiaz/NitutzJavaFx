@@ -187,11 +187,9 @@ public class View implements Observer {
         dialog.initModality(Modality.NONE);
         VBox dialogVbox = new VBox(20);
         dialogVbox.getChildren().add(flightBoard);
-        Scene dialogScene = new Scene(dialogVbox, 500, 500);
+        Scene dialogScene = new Scene(dialogVbox, 1000, 500);
         dialog.setScene(dialogScene);
         dialog.showAndWait();
-
-
     }
 
     public void onClickFlightDisplayer(FlightDisplayer flightDisplayer) {
@@ -207,21 +205,22 @@ public class View implements Observer {
         Button btn_purchase = new Button("Purchase");
         Button btn_close = new Button("Close");
         btn_purchase.setOnAction(event -> {
-            onClickPurchaseFlight();
+            onClickPurchaseFlight(flightDisplayer.getFlightID());
         });
         btn_close.setOnAction(event -> {
             dialog.close();
         });
         bb.getButtons().addAll(btn_purchase, btn_close);
         dialogVbox.getChildren().add(bb);
-        Scene dialogScene = new Scene(dialogVbox, 500, 500);
+        Scene dialogScene = new Scene(dialogVbox, 1000, 200);
         dialog.setScene(dialogScene);
         dialog.show();
 
     }
 
-    public void onClickPurchaseFlight() {
-        System.out.println("Unimplemented: Purchase Flight");
+    public void onClickPurchaseFlight(String flightID) {
+        //implement - function in controller
+        System.out.println("Unimplemented: onClickPurchaseFlight(String flightID)");
     }
 
     public void onClickLogin() throws IOException {
