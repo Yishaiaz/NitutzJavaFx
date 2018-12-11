@@ -37,11 +37,10 @@ public class View implements Observer {
     public Button btn_profile;
     public Button btn_postFlight;
     public Button btn_mailbox;
+    public Button btn_flightBoard;
     public MenuItem menuItem_create;
     public MenuItem menuItem_update;
     public MenuItem menuItem_delete;
-    public VBox vb_displayBoard;
-    private FlightBoard flightBoard;
 
     public void setController(Controller controller) {
         m_controller = controller;
@@ -56,40 +55,14 @@ public class View implements Observer {
                 btn_postFlight.setDisable(true);
                 btn_mailbox.setDisable(true);
                 btn_mailbox.setVisible(false);
-                setFlightBoard(false);
             } else {
                 btn_profile.setText("Log Out");
                 btn_postFlight.setDisable(false);
                 btn_mailbox.setDisable(false);
                 btn_mailbox.setVisible(true);
-                setFlightBoard(true);
             }
         }
 
-    }
-
-    private void setFlightBoard(boolean set) {
-        vb_displayBoard.getChildren().remove(flightBoard);
-        Collection<FlightEntry> flightEntries = m_controller.getFlightBoard();
-        flightBoard = new FlightBoard(flightEntries);
-        //set action on flightDisplayer;
-        for (FlightDisplayer flightDisplayer : flightBoard.getFlights()) {
-            flightDisplayer.setOnMouseClicked(event -> {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    if (event.getClickCount() == 2) {
-                        onClickFlightDisplayer(flightDisplayer);
-                    }
-                }
-            });
-        }
-        vb_displayBoard.getChildren().add(flightBoard);
-        if (set) {
-            vb_displayBoard.setVisible(true);
-            vb_displayBoard.setDisable(false);
-        } else {
-            vb_displayBoard.setVisible(false);
-            vb_displayBoard.setDisable(true);
-        }
     }
 
     //onClick functions
@@ -146,7 +119,7 @@ public class View implements Observer {
         dialogVbox.getChildren().add(mailBoxDisplayer);
         Scene dialogScene = new Scene(dialogVbox, 500, 500);
         dialog.setScene(dialogScene);
-        dialog.show();
+        dialog.showAndWait();
     }
 
     /**
@@ -179,7 +152,7 @@ public class View implements Observer {
         }
         Scene dialogScene = new Scene(dialogVbox, 500, 500);
         dialog.setScene(dialogScene);
-        dialog.show();
+        dialog.showAndWait();
     }
 
     public void onClickAcceptMessage() {
@@ -188,6 +161,34 @@ public class View implements Observer {
 
     public void onClickDeclineMessage() {
         System.out.println("Unimplemented: Message Declined");
+    }
+
+    public void onClickFlightBoard() {
+        //init
+        Collection<FlightEntry> flightEntries = m_controller.getFlightBoard();
+        FlightBoard flightBoard = new FlightBoard(flightEntries);
+
+        //set action on flightDisplayers;
+        for (FlightDisplayer flightDisplayer : flightBoard.getFlights()) {
+            flightDisplayer.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 2) {
+                        onClickFlightDisplayer(flightDisplayer);
+                    }
+                }
+            });
+        }
+
+        //opens popup
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.NONE);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(flightBoard);
+        Scene dialogScene = new Scene(dialogVbox, 500, 500);
+        dialog.setScene(dialogScene);
+        dialog.showAndWait();
+
+
     }
 
     public void onClickFlightDisplayer(FlightDisplayer flightDisplayer) {
