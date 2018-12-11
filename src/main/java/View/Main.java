@@ -16,6 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         try {
             Model model = new Model(new SqliteDbConnection(true));
+            model.createTables();
             Controller controller = new Controller(model);
             model.addObserver(controller);
 
