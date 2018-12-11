@@ -11,6 +11,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * TransactionsEntry class extends AEntry class.
+ * @Overide's the methods getTableName,getAllData,getIdentifierValue,deleteFromDb
+ *
+ *
  * available statuses:
  * For Sale, Offer Received, Offer Approved, Closed, Rejected
  *
@@ -34,12 +38,12 @@ public class TransactionsEntry extends AEntry {
 
     /**
      *
-     * @param date
-     * @param sellerUser_id
-     * @param buyerUser_id
-     * @param flight_id
-     * @param number_of_tickets
-     * @param amountPayed
+     * @param date - Date
+     * @param sellerUser_id - String
+     * @param buyerUser_id - String
+     * @param flight_id - String
+     * @param number_of_tickets - String
+     * @param amountPayed - String
      * @throws Exception
      */
     public TransactionsEntry(Date date,String sellerUser_id,String buyerUser_id,
@@ -61,6 +65,12 @@ public class TransactionsEntry extends AEntry {
         this.transaction_status="New Transaction";
     }
 
+    /**
+     * enables to change the transaction status field
+     * the function checks whether the status is legal @see class documentation.
+     * @param transaction_status - String, the new transaction status
+     * @throws Exception
+     */
     public void setTransaction_status(String transaction_status) throws Exception {
         if(!statuses.contains(transaction_status)){
             throw new Exception("status not valid");
@@ -220,6 +230,13 @@ public class TransactionsEntry extends AEntry {
         idbConnection.deleteById(this);
     }
 
+    /**
+     * a method to get all the transactions on the db.
+     * returns a linked list of arrays of strings. when each link in the list represents an entry from the database's
+     * transaction table.
+     * @param idbConnection
+     * @return LinkedList<String[]>
+     */
     public LinkedList<String[]> getAllTransactions(IdbConnection idbConnection) {
         try {
             return idbConnection.getAllFromTable(this);
