@@ -114,7 +114,7 @@ public class TransactionsEntry extends AEntry {
     private void sendOfferRecivedMsg() {
         String flightDetails = getFlightDetails();
         String msgContent="You got an offer from the user: "+buyerUser_id+" about your flight post: "
-                            +flightDetails+System.getProperty("line.separator")+"confirm or denied.";
+                            +flightDetails+System.getProperty("line.separator")+"confirm or deny.";
         Date dateTest=new Date(System.currentTimeMillis());
         Message message=new Message("Vacation4U",sellerUser_id,"Offer Received",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         sendMessage(sellerUser_id,message);
@@ -138,7 +138,7 @@ public class TransactionsEntry extends AEntry {
 
     private void sendOfferFinishedMsg() {
         String flightDetails = getFlightDetails();
-        String msgContent="Transaction of flight post: "+flightDetails+" has been complete and payment has been payed"
+        String msgContent="Transaction of flight post: "+flightDetails+" has been complete and payment has been paid"
                 +System.getProperty("line.separator")+"thank you for using Vacation4U.";
         Message messageToSeller=new Message("Vacation4U",sellerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
