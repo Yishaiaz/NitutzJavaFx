@@ -79,6 +79,10 @@ public class MailDisplayer extends GridPane {
         cb_isTransaction.setDisable(true);
     }
 
+    public String getMessageID(){
+        return msg.getIdentifierValue();
+    }
+
     public MessageDisplayer getMessageDisplayer() {
         return new MessageDisplayer(msg);
     }
