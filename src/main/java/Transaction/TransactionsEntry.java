@@ -81,7 +81,8 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="You got an offer from the user: "+buyerUser_id+" about your flight post: "
                             +flightDetails+System.getProperty("line.separator")+"confirm or denied.";
-        Message message=new Message("-1",sellerUser_id,"Offer Received",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Date dateTest=new Date(System.currentTimeMillis());
+        Message message=new Message("Vacation4U",sellerUser_id,"Offer Received",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
         sendMessage(sellerUser_id,message);
     }
 
@@ -89,7 +90,7 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="user: "+sellerUser_id+" approved your offer about flight post: "+flightDetails
                                     +System.getProperty("line.separator")+"to purchase press on payment link below.";
-        Message message=new Message("-1",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
         sendMessage(buyerUser_id,message);
     }
 
@@ -97,8 +98,8 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="Transaction of flight post: "+flightDetails+" has been complete and payment has been payed"
                 +System.getProperty("line.separator")+"thank you for using Vacation4U.";
-        Message messageToSeller=new Message("-1",sellerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
-        Message messageToBuyer=new Message("-1",buyerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message messageToSeller=new Message("Vacation4U",sellerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
         sendMessage(sellerUser_id,messageToSeller);
         sendMessage(buyerUser_id,messageToBuyer);
     }
@@ -180,10 +181,7 @@ public class TransactionsEntry extends AEntry {
     public String[] getAllData() {
         String[] ans = new String[this.getColumnsTitles().length];
         ans[0]= transaction_number;
-        String date = transaction_date.getDate()<10?"0"+transaction_date.getDate():transaction_date.getDate()+"";
-        date += transaction_date.getMonth()<10?".0"+transaction_date.getMonth():"."+transaction_date.getMonth();
-        date += ("."+transaction_date.getYear());
-        ans[1]= date;
+        ans[1]= transaction_date.toString();
         ans[2]= sellerUser_id;
         ans[3]= buyerUser_id;
         ans[4]= transaction_status;

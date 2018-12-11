@@ -57,7 +57,7 @@ public class Model extends Observable implements IModel {
             java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
             TransactionsEntry transactionsEntry=new TransactionsEntry(sqlDate,flightDetails[1],loggedUser.getAllData()[0],flightID,flightDetails[6],flightDetails[10],db);
             transactionsEntry.setTransaction_status("Offer Received");
-            //db.insert(transactionsEntry);
+            db.insert(transactionsEntry);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -61,10 +61,7 @@ public class Message extends AEntry {
         ans[1]= user_owner_id;
         ans[2]= title;
         ans[3]= message_content;
-        String date = message_date.getDate()<10?"0"+message_date.getDate():message_date.getDate()+"";
-        date += message_date.getMonth()<10?".0"+message_date.getMonth():"."+message_date.getMonth();
-        date += ("."+message_date.getYear());
-        ans[4]= date;
+        ans[4]= message_date.toString();
         ans[5]= from_user_id;
         ans[6]=transaction_id;
         return ans;
