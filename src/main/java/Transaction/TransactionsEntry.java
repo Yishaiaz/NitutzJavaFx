@@ -46,7 +46,7 @@ public class TransactionsEntry extends AEntry {
      * @param amountPayed - String
      * @throws Exception
      */
-    public TransactionsEntry(Date date,String sellerUser_id,String buyerUser_id,
+    public TransactionsEntry(Date date,String sellerUser_id,String buyerUser_id,String transaction_status,
                              String flight_id,String number_of_tickets,String amountPayed,IdbConnection idbConnection){
         String[] initStatuses={"Offer Received","Offer Approved","Closed","Rejected"};
         statuses= new ArrayList<>();
@@ -62,7 +62,7 @@ public class TransactionsEntry extends AEntry {
         this.flight_id=flight_id;
         this.transaction_date =date;
         this.idbConnection=idbConnection;
-        this.transaction_status="New Transaction";
+        this.transaction_status=transaction_status;
     }
 
     /**
@@ -98,7 +98,7 @@ public class TransactionsEntry extends AEntry {
         String msgContent="You got an offer from the user: "+buyerUser_id+" about your flight post: "
                             +flightDetails+System.getProperty("line.separator")+"confirm or denied.";
         Date dateTest=new Date(System.currentTimeMillis());
-        Message message=new Message("Vacation4U",sellerUser_id,"Offer Received",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message message=new Message("Vacation4U",sellerUser_id,"Offer Received",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         sendMessage(sellerUser_id,message);
     }
 
@@ -106,7 +106,7 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="user: "+sellerUser_id+" approved your offer about flight post: "+flightDetails
                                     +System.getProperty("line.separator")+"to purchase press on payment link below.";
-        Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         sendMessage(buyerUser_id,message);
     }
 
@@ -114,7 +114,7 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="user: "+sellerUser_id+" rejected your offer about flight post: "+flightDetails
                 +System.getProperty("line.separator")+"better luck next time (: .";
-        Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message message=new Message("Vacation4U",buyerUser_id,"Offer Rejected",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
         sendMessage(buyerUser_id,message);
     }
 

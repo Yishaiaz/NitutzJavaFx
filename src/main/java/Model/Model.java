@@ -62,7 +62,7 @@ public class Model extends Observable implements IModel {
         try {
             String[] flightDetails=db.getEntryById(flightID,new FlightEntry(""));
             java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
-            TransactionsEntry transactionsEntry=new TransactionsEntry(sqlDate,flightDetails[1],loggedUser.getAllData()[0],flightID,flightDetails[6],flightDetails[10],db);
+            TransactionsEntry transactionsEntry=new TransactionsEntry(sqlDate,flightDetails[1],loggedUser.getAllData()[0],"New Transaction",flightID,flightDetails[6],flightDetails[10],db);
             transactionsEntry.setTransaction_status("Offer Received");
             db.insert(transactionsEntry);
         } catch (Exception e) {
@@ -76,8 +76,9 @@ public class Model extends Observable implements IModel {
         try {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
             TransactionsEntry transaction=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
-                    ,transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
+                    ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
             transaction.setTransaction_status("Offer Approved");
+            db.updateEntry(transaction,transaction.getAllData());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,8 +90,9 @@ public class Model extends Observable implements IModel {
         try {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
             TransactionsEntry transaction=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
-                    ,transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
+                    ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
             transaction.setTransaction_status("Rejected");
+            db.updateEntry(transaction,transaction.getAllData());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,8 +104,9 @@ public class Model extends Observable implements IModel {
         try {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
             TransactionsEntry transaction=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
-                    ,transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
+                    ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
             transaction.setTransaction_status("Closed");
+            db.updateEntry(transaction,transaction.getAllData());
             PaymentsEntry paymentsEntry=new PaymentsEntry(transactionID,cardNumber,expYear,expMonth,csv,Integer.valueOf(payments),ownerName);
             db.insert(paymentsEntry);
         } catch (Exception e) {
