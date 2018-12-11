@@ -27,12 +27,12 @@ public class FlightEntry extends AEntry {
     private String flight_destination;
 
     /**
-     * a constructor that initializes only the publisher user id field,
+     * a constructor that initializes only the flight id field,
      * the publisher is the user that posted the flight to the system.
-     * @param publisher_user_id - String
+     * @param flight_id - String
      */
-    public FlightEntry(String publisher_user_id){
-        this.publisher_user_id=publisher_user_id;
+    public FlightEntry(String flight_id){
+        this.flight_id=flight_id;
     }
 
     /**
