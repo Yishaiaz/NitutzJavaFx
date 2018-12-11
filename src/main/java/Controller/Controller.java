@@ -116,15 +116,15 @@ public class Controller extends Observable implements Observer {
         model.acceptPurchaseOffer(transactionID);
     }
 
-    public void confirmPayment(String transactionID){
-        model.confirmPayment(transactionID);
+    public void declinePurchaseOffer(String transactionID){
+        model.declinePurchaseOffer(transactionID);
     }
 
     public String getTransactionStatus(String transactionID) {
         return model.getTransactionStatus(transactionID);
     }
 
-    public void paymentAccepted(String transactionID, String cardNumber, String expDate, String csv, String payments) {
-        System.out.println("unimplemented: payment accepted - Controller");
+    public void paymentAccepted(String transactionID, String cardNumber, String expYear,String expMonth, String csv, String payments,String ownerName) {
+        model.confirmPayment(transactionID,cardNumber,expYear,expMonth,csv,payments,ownerName);
     }
 }

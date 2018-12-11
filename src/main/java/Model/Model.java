@@ -11,9 +11,7 @@ import User.MailBox.Message;
 import User.User;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
@@ -103,14 +101,14 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public void confirmPayment(String transactionID) {
+    public void confirmPayment(String transactionID, String cardNumber, String expYear,String expMonth, String csv, String payments,String ownerName) {
         String[]transactionsEntry=null;
         try {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
             TransactionsEntry transaction=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
                     ,transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
             transaction.setTransaction_status("Closed");
-            PaymentsEntry paymentsEntry=new PaymentsEntry();
+            PaymentsEntry paymentsEntry=new PaymentsEntry(transactionID,cardNumber,expYear,expMonth,csv,Integer.valueOf(payments),ownerName);
             db.insert(paymentsEntry);
         } catch (Exception e) {
             e.printStackTrace();
