@@ -58,18 +58,21 @@ public class MailBox {
         int max=0;
         try{
             LinkedList<String[]> all= idbConnection.getAllFromTable(new Message(message.user_owner_id));
+            if(all==null){
+                message.setMessage_id(String.valueOf(max+1));
+                return;
+            }
             for(String s[]: all){
                 if(Integer.valueOf(s[0]) > max) max = Integer.valueOf(s[0]);
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        message.setMessage_id(String.valueOf(max));
+        message.setMessage_id(String.valueOf(max+1));
     }
 
     public void sendMessage(String receiverId, Message message){
         try{
-
             this.updateEntryId(message);
             messagesList.put(message.getIdentifierValue(),message);
             idbConnection.insertToDbByTableName(receiverId+"_mailbox", message);
