@@ -54,6 +54,8 @@ public interface IModel {
 
     void acceptPurchaseOffer(String transactionID);
 
+    void declinePurchaseOffer(String transactionID);
+
     void confirmPayment(String transactionID);
 
     void createTables();
