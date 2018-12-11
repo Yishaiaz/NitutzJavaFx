@@ -57,4 +57,6 @@ public interface IModel {
     void confirmPayment(String transactionID);
 
     void createTables();
+
+    String getTransactionStatus(String transactionID);
 }

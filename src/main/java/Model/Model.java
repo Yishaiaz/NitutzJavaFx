@@ -51,6 +51,17 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
+    public String getTransactionStatus(String transactionID) {
+        String status=null;
+        try {
+            status=db.getEntryById(transactionID,new TransactionsEntry())[4];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    @Override
     public void purchaseFlight(String flightID) {
         try {
             String[] flightDetails=db.getEntryById(flightID,new FlightEntry(""));
