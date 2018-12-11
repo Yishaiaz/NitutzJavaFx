@@ -139,6 +139,11 @@ public class FlightEntry extends AEntry {
         return is_return_flight_included;
     }
 
+    /**
+     * gets the next free id
+     * @param all - all of the entries
+     * @return - the next free id
+     */
     private int getMaximumId(LinkedList<String[]> all){
         int max=0;
         if (all==null || all.size()==0){
