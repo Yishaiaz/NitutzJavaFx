@@ -4,6 +4,7 @@ import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
 import EntriesObject.IEntry;
 import Flight.FlightEntry;
+import Transaction.PaymentsEntry;
 import Transaction.TransactionsEntry;
 import User.MailBox.MailBox;
 import User.MailBox.Message;
@@ -34,6 +35,7 @@ public class Model extends Observable implements IModel {
     public void createTables() {
         try {
             db.createNewTable(new TransactionsEntry());
+            db.createNewTable(new PaymentsEntry());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -102,7 +104,17 @@ public class Model extends Observable implements IModel {
 
     @Override
     public void confirmPayment(String transactionID) {
-
+        String[]transactionsEntry=null;
+        try {
+            transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
+            TransactionsEntry transaction=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
+                    ,transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
+            transaction.setTransaction_status("Closed");
+            PaymentsEntry paymentsEntry=new PaymentsEntry();
+            db.insert(paymentsEntry);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
