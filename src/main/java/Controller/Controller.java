@@ -107,4 +107,16 @@ public class Controller extends Observable implements Observer {
     public Collection<String[]> getFlightBoard() {
         return model.getFlightBoard();
     }
+
+    public void purchaseFlight(String flightID){
+        model.purchaseFlight(flightID);
+    }
+
+    public void acceptPurchaseOffer(String transactionID){
+        model.acceptPurchaseOffer(transactionID);
+    }
+
+    public void confirmPayment(String transactionID){
+        model.confirmPayment(transactionID);
+    }
 }

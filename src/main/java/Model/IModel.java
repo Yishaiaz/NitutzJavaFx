@@ -49,4 +49,12 @@ public interface IModel {
      * @return - a collection of flight entries from db(flights)
      */
     Collection<String[]> getFlightBoard();
+
+    void purchaseFlight(String flightID);
+
+    void acceptPurchaseOffer(String transactionID);
+
+    void confirmPayment(String transactionID);
+
+    void createTables();
 }

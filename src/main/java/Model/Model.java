@@ -4,6 +4,7 @@ import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
 import EntriesObject.IEntry;
 import Flight.FlightEntry;
+import Transaction.TransactionsEntry;
 import User.MailBox.MailBox;
 import User.MailBox.Message;
 import User.User;
@@ -30,6 +31,15 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
+    public void createTables() {
+        try {
+            db.createNewTable(new TransactionsEntry());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public IEntry getLoggedUser() {
         return loggedUser;
     }
@@ -38,6 +48,36 @@ public class Model extends Observable implements IModel {
         this.loggedUser = loggedUser;
         setChanged();
         notifyObservers();
+    }
+
+    @Override
+    public void purchaseFlight(String flightID) {
+        try {
+            String[] flightDetails=db.getEntryById(flightID,new FlightEntry(""));
+            java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
+            TransactionsEntry transactionsEntry=new TransactionsEntry(sqlDate,flightDetails[1],loggedUser.getAllData()[0],flightID,flightDetails[6],flightDetails[10],db);
+            transactionsEntry.setTransaction_status("Offer Received");
+            //db.insert(transactionsEntry);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void acceptPurchaseOffer(String transactionID) {
+        String[]transactionsEntry=null;
+        try {
+            transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
+            TransactionsEntry transactions=new TransactionsEntry(Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
+                    ,transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void confirmPayment(String transactionID) {
+
     }
 
     @Override

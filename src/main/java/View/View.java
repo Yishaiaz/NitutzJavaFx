@@ -159,7 +159,6 @@ public class View implements Observer {
     }
 
     public void onClickAcceptMessage() {
-        System.out.println("Unimplemented: Message Accepted");
     }
 
     public void onClickDeclineMessage() {
@@ -219,8 +218,7 @@ public class View implements Observer {
     }
 
     public void onClickPurchaseFlight(String flightID) {
-        //implement - function in controller
-        System.out.println("Unimplemented: onClickPurchaseFlight(String flightID)");
+        m_controller.purchaseFlight(flightID);
     }
 
     public void onClickLogin() throws IOException {
@@ -494,7 +492,6 @@ public class View implements Observer {
                 fields.put("ticketType", txt_ticketType.getText());
                 fields.put("returnFlight", returnFlightIncluded);//cb_returnFlight.isSelected());
                 dialog.close();
-                System.out.println(dp_arrDate.getEditor().getText());
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 if (m_controller.postVacation(fields)) {
@@ -546,6 +543,124 @@ public class View implements Observer {
                 return LocalDate.parse(dateString,dateTimeFormatter);
             }
         });
+    }
+
+    public void showPaymentWindow(){
+        Dialog dialog = new Dialog();
+        dialog.setHeaderText("Payment");
+        dialog.setResizable(true);
+
+        // Widgets
+        Label lbl_cardNumber = new Label("Card number: ");
+        Label lbl_expDate = new Label("exp Date(dd/mm):");
+        Label lbl_csv = new Label("csv:(3 dig)");
+        Label lbl_numOfPayments = new Label("number of payments:");
+
+        TextField txt_cardNumber = new TextField();
+        TextField txt_expDAte = new TextField();
+        TextField txt_csv = new TextField();
+        TextField txt_payments = new TextField();
+
+        txt_cardNumber.setPromptText("(16 digits)");
+        txt_expDAte.setPromptText("(MM/YY)");
+        txt_csv.setPromptText(("(3 dig)"));
+        txt_payments.setPromptText("(1-12");
+
+        Button btn_pay = new Button("Confirm Payment");
+        Button btn_yaniv = new Button("Auto fill");
+
+
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 35, 20, 35));
+        grid.add(lbl_cardNumber, 1, 1);
+        grid.add(txt_cardNumber,2,1);
+        grid.add(lbl_expDate, 1, 2);
+        grid.add(txt_expDAte,2,2);
+        grid.add(lbl_csv, 1, 3);
+        grid.add(txt_csv,2,3);
+        grid.add(lbl_numOfPayments, 1, 4);
+        grid.add(txt_payments,2,4);
+
+        grid.add(btn_pay, 2, 5);
+        grid.add(btn_yaniv,1,5);
+        dialog.getDialogPane().setContent(grid);
+
+        // Add button to dialog
+        ButtonType btn_cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().add(btn_cancel);
+
+
+        btn_yaniv.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                txt_cardNumber.setText("1234567891234567");
+                txt_expDAte.setText("12/20");
+                txt_csv.setText(("123"));
+                txt_payments.setText("1");
+
+            }
+        });
+
+        btn_pay.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("INPUT ERROR");
+                if (txt_cardNumber.getText().length() != 16 || !isNumber(txt_cardNumber.getText())){
+
+                    alert.setContentText("card number must be 16 digits long");
+                    alert.showAndWait();
+                    return;
+                }
+                if(!legalExpDate(txt_expDAte.getText())){
+                    alert.setContentText("illegal expiration date  (MM/YY)");
+                    alert.showAndWait();
+                    return;
+                }
+                if(txt_csv.getText().length() != 3 || !isNumber(txt_csv.getText())){
+                    alert.setContentText("illegal csv  (123)");
+                    alert.showAndWait();
+                    return;
+                }
+                if(!validPayAmount(txt_payments.getText())){
+                    alert.setContentText("illegal payments  (number: 1-12)");
+                    alert.showAndWait();
+                    return;
+                }
+
+            }
+
+            private boolean validPayAmount(String text) {
+                try{
+                    if(Integer.valueOf(text) <=12 && Integer.valueOf(text) >= 0)
+                        return true;
+
+                }catch (Exception e){
+                    return false;
+                }
+                return false;
+            }
+
+            private boolean legalExpDate(String text) {
+                if(text.length()!= 5 || text.charAt(2) != '/' || !isNumber(text.substring(0,2)) || !isNumber(text.substring(text.length()-2)))
+                    return false;
+                return true;
+            }
+
+            private boolean isNumber(String text) {
+                for (int i = 0; i < text.length(); i++){
+                    if(text.charAt(i) < '0' || text.charAt(i) > '9')
+                        return false;
+                }
+                return true;
+            }
+
+        });
+
+        dialog.showAndWait();
     }
 
 }
