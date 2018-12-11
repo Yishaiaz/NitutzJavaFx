@@ -114,7 +114,7 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="user: "+sellerUser_id+" rejected your offer about flight post: "+flightDetails
                 +System.getProperty("line.separator")+"better luck next time (: .";
-        Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message message=new Message("Vacation4U",buyerUser_id,"Offer Rejected",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
         sendMessage(buyerUser_id,message);
     }
 
