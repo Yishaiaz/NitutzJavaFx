@@ -5,6 +5,12 @@ import EntriesObject.AEntry;
 import java.sql.Date;
 import java.util.LinkedList;
 
+/**
+ * FlightEntry class, extends AEntry.
+ * represents a flight entry in the main flights db table.
+ * @Overides the following functions getTableName,getAllData,getIdentifierValue,deleteFromDb
+ *
+ */
 public class FlightEntry extends AEntry {
     private String flight_id="";
     private String publisher_user_id="";
@@ -20,10 +26,31 @@ public class FlightEntry extends AEntry {
     private String flight_status="";
     private String flight_destination;
 
+    /**
+     * a constructor that initializes only the publisher user id field,
+     * the publisher is the user that posted the flight to the system.
+     * @param publisher_user_id - String
+     */
     public FlightEntry(String publisher_user_id){
         this.publisher_user_id=publisher_user_id;
     }
 
+    /**
+     * a full constructor.
+     * @param publisher_user_id - String
+     * @param airline_name - String
+     * @param flight_start_date - Date
+     * @param flight_end_date - Date
+     * @param flight_lagguage_type - String
+     * @param flight_number_of_tickets - int
+     * @param flight_origin_country_code - String
+     * @param is_return_flight_included - String
+     * @param flight_tickets_type - String
+     * @param flight_price - double
+     * @param flight_status - String
+     * @param flight_destination - String
+     * @param idbConnection - String
+     */
     public FlightEntry(String publisher_user_id, String airline_name, Date flight_start_date, Date flight_end_date, String flight_lagguage_type, int flight_number_of_tickets, String flight_origin_country_code, boolean is_return_flight_included, String flight_tickets_type, double flight_price, String flight_status, String flight_destination, IdbConnection idbConnection) {
         int i=this.getMaximumId(getAllFlights(idbConnection));
         this.flight_id=String.valueOf(i);
@@ -104,6 +131,10 @@ public class FlightEntry extends AEntry {
         return null;
     }
 
+    /**
+     * returns a boolean whether a returned flight was registered in the flight data.
+     * @return - boolean
+     */
     public boolean isReturnIncluded(){
         return is_return_flight_included;
     }
