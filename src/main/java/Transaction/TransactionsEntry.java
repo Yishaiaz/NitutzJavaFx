@@ -58,25 +58,28 @@ public class TransactionsEntry extends AEntry {
         this.flight_id=flight_id;
         this.transaction_date =date;
         this.idbConnection=idbConnection;
-        this.transaction_status="";
+        this.transaction_status="New Transaction";
     }
 
     public void setTransaction_status(String transaction_status) throws Exception {
         if(!statuses.contains(transaction_status)){
             throw new Exception("status not valid");
         }
-        this.transaction_status=transaction_status;
-        if(transaction_status.equals("Offer Received")){
+        if(transaction_status.equals("Offer Received") && this.transaction_status.equals("New Transaction") ){
+            this.transaction_status=transaction_status;
             sendOfferRecivedMsg();
         }
-        if(transaction_status.equals("Offer Approved")){
+        if(transaction_status.equals("Offer Approved") && this.transaction_status.equals("Offer Received")){
+            this.transaction_status=transaction_status;
             sendOfferApprovedMsg();
         }
-        if(transaction_status.equals("Closed")){
-            sendOfferFinishedMsg();
-        }
-        if(transaction_status.equals("Rejected")){
+        if(transaction_status.equals("Rejected") && this.transaction_status.equals("Offer Received")){
+            this.transaction_status=transaction_status;
             sendOfferRejectedMsg();
+        }
+        if(transaction_status.equals("Closed") && this.transaction_status.equals("Offer Approved")){
+            this.transaction_status=transaction_status;
+            sendOfferFinishedMsg();
         }
     }
 
