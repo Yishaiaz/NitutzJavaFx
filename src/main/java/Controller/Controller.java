@@ -123,7 +123,6 @@ public class Controller extends Observable implements Observer {
     public String getTransactionStatus(String transactionID) {
         return model.getTransactionStatus(transactionID);
     }
-
     public void paymentAccepted(String transactionID, String cardNumber, String expYear,String expMonth, String csv, String payments,String ownerName) {
         model.confirmPayment(transactionID,cardNumber,expYear,expMonth,csv,payments,ownerName);
     }
