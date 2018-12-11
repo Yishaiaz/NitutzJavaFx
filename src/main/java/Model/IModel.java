@@ -1,8 +1,6 @@
 package Model;
 
 import EntriesObject.IEntry;
-import Flight.FlightEntry;
-import User.MailBox.MailBox;
 import User.MailBox.Message;
 
 import java.util.Collection;
@@ -56,7 +54,7 @@ public interface IModel {
 
     void declinePurchaseOffer(String transactionID);
 
-    void confirmPayment(String transactionID);
+    void confirmPayment(String transactionID, String cardNumber, String expYear,String expMonth, String csv, String payments,String ownerName);
 
     void createTables();
 
