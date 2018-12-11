@@ -17,6 +17,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -103,8 +104,11 @@ public class View implements Observer {
         //init mailbox and displayer
         Collection<Message> usersMessages = m_controller.getUsersMessages();
         MailBoxDisplayer mailBoxDisplayer = new MailBoxDisplayer(usersMessages);
+//        VBox checkboxes = new VBox();
+//        checkboxes.setPrefWidth(50);
 
         //set action on mailDisplayers
+//        boolean header = true;
         for (MailDisplayer mailDisplayer : mailBoxDisplayer.getMessages()) {
             mailDisplayer.setOnMouseClicked(event -> {
                 if (event.getButton().equals(MouseButton.PRIMARY)) {
@@ -113,13 +117,26 @@ public class View implements Observer {
                     }
                 }
             });
+//            if(!header){
+//                checkboxes.getChildren().add(new CheckBox());
+//            }
+//            else {
+//                header = false;
+//                CheckBox none = new CheckBox();
+//                none.setSelected(false);
+//                none.setDisable(true);
+//                none.setVisible(false);
+//                checkboxes.getChildren().add(none);
+//            }
         }
 
         //opens popup
         final Stage dialog = new Stage();
         dialog.initModality(Modality.NONE);
         VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(mailBoxDisplayer);
+//        HBox dialogHbox = new HBox(20);
+//        dialogHbox.getChildren().addAll(checkboxes, mailBoxDisplayer);
+        dialogVbox.getChildren().addAll(mailBoxDisplayer);
         Scene dialogScene = new Scene(dialogVbox, 500, 500);
         dialog.setScene(dialogScene);
         dialog.showAndWait();
@@ -158,12 +175,18 @@ public class View implements Observer {
                 dialogVbox.getChildren().add(bb);
             }
             else if (transactionStatus != null && transactionStatus.equals("Offer Approved")){
+                ButtonBar bb = new ButtonBar();
                 Button btn_pay = new Button("Pay");
+                Button btn_cancel = new Button("Cancel");
                 btn_pay.setOnAction(event -> {
                     showPaymentWindow(mail.getTransactionID());
                     dialog.close();
                 });
-                dialogVbox.getChildren().add(btn_pay);
+                btn_cancel.setOnAction(event -> {
+                    dialog.close();
+                });
+                bb.getButtons().addAll(btn_pay, btn_cancel);
+                dialogVbox.getChildren().add(bb);
             }
             else if(transactionStatus != null && (transactionStatus.equals("Closed") || transactionStatus.equals("Rejected"))){
                 Button btn_ok = new Button("OK");
