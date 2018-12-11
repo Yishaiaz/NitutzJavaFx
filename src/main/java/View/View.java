@@ -141,17 +141,37 @@ public class View implements Observer {
         VBox dialogVbox = new VBox(20);
         dialogVbox.getChildren().add(md);
         if (md.isTransaction()) {
-            ButtonBar bb = new ButtonBar();
-            Button btn_accept = new Button("Accept");
-            Button btn_decline = new Button("Decline");
-            btn_accept.setOnAction(event -> {
-                onClickAcceptMessage();
-            });
-            btn_decline.setOnAction(event -> {
-                onClickDeclineMessage();
-            });
-            bb.getButtons().addAll(btn_accept, btn_decline);
-            dialogVbox.getChildren().add(bb);
+            String transactionStatus = m_controller.getTransactionStatus(mail.getTransactionID());
+            if(transactionStatus != null && transactionStatus.equals("Offer Received")) {
+                ButtonBar bb = new ButtonBar();
+                Button btn_accept = new Button("Accept");
+                Button btn_decline = new Button("Decline");
+                btn_accept.setOnAction(event -> {
+                    onClickAcceptMessage();
+                    dialog.close();
+                });
+                btn_decline.setOnAction(event -> {
+                    onClickDeclineMessage();
+                    dialog.close();
+                });
+                bb.getButtons().addAll(btn_accept, btn_decline);
+                dialogVbox.getChildren().add(bb);
+            }
+            else if (transactionStatus != null && transactionStatus.equals("Offer Approved")){
+                Button btn_pay = new Button("Pay");
+                btn_pay.setOnAction(event -> {
+                    showPaymentWindow(mail.getTransactionID());
+                    dialog.close();
+                });
+                dialogVbox.getChildren().add(btn_pay);
+            }
+            else if(transactionStatus != null && (transactionStatus.equals("Closed") || transactionStatus.equals("Rejected"))){
+                Button btn_ok = new Button("OK");
+                btn_ok.setOnAction(event -> {
+                    dialog.close();
+                });
+                dialogVbox.getChildren().add(btn_ok);
+            }
         }
         Scene dialogScene = new Scene(dialogVbox, 500, 500);
         dialog.setScene(dialogScene);
@@ -159,6 +179,7 @@ public class View implements Observer {
     }
 
     public void onClickAcceptMessage() {
+        System.out.println("Unimplemented: Message Accepted");
     }
 
     public void onClickDeclineMessage() {
@@ -205,6 +226,7 @@ public class View implements Observer {
         Button btn_close = new Button("Close");
         btn_purchase.setOnAction(event -> {
             onClickPurchaseFlight(flightDisplayer.getFlightID());
+            dialog.close();
         });
         btn_close.setOnAction(event -> {
             dialog.close();
@@ -545,7 +567,7 @@ public class View implements Observer {
         });
     }
 
-    public void showPaymentWindow(){
+    public void showPaymentWindow(String transactionID){
         Dialog dialog = new Dialog();
         dialog.setHeaderText("Payment");
         dialog.setResizable(true);
@@ -630,6 +652,7 @@ public class View implements Observer {
                     alert.showAndWait();
                     return;
                 }
+                m_controller.paymentAccepted(transactionID, txt_cardNumber.getText(),txt_expDAte.getText(), txt_csv.getText(),txt_payments.getText() );
 
             }
 

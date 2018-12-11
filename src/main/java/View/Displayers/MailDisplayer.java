@@ -83,6 +83,8 @@ public class MailDisplayer extends GridPane {
         return msg.getIdentifierValue();
     }
 
+    public String getTransactionID() {return msg.getAllData()[6];}
+
     public MessageDisplayer getMessageDisplayer() {
         return new MessageDisplayer(msg);
     }
