@@ -16,7 +16,7 @@ public class Controller extends Observable implements Observer {
 
     /**
      * constructor - holds the pointer to the model
-     * @param model - the modell
+     * @param model - the model
      */
     public Controller(IModel model) {
         this.model = model;
