@@ -147,11 +147,11 @@ public class View implements Observer {
                 Button btn_accept = new Button("Accept");
                 Button btn_decline = new Button("Decline");
                 btn_accept.setOnAction(event -> {
-                    onClickAcceptMessage();
+                    onClickAcceptMessage(mail.getTransactionID());
                     dialog.close();
                 });
                 btn_decline.setOnAction(event -> {
-                    onClickDeclineMessage();
+                    onClickDeclineMessage(mail.getTransactionID());
                     dialog.close();
                 });
                 bb.getButtons().addAll(btn_accept, btn_decline);
@@ -178,12 +178,12 @@ public class View implements Observer {
         dialog.showAndWait();
     }
 
-    public void onClickAcceptMessage() {
-        System.out.println("Unimplemented: Message Accepted");
+    public void onClickAcceptMessage(String transactionID) {
+        m_controller.acceptPurchaseOffer(transactionID);
     }
 
-    public void onClickDeclineMessage() {
-        System.out.println("Unimplemented: Message Declined");
+    public void onClickDeclineMessage(String transactionID) {
+        m_controller.declinePurchaseOffer(transactionID);
     }
 
     public void onClickFlightBoard() {
@@ -231,6 +231,10 @@ public class View implements Observer {
         btn_close.setOnAction(event -> {
             dialog.close();
         });
+        if(loggedUser == null){
+            btn_purchase.setDisable(true);
+            btn_purchase.setText("Unsigned User");
+        }
         bb.getButtons().addAll(btn_purchase, btn_close);
         dialogVbox.getChildren().add(bb);
         Scene dialogScene = new Scene(dialogVbox, 1000, 200);
@@ -574,17 +578,19 @@ public class View implements Observer {
 
         // Widgets
         Label lbl_cardNumber = new Label("Card number: ");
-        Label lbl_expDate = new Label("exp Date(dd/mm):");
+        Label lbl_expDate = new Label("exp Date(mm/yyyy):");
         Label lbl_csv = new Label("csv:(3 dig)");
+        Label lbl_ownerName = new Label("Owner Full Name: ");
         Label lbl_numOfPayments = new Label("number of payments:");
 
         TextField txt_cardNumber = new TextField();
         TextField txt_expDAte = new TextField();
         TextField txt_csv = new TextField();
+        TextField txt_ownerName = new TextField();
         TextField txt_payments = new TextField();
 
         txt_cardNumber.setPromptText("(16 digits)");
-        txt_expDAte.setPromptText("(MM/YY)");
+        txt_expDAte.setPromptText("(MM/YYYY)");
         txt_csv.setPromptText(("(3 dig)"));
         txt_payments.setPromptText("(1-12");
 
@@ -603,11 +609,13 @@ public class View implements Observer {
         grid.add(txt_expDAte,2,2);
         grid.add(lbl_csv, 1, 3);
         grid.add(txt_csv,2,3);
-        grid.add(lbl_numOfPayments, 1, 4);
-        grid.add(txt_payments,2,4);
+        grid.add(lbl_ownerName, 1, 4);
+        grid.add(txt_ownerName, 2, 4);
+        grid.add(lbl_numOfPayments, 1, 5);
+        grid.add(txt_payments,2,5);
 
-        grid.add(btn_pay, 2, 5);
-        grid.add(btn_yaniv,1,5);
+        grid.add(btn_pay, 2, 6);
+        grid.add(btn_yaniv,1,6);
         dialog.getDialogPane().setContent(grid);
 
         // Add button to dialog
@@ -619,7 +627,7 @@ public class View implements Observer {
             @Override
             public void handle(ActionEvent e) {
                 txt_cardNumber.setText("1234567891234567");
-                txt_expDAte.setText("12/20");
+                txt_expDAte.setText("12/2020");
                 txt_csv.setText(("123"));
                 txt_payments.setText("1");
 
@@ -647,12 +655,15 @@ public class View implements Observer {
                     alert.showAndWait();
                     return;
                 }
+                if(txt_ownerName.getText() == null || txt_ownerName.getText().length()==0 || txt_ownerName.getText().split(" ").length <2){
+                    alert.setContentText("please type owner full name");
+                }
                 if(!validPayAmount(txt_payments.getText())){
                     alert.setContentText("illegal payments  (number: 1-12)");
                     alert.showAndWait();
                     return;
                 }
-                m_controller.paymentAccepted(transactionID, txt_cardNumber.getText(),txt_expDAte.getText(), txt_csv.getText(),txt_payments.getText() );
+                m_controller.paymentAccepted(transactionID, txt_cardNumber.getText(),txt_expDAte.getText().substring(3), txt_expDAte.getText().substring(0,2), txt_csv.getText(),txt_payments.getText(), txt_ownerName.getText() );
 
             }
 
@@ -668,7 +679,7 @@ public class View implements Observer {
             }
 
             private boolean legalExpDate(String text) {
-                if(text.length()!= 5 || text.charAt(2) != '/' || !isNumber(text.substring(0,2)) || !isNumber(text.substring(text.length()-2)))
+                if(text.length()!= 7 || text.charAt(2) != '/' || !isNumber(text.substring(0,2)) || !isNumber(text.substring(text.length()-4)))
                     return false;
                 return true;
             }
