@@ -108,6 +108,16 @@ public class TransactionsEntry extends AEntry {
         if(transaction_status.equals("Closed") && this.transaction_status.equals("Offer Approved")){
             this.transaction_status=transaction_status;
             sendOfferFinishedMsg();
+            deleteFlight();
+        }
+    }
+
+    private void deleteFlight() {
+        try {
+            String[]flightDetails=idbConnection.getEntryById(flight_id,new FlightEntry(""));
+            idbConnection.deleteById(new FlightEntry(flightDetails[0]));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
