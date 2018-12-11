@@ -7,12 +7,23 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.util.*;
 
+/**
+ * MailBox class, represents the mailbox db table, dedicated to each user.
+ * the mailbox object initializes with the user's existing messages (reads them from the db).
+ *
+ */
 public class MailBox {
     private Properties props;
     private String user_id;
     private IdbConnection idbConnection;
     private Map<String, Message> messagesList= new HashMap<>();
 
+    /**
+     * read's all the user's messages from the db and creates a Message object, adding it to the HashMap
+     * object (as a private field).
+     * @param user_id
+     * @param idbConnection
+     */
     public MailBox(String user_id, IdbConnection idbConnection) {
         //create the transaction and personal message table for the user, if they already exist, it will NOT overwrite
         this.user_id = user_id;
@@ -71,6 +82,12 @@ public class MailBox {
         message.setMessage_id(String.valueOf(max+1));
     }
 
+    /**
+     * enables to insert to a different user mailbox db table a message, changes the message id
+     * according to the target db table content.
+     * @param receiverId - String
+     * @param message = Message
+     */
     public void sendMessage(String receiverId, Message message){
         try{
             this.updateEntryId(message);
@@ -81,6 +98,10 @@ public class MailBox {
         }
     }
 
+    /**
+     * Deletes a message from the user's mailbox in the db.
+     * @param message
+     */
     public void deleteEntry(Message message){
         messagesList.remove(message.getIdentifierValue());
         try{
@@ -90,10 +111,18 @@ public class MailBox {
         }
     }
 
+    /**
+     * returns a boolean whether the mailbox has any messages in it.
+     * @return
+     */
     public boolean isEmpty(){
         return messagesList.isEmpty();
     }
 
+    /**
+     * returns the entire hashmap object, holding all the messages by <message_id:String, message:Message>
+     * @return Map<String, Message> an interface wrapper for HashMap object.
+     */
     public Map<String, Message> getAllMessages(){
         return this.messagesList;
     }

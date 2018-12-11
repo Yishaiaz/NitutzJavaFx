@@ -6,6 +6,12 @@ import EntriesObject.AEntry;
 import java.lang.reflect.Field;
 import java.util.Date;
 
+/**
+ * Message class extends AEntry abstract class.
+ * represents a message in a user's mailbox db.
+ * @Overide's the following functions getTableName,getAllData,getIdentifierValue,deleteFromDb
+ *
+ */
 public class Message extends AEntry {
     protected String message_id;
     protected String user_owner_id;
@@ -15,9 +21,24 @@ public class Message extends AEntry {
     protected String from_user_id;
     protected String transaction_id;
 
+    /**
+     * a constructor with that only initializes the user owner field only.
+     * @param user_owner_id
+     */
     public Message(String user_owner_id){
         this.user_owner_id=user_owner_id;
     }
+
+    /**
+     * full constructor.
+     * @param message_id - String
+     * @param user_owner_id - String
+     * @param title - String
+     * @param message_content - String
+     * @param message_date - Date( java.sql.Date)
+     * @param from_user_id - String
+     * @param transaction_id - String
+     */
     public Message(String message_id,  String user_owner_id, String title, String message_content, Date message_date, String from_user_id, String transaction_id) {
         this.message_id=message_id;
         this.user_owner_id =user_owner_id;
@@ -72,6 +93,10 @@ public class Message extends AEntry {
         return ((o instanceof Message) && ((Message)o).message_id.equals(message_id));
     }
 
+    /**
+     * enables to set the message id field
+     * @param message_id - String, the new message id.
+     */
     public void setMessage_id(String message_id){
         this.message_id=message_id;
     }
@@ -87,6 +112,10 @@ public class Message extends AEntry {
         idbConnection.deleteById(this);
     }
 
+    /**
+     * returns a boolean representing whether this message is a transaction message ("system messages")
+     * @return
+     */
     public boolean isTransaction(){
         return !this.transaction_id.equals("");
     }
