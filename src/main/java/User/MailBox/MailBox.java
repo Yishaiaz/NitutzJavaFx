@@ -56,11 +56,19 @@ public class MailBox {
 
     private void updateEntryId(Message message){
         int max=0;
-        for (String s:getAllMessages().keySet()){
-            if(Integer.valueOf(s) > max) max = Integer.valueOf(s);
+        try{
+            LinkedList<String[]> all= idbConnection.getAllFromTable(new Message(message.user_owner_id));
+            if(all==null){
+                message.setMessage_id(String.valueOf(max+1));
+                return;
+            }
+            for(String s[]: all){
+                if(Integer.valueOf(s[0]) > max) max = Integer.valueOf(s[0]);
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
-        int nextid = max;
-        message.setMessage_id(String.valueOf(nextid));
+        message.setMessage_id(String.valueOf(max+1));
     }
 
     public void sendMessage(String receiverId, Message message){
