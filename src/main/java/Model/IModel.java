@@ -1,6 +1,7 @@
 package Model;
 
 import EntriesObject.IEntry;
+import Flight.FlightEntry;
 import User.MailBox.MailBox;
 import User.MailBox.Message;
 
@@ -42,4 +43,10 @@ public interface IModel {
      * @return a collection of all the logged user's messages in mailbox, return null if not logged
      */
     Collection<Message> getUsersMessages();
+
+    /**
+     * getter for all the posted flights
+     * @return - a collection of flight entries from db(flights)
+     */
+    Collection<FlightEntry> getFlightBoard();
 }

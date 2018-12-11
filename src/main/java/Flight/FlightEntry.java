@@ -2,9 +2,8 @@ package Flight;
 
 import DataBaseConnection.IdbConnection;
 import EntriesObject.AEntry;
-import java.util.Date;
+import java.sql.Date;
 import java.util.LinkedList;
-import java.util.Properties;
 
 public class FlightEntry extends AEntry {
     private String flight_id="";
@@ -103,6 +102,10 @@ public class FlightEntry extends AEntry {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public boolean isReturnIncluded(){
+        return is_return_flight_included;
     }
 
     private int getMaximumId(LinkedList<String[]> all){

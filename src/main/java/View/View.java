@@ -1,11 +1,10 @@
 package View;
 
 import Controller.Controller;
+import Flight.FlightEntry;
 import User.MailBox.Message;
 import View.CreateAcount.CreateAcountControlle;
-import View.Displayers.MailBoxDisplayer;
-import View.Displayers.MailDisplayer;
-import View.Displayers.MessageDisplayer;
+import View.Displayers.*;
 import View.UpdateProfile.UpdateAccount;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.*;
 
 public class View implements Observer {
@@ -40,6 +40,8 @@ public class View implements Observer {
     public MenuItem menuItem_create;
     public MenuItem menuItem_update;
     public MenuItem menuItem_delete;
+    public VBox vb_displayBoard;
+    private FlightBoard flightBoard;
 
     public void setController(Controller controller) {
         m_controller = controller;
@@ -47,22 +49,47 @@ public class View implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == m_controller){
-            loggedUser=m_controller.getLoggedUser();
-            if(loggedUser==null) {
+        if (o == m_controller) {
+            loggedUser = m_controller.getLoggedUser();
+            if (loggedUser == null) {
                 btn_profile.setText("login/sign up");
                 btn_postFlight.setDisable(true);
                 btn_mailbox.setDisable(true);
                 btn_mailbox.setVisible(false);
-            }
-            else {
+                setFlightBoard(false);
+            } else {
                 btn_profile.setText("Log Out");
                 btn_postFlight.setDisable(false);
                 btn_mailbox.setDisable(false);
                 btn_mailbox.setVisible(true);
+                setFlightBoard(true);
             }
         }
 
+    }
+
+    private void setFlightBoard(boolean set) {
+        vb_displayBoard.getChildren().remove(flightBoard);
+        Collection<FlightEntry> flightEntries = m_controller.getFlightBoard();
+        flightBoard = new FlightBoard(flightEntries);
+        //set action on flightDisplayer;
+        for (FlightDisplayer flightDisplayer : flightBoard.getFlights()) {
+            flightDisplayer.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 2) {
+                        onClickFlightDisplayer(flightDisplayer);
+                    }
+                }
+            });
+        }
+        vb_displayBoard.getChildren().add(flightBoard);
+        if (set) {
+            vb_displayBoard.setVisible(true);
+            vb_displayBoard.setDisable(false);
+        } else {
+            vb_displayBoard.setVisible(false);
+            vb_displayBoard.setDisable(true);
+        }
     }
 
     //onClick functions
@@ -72,22 +99,20 @@ public class View implements Observer {
      * if the User doesnt exist, an error lable will be displayed.
      */
     public void onClickSearchUser() {
-        if (textField_Search.getText().equals("")){
+        if (textField_Search.getText().equals("")) {
             lbl_eror_searchUser.setText("Must enter User name");
             lbl_eror_searchUser.setVisible(true);
             return;
         }
-        String [] data =  m_controller.searchUser(textField_Search.getText());
-        if (data==null){
+        String[] data = m_controller.searchUser(textField_Search.getText());
+        if (data == null) {
             lbl_eror_searchUser.setText("User does not exist");
             lbl_eror_searchUser.setVisible(true);
 
 
-        }
-
-        else{
+        } else {
             lbl_eror_searchUser.setVisible(false);
-            String message = "User name: "+data[0]+"\n"+"Birthdate: "+ data[2]+"\n"+"more information as needed...(to do)";
+            String message = "User name: " + data[0] + "\n" + "Birthdate: " + data[2] + "\n" + "more information as needed...(to do)";
             Alert userFoundAlert = new Alert(Alert.AlertType.INFORMATION);
             userFoundAlert.setHeaderText(message);
             userFoundAlert.showAndWait();
@@ -126,9 +151,10 @@ public class View implements Observer {
 
     /**
      * logged user clicked on
+     *
      * @param mail
      */
-    public void onClickMessage (MailDisplayer mail){
+    public void onClickMessage(MailDisplayer mail) {
         //init message displayer;
         MessageDisplayer md = mail.getMessageDisplayer();
 
@@ -156,16 +182,46 @@ public class View implements Observer {
         dialog.show();
     }
 
-    public void onClickAcceptMessage () {
+    public void onClickAcceptMessage() {
         System.out.println("Unimplemented: Message Accepted");
     }
 
-    public void onClickDeclineMessage () {
+    public void onClickDeclineMessage() {
         System.out.println("Unimplemented: Message Declined");
     }
 
+    public void onClickFlightDisplayer(FlightDisplayer flightDisplayer) {
+        //init
+        VacationDisplayer vd = flightDisplayer.getVacationDisplayer();
+
+        //opens popup
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.NONE);
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(vd);
+        ButtonBar bb = new ButtonBar();
+        Button btn_purchase = new Button("Purchase");
+        Button btn_close = new Button("Close");
+        btn_purchase.setOnAction(event -> {
+            onClickPurchaseFlight();
+        });
+        btn_close.setOnAction(event -> {
+            dialog.close();
+        });
+        bb.getButtons().addAll(btn_purchase, btn_close);
+        dialogVbox.getChildren().add(bb);
+        Scene dialogScene = new Scene(dialogVbox, 500, 500);
+        dialog.setScene(dialogScene);
+        dialog.show();
+
+    }
+
+    public void onClickPurchaseFlight() {
+        System.out.println("Unimplemented: Purchase Flight");
+    }
+
     public void onClickLogin() throws IOException {
-        if(loggedUser==null)
+        if (loggedUser == null)
             displayLoginDialog();
         else
             m_controller.logOut();
@@ -188,11 +244,10 @@ public class View implements Observer {
         popUp.show();
 
 
-
     }
 
     public void onClickUpdateProfile() {
-        if(this.loggedUser!=null){
+        if (this.loggedUser != null) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/UpdateProfile/UpdateAccount.fxml"));
             AnchorPane create = null;
@@ -211,8 +266,8 @@ public class View implements Observer {
         }
     }
 
-    public void onClickDeleteProfile(){
-        if (loggedUser != null){
+    public void onClickDeleteProfile() {
+        if (loggedUser != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete Account Validation");
             alert.setContentText("Are you sure you want to delete your accoung?\n By pressing Yes your account will be deleted permanently");
@@ -225,7 +280,7 @@ public class View implements Observer {
 
                     if (!res)
                         DeletionFailed();
-                    else{
+                    else {
                         DeletionSucceeded();
                     }
                 }
@@ -233,14 +288,14 @@ public class View implements Observer {
         }
     }
 
-    private void DeletionFailed(){
+    private void DeletionFailed() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Deletion failed!");
         alert.setContentText("There was a problem while deleting. Please try again");
         alert.show();
     }
 
-    private void DeletionSucceeded(){
+    private void DeletionSucceeded() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Deletion Succeeded!");
         alert.setHeaderText("Your account has been deleted successfully.");
@@ -318,13 +373,13 @@ public class View implements Observer {
         dialog.showAndWait();
     }
 
-    public void onSearchPressed(KeyEvent event){
-        if(event!=null && event.getCode().getName().equals("Enter")){
+    public void onSearchPressed(KeyEvent event) {
+        if (event != null && event.getCode().getName().equals("Enter")) {
             onClickSearchUser();
         }
     }
 
-    public void postFlightPressed(){
+    public void postFlightPressed() {
 
         Dialog dialog = new Dialog();
         dialog.setHeaderText("Post your flight");
@@ -333,8 +388,8 @@ public class View implements Observer {
         // Widgets
         Label lbl_from = new Label("Departure from: ");
         Label lbl_to = new Label("Arrival at: ");
-        Label lbl_depDate =  new Label("Departure date: ");
-        Label lbl_arrDate =  new Label("Arrival date:");
+        Label lbl_depDate = new Label("Departure date: ");
+        Label lbl_arrDate = new Label("Arrival date:");
         Label lbl_price = new Label("asked price($):");
         Label lbl_airline = new Label("Air line:");
         Label lbl_luagage = new Label("Luggage type");
@@ -371,18 +426,18 @@ public class View implements Observer {
         grid.add(dp_depDate, 2, 3);
         grid.add(lbl_arrDate, 1, 4);
         grid.add(dp_arrDate, 2, 4);
-        grid.add(lbl_numOfTickets,1,5);
-        grid.add(txt_numOfTickets,2,5);
-        grid.add(lbl_airline,1,6);
-        grid.add(txt_airLine,2,6);
-        grid.add(lbl_price,1,7);
-        grid.add(txt_price,2,7);
-        grid.add(lbl_luagage,1,8);
-        grid.add(txt_luagage,2,8);
-        grid.add(lbl_returnFlight,1,9);
-        grid.add(cb_returnFlight,2,9);
-        grid.add(lbl_ticketType,1,10);
-        grid.add(txt_ticketType,2,10);
+        grid.add(lbl_numOfTickets, 1, 5);
+        grid.add(txt_numOfTickets, 2, 5);
+        grid.add(lbl_airline, 1, 6);
+        grid.add(txt_airLine, 2, 6);
+        grid.add(lbl_price, 1, 7);
+        grid.add(txt_price, 2, 7);
+        grid.add(lbl_luagage, 1, 8);
+        grid.add(txt_luagage, 2, 8);
+        grid.add(lbl_returnFlight, 1, 9);
+        grid.add(cb_returnFlight, 2, 9);
+        grid.add(lbl_ticketType, 1, 10);
+        grid.add(txt_ticketType, 2, 10);
 
         grid.add(btn_postFlight, 2, 11);
         dialog.getDialogPane().setContent(grid);
@@ -398,54 +453,52 @@ public class View implements Observer {
         btn_postFlight.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                if(txt_from.getText().equals("") || txt_to.getText().equals("") || dp_depDate.getEditor().getText().equals("") ||  dp_arrDate.getEditor().getText().equals("") ||  txt_price.getText().equals("") ||  txt_airLine.getText().equals("") || txt_luagage.getText().equals("")
-                        || txt_numOfTickets.getText().equals("") || txt_ticketType.getText().equals("")){
+                if (txt_from.getText().equals("") || txt_to.getText().equals("") || dp_depDate.getEditor().getText().equals("") || dp_arrDate.getEditor().getText().equals("") || txt_price.getText().equals("") || txt_airLine.getText().equals("") || txt_luagage.getText().equals("")
+                        || txt_numOfTickets.getText().equals("") || txt_ticketType.getText().equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("error");
                     alert.setContentText("one or more of the fields was not filled correctly");
                     alert.showAndWait();
                     return;
                 }
-                try{
+                try {
                     Integer.valueOf(txt_numOfTickets.getText());
                     Double.valueOf(txt_price.getText());
 
-                }
-                catch (Exception ee){
+                } catch (Exception ee) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("number error");
                     alert.setContentText("number of tickets or price not compatible numbers");
                     alert.showAndWait();
                     return;
                 }
-                Map fields = new HashMap<String,String>();
+                Map fields = new HashMap<String, String>();
 
                 String returnFlightIncluded = "false";
-                if(cb_returnFlight.isSelected())
+                if (cb_returnFlight.isSelected())
                     returnFlightIncluded = "true";
 
-                fields.put("from",txt_from.getText());
-                fields.put("to",txt_to.getText());
-                fields.put("depDate",changeDateFormat(dp_depDate.getEditor().getText()));
-                fields.put("arrDate",changeDateFormat(dp_arrDate.getEditor().getText()));
-                fields.put("price",txt_price.getText());
-                fields.put("airline",txt_airLine.getText());
-                fields.put("luggage",txt_luagage.getText());
-                fields.put("numOfTickets",txt_numOfTickets.getText());
-                fields.put("ticketType",txt_ticketType.getText());
-                fields.put("returnFlight",returnFlightIncluded);//cb_returnFlight.isSelected());
+                fields.put("from", txt_from.getText());
+                fields.put("to", txt_to.getText());
+                fields.put("depDate", changeDateFormat(dp_depDate.getEditor().getText()));
+                fields.put("arrDate", changeDateFormat(dp_arrDate.getEditor().getText()));
+                fields.put("price", txt_price.getText());
+                fields.put("airline", txt_airLine.getText());
+                fields.put("luggage", txt_luagage.getText());
+                fields.put("numOfTickets", txt_numOfTickets.getText());
+                fields.put("ticketType", txt_ticketType.getText());
+                fields.put("returnFlight", returnFlightIncluded);//cb_returnFlight.isSelected());
                 dialog.close();
                 System.out.println(dp_arrDate.getEditor().getText());
 
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                if(m_controller.postVacation(fields)) {
+                if (m_controller.postVacation(fields)) {
 
                     alert.setHeaderText("success");
                     alert.setContentText("your vacation has been posted");
                     dialog.close();
                     alert.showAndWait();
-                }
-                else {
+                } else {
                     alert.setAlertType(Alert.AlertType.ERROR);
                     alert.setContentText("you post was not posted.. sorry");
                     alert.showAndWait();
@@ -455,9 +508,10 @@ public class View implements Observer {
         });
         dialog.showAndWait();
     }
+
     private String changeDateFormat(String text) {
-        String [] s = text.split("/");
-        return s[2]+"-"+s[1]+"-"+s[0];
+        String[] s = text.split("/");
+        return s[2] + "-" + s[1] + "-" + s[0];
     }
 
 }
