@@ -11,6 +11,7 @@ import User.User;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
@@ -162,9 +163,9 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public Collection<FlightEntry> getFlightBoard() {
+    public Collection<String[]> getFlightBoard() {
         try {
-            throw new Exception("Unimplemented: Model.getFlightBoard()");
+            return db.getAllFromTable(new FlightEntry(""));
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
