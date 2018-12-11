@@ -45,4 +45,14 @@ public class MailBoxDisplayer extends ListView {
     public List<MailDisplayer> getMessages() {
         return messages;
     }
+
+    public void deleteMessage(String messageID){
+        for(MailDisplayer mailDisplayer: messages){
+            if (mailDisplayer.getMessageID().equals(messageID)){
+                messages.remove(mailDisplayer);
+                if (getItems().remove(mailDisplayer))
+                    return;;
+            }
+        }
+    }
 }
