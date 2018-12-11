@@ -1,18 +1,23 @@
 package Controller;
 
 import EntriesObject.IEntry;
-import Flight.FlightEntry;
 import Model.IModel;
 import User.MailBox.Message;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * this class connects the View (GUI) to the Model
+ */
 public class Controller extends Observable implements Observer {
     private IModel model;
 
+    /**
+     * constructor - holds the pointer to the model
+     * @param model - the model
+     */
     public Controller(IModel model) {
         this.model = model;
     }
@@ -23,15 +28,24 @@ public class Controller extends Observable implements Observer {
         notifyObservers();
     }
 
-    void CreateAccount(String username, String password, String birthdate, String fName, String lName, String city){
-
-    }
-
+    /**
+     * makes a request to the Model to add the user
+     * @param username
+     * @param password
+     * @param birthdate
+     * @param fName
+     * @param lName
+     * @param city
+     */
     public void addUser(String username, String password, String birthdate, String fName, String lName, String city){
-
         model.CreateAccount(username,password,birthdate,fName,lName,city);
-
     }
+
+    /**
+     * makes a request to the Model to post a new vacation
+     * @param fields - a map with all the vacation details
+     * @return - true if model successfully added the vacation
+     */
     public boolean postVacation(Map fields) {
         return model.addPost(fields);
     }
@@ -47,6 +61,7 @@ public class Controller extends Observable implements Observer {
             return false;
         return true;
     }
+
     /**
      * login the input user by the username and password
      * @param username- the user name to login.
@@ -59,22 +74,34 @@ public class Controller extends Observable implements Observer {
     }
 
     /**
-     * logout the current user in the system.
+     * logs out the current user in the system.
      */
     public void logOut(){
         model.logOut();
     }
 
+    /**
+     * returns the user ID of the logged in user
+     * @return - user ID
+     */
     public String getLoggedUser() {
         if(model.getLoggedUser()!=null)
             return model.getLoggedUser().getIdentifierValue();
         return null;
     }
 
+    /**
+     * updates the users information
+     * @param data
+     */
     public void updateUser(String[] data){
         model.UpdateAccount(data);
     }
 
+    /**
+     * deletes the logged in users account and logs out
+     * @return - true if account successfully deleted
+     */
     public boolean DeleteAccount(){
         return model.DeleteUser();
     }
@@ -92,6 +119,10 @@ public class Controller extends Observable implements Observer {
 
     }
 
+    /**
+     * makes a request to the Model to get the logged users details
+     * @return - the logged users details
+     */
     public String[] getLogedInUserDetails(){
        return model.getLogedInUserDetails();
     }
@@ -104,25 +135,59 @@ public class Controller extends Observable implements Observer {
         return model.getUsersMessages();
     }
 
+    /**
+     * makes a request to the Model to get all the vacations for sale
+     * @return - a collection of all the vacations for sale
+     */
     public Collection<String[]> getFlightBoard() {
         return model.getFlightBoard();
     }
 
+    /**
+     * makes a request to the Model to purchase a specific flight
+     * @param flightID - the flight id that the request is for
+     */
     public void purchaseFlight(String flightID){
         model.purchaseFlight(flightID);
     }
 
+    /**
+     * makes a request to the Model from the seller to approve the transaction and notify
+     * the buyer and get payment
+     * @param transactionID - the transaction that the request regards
+     */
     public void acceptPurchaseOffer(String transactionID){
         model.acceptPurchaseOffer(transactionID);
     }
 
+    /**
+     * makes a request to the Model from the seller to reject the transaction and notify
+     * the buyer
+     * @param transactionID
+     */
     public void declinePurchaseOffer(String transactionID){
         model.declinePurchaseOffer(transactionID);
     }
 
+    /**
+     * * makes a request to the Model to retrieve the status of a specific transaction
+     * @param transactionID - the transaction id
+     * @return - the transaction status if exists, null if not
+     */
     public String getTransactionStatus(String transactionID) {
         return model.getTransactionStatus(transactionID);
     }
+
+    /**
+     * * makes a request to the Model from the buyer to accept the payment, save it and change the transaction status
+     * @param transactionID - the transaction id
+     * @param cardNumber - the credit card number
+     * @param expYear - credit card expiration year.
+     * @param expMonth - credit card expiration month
+     * @param csv - credit card csv
+     * @param payments - number of payments
+     * @param ownerName - name of credit card owner
+     */
     public void paymentAccepted(String transactionID, String cardNumber, String expYear,String expMonth, String csv, String payments,String ownerName) {
         model.confirmPayment(transactionID,cardNumber,expYear,expMonth,csv,payments,ownerName);
     }
