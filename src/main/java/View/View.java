@@ -20,9 +20,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class View implements Observer {
@@ -402,6 +405,8 @@ public class View implements Observer {
         TextField txt_to = new TextField();
         DatePicker dp_depDate = new DatePicker();
         DatePicker dp_arrDate = new DatePicker();
+        setDateFormat(dp_depDate);
+        setDateFormat(dp_arrDate);
         TextField txt_price = new TextField();
         TextField txt_airLine = new TextField();
         TextField txt_luagage = new TextField();
@@ -513,6 +518,35 @@ public class View implements Observer {
     private String changeDateFormat(String text) {
         String[] s = text.split("/");
         return s[2] + "-" + s[1] + "-" + s[0];
+    }
+
+    /**
+     * this function configures the DatePicker button to return the date in the following format:
+     * "DD/MM/yyyy
+     */
+    private void setDateFormat(DatePicker dp) {
+        dp.setConverter(new StringConverter<LocalDate>()
+        {
+            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            public String toString(LocalDate localDate)
+            {
+                if(localDate==null)
+                    return "";
+                return dateTimeFormatter.format(localDate);
+            }
+
+            @Override
+            public LocalDate fromString(String dateString)
+            {
+                if(dateString==null || dateString.trim().isEmpty())
+                {
+                    return null;
+                }
+                return LocalDate.parse(dateString,dateTimeFormatter);
+            }
+        });
     }
 
 }
