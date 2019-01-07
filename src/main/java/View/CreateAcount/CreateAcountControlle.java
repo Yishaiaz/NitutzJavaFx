@@ -6,8 +6,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class CreateAcountControlle{
 
@@ -119,8 +122,14 @@ public class CreateAcountControlle{
      * @return true if user has selected a date
      */
     private boolean checkDate() {
-        if (fld_birthDate.getEditor().getText().equals("")) {
+        String bday = fld_birthDate.getEditor().getText();
+        if (bday.equals("")) {
             lbl_error_biirthdate.setText("Must enter birth date");
+            lbl_error_biirthdate.setVisible(true);
+            return false;
+        }
+        else if (!isOver18(bday)){
+            lbl_error_biirthdate.setText("User is under 18. Too young!");
             lbl_error_biirthdate.setVisible(true);
             return false;
         }
@@ -128,6 +137,32 @@ public class CreateAcountControlle{
             lbl_error_biirthdate.setVisible(false);
         }
         return true;
+    }
+
+    private boolean isOver18(String bday) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date dToday = new Date();
+        String[] todayArr = df.format(dToday).split("-");
+        String[] bdayArr = bday.split("/");
+        int years = Integer.valueOf(todayArr[0]) - Integer.valueOf(bdayArr[2]);
+        int months = Integer.valueOf(todayArr[1]) - Integer.valueOf(bdayArr[1]);
+        int days = Integer.valueOf(todayArr[2]) - Integer.valueOf(bdayArr[0]);
+        if (years > 18)
+            return true;
+        if (years == 18){
+            if (months > 0)
+                return true;
+            if (months == 0){
+                if (days == 0){
+                    System.out.println("***********Mazal-Tov!!!***********");
+                    return true;
+                }
+                if (days > 0){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -202,13 +237,47 @@ public class CreateAcountControlle{
      * @return - true if the user entered a password
      */
     private boolean checkPassword() {
-        if (fld_password.getText().equals("")) {
+        String password = fld_password.getText();
+        if (password.equals("")) {
             lbl_error_password.setText("Must enter a password");
+            lbl_error_password.setVisible(true);
+            return false;
+        }
+        else if (password.length() < 8){
+            lbl_error_password.setText("Password under 8 characters");
+            lbl_error_password.setVisible(true);
+            return false;
+        }
+        else if (!containsLetter(password)){
+            lbl_error_password.setText("Password muse contain a letter");
+            lbl_error_password.setVisible(true);
+            return false;
+        }
+        else if (!containsNumber(password)){
+            lbl_error_password.setText("Password muse contain a number");
             lbl_error_password.setVisible(true);
             return false;
         }
         else  lbl_error_password.setVisible(false);
         return true;
+    }
+
+    private boolean containsLetter(String password) {
+        char[] pass = password.toCharArray();
+        for (char c: pass){
+            if ((c >= 'a' && c<= 'z') || (c >= 'A' && c <= 'Z'))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean containsNumber(String password) {
+        char[] pass = password.toCharArray();
+        for (char c: pass){
+            if (c <= '9' && c>= '0')
+                return true;
+        }
+        return false;
     }
 
 
