@@ -48,7 +48,7 @@ public interface IModel {
      */
     Collection<String[]> getFlightBoard();
 
-    void purchaseFlight(String flightID);
+    void purchaseFlight(String flightID) throws Exception;
 
     void acceptPurchaseOffer(String transactionID);
 

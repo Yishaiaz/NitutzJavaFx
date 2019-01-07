@@ -147,7 +147,7 @@ public class Controller extends Observable implements Observer {
      * makes a request to the Model to purchase a specific flight
      * @param flightID - the flight id that the request is for
      */
-    public void purchaseFlight(String flightID){
+    public void purchaseFlight(String flightID) throws Exception {
         model.purchaseFlight(flightID);
     }
 

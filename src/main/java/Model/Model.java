@@ -58,15 +58,20 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public void purchaseFlight(String flightID) {
+    public void purchaseFlight(String flightID) throws Exception {
         try {
             String[] flightDetails=db.getEntryById(flightID,new FlightEntry(""));
+            System.out.println(loggedUser.getAllData()[0] + "   mmmm   "+ flightDetails[1]);
+            if(flightDetails[1].equals(loggedUser.getAllData()[0])) {
+                throw new Exception("nope");
+            }
             java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
             TransactionsEntry transactionsEntry=new TransactionsEntry(sqlDate,flightDetails[1],loggedUser.getAllData()[0],"New Transaction",flightID,flightDetails[6],flightDetails[10],db);
             transactionsEntry.setTransaction_status("Offer Received");
             db.insert(transactionsEntry);
         } catch (Exception e) {
-            e.printStackTrace();
+            if(e.getMessage().equals("nope"))
+                throw new Exception("nope");
         }
     }
 
