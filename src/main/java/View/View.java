@@ -5,6 +5,7 @@ import User.MailBox.Message;
 import View.CreateAcount.CreateAcountControlle;
 import View.Displayers.*;
 import View.UpdateProfile.UpdateAccount;
+import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -286,7 +287,17 @@ public class View implements Observer {
      * @param flightID
      */
     public void onClickPurchaseFlight(String flightID) {
-        m_controller.purchaseFlight(flightID);
+        try {
+            m_controller.purchaseFlight(flightID);
+        }
+        catch (Exception e){
+            System.out.println("you cant do that");
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("ILEGAL ACTION");
+            a.setContentText("you have tried to purchase your posted vacation!\n" +
+                    " this is not allowed and because of people like you, we lost 4 points on assignment 3!");
+            a.showAndWait();
+        }
     }
 
     /**
