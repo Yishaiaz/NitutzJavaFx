@@ -264,7 +264,14 @@ public class View implements Observer {
         dialogVbox.getChildren().add(vd);
         ButtonBar bb = new ButtonBar();
         Button btn_purchase = new Button("Purchase");
+        Button btn_swapVacations = new Button("Swap Vacations");
         Button btn_close = new Button("Close");
+
+        btn_swapVacations.setOnAction(event -> {
+            m_controller.getUsersPosts(loggedUser);
+
+        });
+
         btn_purchase.setOnAction(event -> {
             onClickPurchaseFlight(flightDisplayer.getFlightID());
             dialog.close();
@@ -276,7 +283,7 @@ public class View implements Observer {
             btn_purchase.setDisable(true);
             btn_purchase.setText("Unsigned User");
         }
-        bb.getButtons().addAll(btn_purchase, btn_close);
+        bb.getButtons().addAll(btn_purchase, btn_swapVacations,btn_close);
         dialogVbox.getChildren().add(bb);
         Scene dialogScene = new Scene(dialogVbox, 1000, 200);
         dialog.setScene(dialogScene);
@@ -561,9 +568,6 @@ public class View implements Observer {
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date dateobj = new java.util.Date();
                 String presentDate = df.format(dateobj);
-                System.out.println("*********  "+dp_depDate.getEditor().getText());
-                System.out.println("*********  "+dp_arrDate.getEditor().getText());
-                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%  "+ presentDate);
                 if(validateDates(dp_depDate.getEditor().getText(),dp_arrDate.getEditor().getText()) &&   validateDates(presentDate,dp_depDate.getEditor().getText()))
                     validDates = true;
 
