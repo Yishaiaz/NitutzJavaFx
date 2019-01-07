@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -481,7 +483,7 @@ public class View implements Observer {
      */
     public void postFlightPressed() {
         Dialog dialog = new Dialog();
-        dialog.setHeaderText("Pkost your flight");
+        dialog.setHeaderText("Post your flight");
         dialog.setResizable(true);
 
         // Widgets
@@ -554,7 +556,18 @@ public class View implements Observer {
         btn_postFlight.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                if (txt_from.getText().equals("") || txt_to.getText().equals("") || dp_depDate.getEditor().getText().equals("") || dp_arrDate.getEditor().getText().equals("") || txt_price.getText().equals("") || txt_airLine.getText().equals("") || txt_luagage.getText().equals("")
+
+                boolean validDates = false;
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+                java.util.Date dateobj = new java.util.Date();
+                String presentDate = df.format(dateobj);
+                System.out.println("*********  "+dp_depDate.getEditor().getText());
+                System.out.println("*********  "+dp_arrDate.getEditor().getText());
+                System.out.println("%%%%%%%%%%%%%%%%%%%%%%%  "+ presentDate);
+                if(validateDates(dp_depDate.getEditor().getText(),dp_arrDate.getEditor().getText()) &&   validateDates(presentDate,dp_depDate.getEditor().getText()))
+                    validDates = true;
+
+                if (!validDates || txt_from.getText().equals("") || txt_to.getText().equals("") || dp_depDate.getEditor().getText().equals("") || dp_arrDate.getEditor().getText().equals("") || txt_price.getText().equals("") || txt_airLine.getText().equals("") || txt_luagage.getText().equals("")
                         || txt_numOfTickets.getText().equals("") || txt_ticketType.getText().equals("")) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("error");
@@ -604,6 +617,23 @@ public class View implements Observer {
                     alert.showAndWait();
                 }
 
+            }
+
+            private boolean validateDates(String small, String big) {
+                if(small == null || big == null || small.equals("") || big.equals(""))
+                    return false;
+                try {
+                    if (Integer.valueOf(small.split("/")[2]) > Integer.valueOf(big.split("/")[2]))
+                        return false;
+                    if (Integer.valueOf(small.split("/")[1]) > Integer.valueOf(big.split("/")[1]))
+                        return false;
+                    if (Integer.valueOf(small.split("/")[0]) > Integer.valueOf(big.split("/")[0]))
+                        return false;
+                }
+                catch (Exception e){
+                    return false;
+                }
+                return true;
             }
         });
         dialog.showAndWait();
