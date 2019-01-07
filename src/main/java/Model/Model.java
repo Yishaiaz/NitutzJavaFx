@@ -61,7 +61,6 @@ public class Model extends Observable implements IModel {
     public void purchaseFlight(String flightID) throws Exception {
         try {
             String[] flightDetails=db.getEntryById(flightID,new FlightEntry(""));
-            System.out.println(loggedUser.getAllData()[0] + "   mmmm   "+ flightDetails[1]);
             if(flightDetails[1].equals(loggedUser.getAllData()[0])) {
                 throw new Exception("nope");
             }
