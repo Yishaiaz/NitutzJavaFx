@@ -11,6 +11,7 @@ import User.MailBox.Message;
 import User.User;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Observable;
@@ -55,6 +56,20 @@ public class Model extends Observable implements IModel {
             e.printStackTrace();
         }
         return status;
+    }
+
+    @Override
+    public Collection<String[]> getUsersFlights() {
+        if (loggedUser == null)
+            return null;
+
+        Collection<String[]> flightBoard = getFlightBoard();
+        Collection<String[]> ans = new ArrayList<>();
+        for (String[] flightEntry: flightBoard){
+            if (flightEntry[2].equals(loggedUser.getIdentifierValue()))
+                ans.add(flightEntry);
+        }
+        return ans;
     }
 
     @Override

@@ -95,4 +95,6 @@ public class FlightDisplayer extends GridPane {
     public String getFlightID(){
         return lbl_fid.getText();
     }
+
+    public String getPublisher() {return lbl_publisher.getText();}
 }
