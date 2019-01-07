@@ -57,7 +57,6 @@ public class User extends AEntry{
 
     public void createAllTables(IdbConnection db){
         createMessagesTable(db);
-        createFlightsTable(db);
     }
 
     private void deleteAllSubTables(IdbConnection db){
@@ -70,15 +69,6 @@ public class User extends AEntry{
         try {
             Message messageEntry = new Message(user_name);
             db.createNewTable(messageEntry);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    private void createFlightsTable(IdbConnection db){
-        try{
-            FlightEntry flightEntry = new FlightEntry(user_name);
-            db.createNewTable(flightEntry);
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

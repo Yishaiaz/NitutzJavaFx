@@ -65,6 +65,24 @@ public class TransactionsEntry extends AEntry {
         this.transaction_status=transaction_status;
     }
 
+    public TransactionsEntry(String transaction_number, Date date,String sellerUser_id,String buyerUser_id,String transaction_status,
+                             String flight_id,String number_of_tickets,String amountPayed,IdbConnection idbConnection){
+        String[] initStatuses={"Offer Received","Offer Approved","Closed","Rejected"};
+        statuses= new ArrayList<>();
+        for(String s:initStatuses){
+            statuses.add(s);
+        }
+        this.transaction_number=String.valueOf(transaction_number);
+        this.sellerUser_id=sellerUser_id;
+        this.buyerUser_id=buyerUser_id;
+        this.number_of_tickets=number_of_tickets;
+        this.amountPayed=amountPayed;
+        this.flight_id=flight_id;
+        this.transaction_date =date;
+        this.idbConnection=idbConnection;
+        this.transaction_status=transaction_status;
+    }
+
     /**
      * enables to change the transaction status field
      * the function checks whether the status is legal @see class documentation.
@@ -90,13 +108,23 @@ public class TransactionsEntry extends AEntry {
         if(transaction_status.equals("Closed") && this.transaction_status.equals("Offer Approved")){
             this.transaction_status=transaction_status;
             sendOfferFinishedMsg();
+            deleteFlight();
+        }
+    }
+
+    private void deleteFlight() {
+        try {
+            String[]flightDetails=idbConnection.getEntryById(flight_id,new FlightEntry(""));
+            idbConnection.deleteById(new FlightEntry(flightDetails[0]));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private void sendOfferRecivedMsg() {
         String flightDetails = getFlightDetails();
         String msgContent="You got an offer from the user: "+buyerUser_id+" about your flight post: "
-                            +flightDetails+System.getProperty("line.separator")+"confirm or denied.";
+                            +flightDetails+System.getProperty("line.separator")+"confirm or deny.";
         Date dateTest=new Date(System.currentTimeMillis());
         Message message=new Message("Vacation4U",sellerUser_id,"Offer Received",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         sendMessage(sellerUser_id,message);
@@ -114,16 +142,16 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="user: "+sellerUser_id+" rejected your offer about flight post: "+flightDetails
                 +System.getProperty("line.separator")+"better luck next time (: .";
-        Message message=new Message("Vacation4U",buyerUser_id,"Offer Rejected",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message message=new Message("Vacation4U",buyerUser_id,"Offer Rejected",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         sendMessage(buyerUser_id,message);
     }
 
     private void sendOfferFinishedMsg() {
         String flightDetails = getFlightDetails();
-        String msgContent="Transaction of flight post: "+flightDetails+" has been complete and payment has been payed"
+        String msgContent="Transaction of flight post: "+flightDetails+" has been complete and payment has been paid"
                 +System.getProperty("line.separator")+"thank you for using Vacation4U.";
-        Message messageToSeller=new Message("Vacation4U",sellerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
-        Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"-1",transaction_number);
+        Message messageToSeller=new Message("Vacation4U",sellerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
+        Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         sendMessage(sellerUser_id,messageToSeller);
         sendMessage(buyerUser_id,messageToBuyer);
     }

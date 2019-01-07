@@ -1,7 +1,6 @@
 package View;
 
 import Controller.Controller;
-import Flight.FlightEntry;
 import User.MailBox.Message;
 import View.CreateAcount.CreateAcountControlle;
 import View.Displayers.*;
@@ -17,14 +16,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -46,6 +43,10 @@ public class View implements Observer {
     public MenuItem menuItem_update;
     public MenuItem menuItem_delete;
 
+    /**
+     * setter for the controller
+     * @param controller - the controller
+     */
     public void setController(Controller controller) {
         m_controller = controller;
     }
@@ -143,9 +144,8 @@ public class View implements Observer {
     }
 
     /**
-     * logged user clicked on
-     *
-     * @param mail
+     * logged user clicked on the message to open
+     * @param mail - the mail to open as a message
      */
     public void onClickMessage(MailDisplayer mail) {
         //init message displayer;
@@ -201,14 +201,25 @@ public class View implements Observer {
         dialog.showAndWait();
     }
 
+    /**
+     * user clicked on accept message
+     * @param transactionID - the transactionID of the message
+     */
     public void onClickAcceptMessage(String transactionID) {
         m_controller.acceptPurchaseOffer(transactionID);
     }
 
+    /**
+     * user clicked on decline message
+     * @param transactionID - the transactionID of the message
+     */
     public void onClickDeclineMessage(String transactionID) {
         m_controller.declinePurchaseOffer(transactionID);
     }
 
+    /**
+     * user clicked on flight board
+     */
     public void onClickFlightBoard() {
         //init
         Collection<String[]> flightEntries = m_controller.getFlightBoard();
@@ -235,6 +246,10 @@ public class View implements Observer {
         dialog.showAndWait();
     }
 
+    /**
+     * user clicked on flight displayer to open the flight
+     * @param flightDisplayer - the flight to open as vacationDisplayer
+     */
     public void onClickFlightDisplayer(FlightDisplayer flightDisplayer) {
         //init
         VacationDisplayer vd = flightDisplayer.getVacationDisplayer();
@@ -266,10 +281,18 @@ public class View implements Observer {
 
     }
 
+    /**
+     * user clicked on purchase flight
+     * @param flightID
+     */
     public void onClickPurchaseFlight(String flightID) {
         m_controller.purchaseFlight(flightID);
     }
 
+    /**
+     * log in clicked
+     * @throws IOException
+     */
     public void onClickLogin() throws IOException {
         if (loggedUser == null)
             displayLoginDialog();
@@ -277,6 +300,9 @@ public class View implements Observer {
             m_controller.logOut();
     }
 
+    /**
+     * create profile clicked
+     */
     public void onClickCreateProfile() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/CreateAcount/CreateAcount.fxml"));
@@ -296,6 +322,9 @@ public class View implements Observer {
 
     }
 
+    /**
+     * update the profile
+     */
     public void onClickUpdateProfile() {
         if (this.loggedUser != null) {
             FXMLLoader loader = new FXMLLoader();
@@ -316,6 +345,9 @@ public class View implements Observer {
         }
     }
 
+    /**
+     * deleting the profile
+     */
     public void onClickDeleteProfile() {
         if (loggedUser != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -423,14 +455,20 @@ public class View implements Observer {
         dialog.showAndWait();
     }
 
+    /**
+     * search pressed
+     * @param event
+     */
     public void onSearchPressed(KeyEvent event) {
         if (event != null && event.getCode().getName().equals("Enter")) {
             onClickSearchUser();
         }
     }
 
+    /**
+     * post flight pressed
+     */
     public void postFlightPressed() {
-
         Dialog dialog = new Dialog();
         dialog.setHeaderText("Pkost your flight");
         dialog.setResizable(true);
@@ -594,6 +632,10 @@ public class View implements Observer {
         });
     }
 
+    /**
+     * take the user to the payment window
+     * @param transactionID - the id of the transaction to pay
+     */
     public void showPaymentWindow(String transactionID){
         Dialog dialog = new Dialog();
         dialog.setHeaderText("Payment");
@@ -687,6 +729,7 @@ public class View implements Observer {
                     return;
                 }
                 m_controller.paymentAccepted(transactionID, txt_cardNumber.getText(),txt_expDAte.getText().substring(3), txt_expDAte.getText().substring(0,2), txt_csv.getText(),txt_payments.getText(), txt_ownerName.getText() );
+                dialog.close();
 
             }
 
