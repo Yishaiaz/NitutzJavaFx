@@ -196,7 +196,7 @@ public class Controller extends Observable implements Observer {
         return model.getUsersFlights();
     }
 
-    public void requestSwapTransaction(String flightID) {
+    public void requestSwapTransaction(String sellersFlightID, String swapperFlightID) {
         System.out.println("dan succeed");
     }
 }
