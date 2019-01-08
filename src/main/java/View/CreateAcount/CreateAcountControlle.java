@@ -249,12 +249,12 @@ public class CreateAcountControlle{
             return false;
         }
         else if (!containsLetter(password)){
-            lbl_error_password.setText("Password muse contain a letter");
+            lbl_error_password.setText("Password must contain a letter");
             lbl_error_password.setVisible(true);
             return false;
         }
         else if (!containsNumber(password)){
-            lbl_error_password.setText("Password muse contain a number");
+            lbl_error_password.setText("Password must contain a number");
             lbl_error_password.setVisible(true);
             return false;
         }

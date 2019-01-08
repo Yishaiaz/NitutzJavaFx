@@ -317,6 +317,8 @@ public class View implements Observer {
         if (loggedUser == null) {
             btn_purchase.setDisable(true);
             btn_purchase.setText("Unsigned User");
+            btn_swapVacations.setDisable(true);
+            btn_swapVacations.setText("Unsigned user");
         }
         bb.getButtons().addAll(btn_purchase, btn_swapVacations, btn_close);
         dialogVbox.getChildren().add(bb);
