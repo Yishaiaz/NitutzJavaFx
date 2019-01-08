@@ -61,4 +61,10 @@ public interface IModel {
     String getTransactionStatus(String transactionID);
 
     Collection<String[]> getUsersFlights();
+
+    void swapFlight(String flightID1,String flightID2) throws Exception;
+
+    void acceptSwapOffer(String swapID);
+
+    void declineSwapOffer(String swapID);
 }

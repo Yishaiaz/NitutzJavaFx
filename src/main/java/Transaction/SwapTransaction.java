@@ -216,7 +216,7 @@ public class SwapTransaction extends AEntry {
     @Override
     public String[] getColumnsTitles() {
 
-        String[]columnsTitles=new String[8];
+        String[]columnsTitles=new String[9];
         columnsTitles[0]="transaction_number";
         columnsTitles[1]="transaction_date";
         columnsTitles[2]="sellerUser_id";

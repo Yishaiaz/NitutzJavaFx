@@ -197,6 +197,10 @@ public class Controller extends Observable implements Observer {
     }
 
     public void requestSwapTransaction(String sellersFlightID, String swapperFlightID) {
-        System.out.println("dan succeed");
+        try {
+            model.swapFlight(sellersFlightID,swapperFlightID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

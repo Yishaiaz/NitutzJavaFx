@@ -5,6 +5,7 @@ import EntriesObject.AEntry;
 import EntriesObject.IEntry;
 import Flight.FlightEntry;
 import Transaction.PaymentsEntry;
+import Transaction.SwapTransaction;
 import Transaction.TransactionsEntry;
 import User.MailBox.MailBox;
 import User.MailBox.Message;
@@ -31,6 +32,7 @@ public class Model extends Observable implements IModel {
             db.createNewTable(new PaymentsEntry());
             db.createNewTable(new FlightEntry(""));
             db.createNewTable(new User());
+            db.createNewTable(new SwapTransaction());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -262,6 +264,51 @@ public class Model extends Observable implements IModel {
         }catch (Exception e){
             System.out.println(e.getMessage());
             return null;
+        }
+    }
+
+    @Override
+    public void swapFlight(String flightID1,String flightID2) throws Exception {
+        try {
+            String[] flight1Details=db.getEntryById(flightID1,new FlightEntry(""));
+            String[] flight2Details=db.getEntryById(flightID2,new FlightEntry(""));
+
+            java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
+            SwapTransaction swapTransaction=new SwapTransaction(sqlDate,flight1Details[1],loggedUser.getAllData()[0],"New SwapTransaction",flightID1,flightID2,flight1Details[6],flight2Details[6],db);
+            swapTransaction.setTransaction_status("Offer Received");
+            db.insert(swapTransaction);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void acceptSwapOffer(String swapID) {
+        String[]swapEntry=null;
+        try {
+            swapEntry=db.getEntryById(swapID,new SwapTransaction());
+            SwapTransaction swapTransaction=new SwapTransaction(swapEntry[0],Date.valueOf(swapEntry[1]),swapEntry[2],swapEntry[3],swapEntry[4],
+                    swapEntry[5],swapEntry[6],swapEntry[7],swapEntry[8],db);
+
+            swapTransaction.setTransaction_status("Offer Approved");
+            db.updateEntry(swapTransaction,swapTransaction.getAllData());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void declineSwapOffer(String swapID) {
+        String[]swapEntry=null;
+        try {
+            swapEntry=db.getEntryById(swapID,new SwapTransaction());
+            SwapTransaction swapTransaction=new SwapTransaction(swapEntry[0],Date.valueOf(swapEntry[1]),swapEntry[2],swapEntry[3],swapEntry[4],
+                    swapEntry[5],swapEntry[6],swapEntry[7],swapEntry[8],db);
+
+            swapTransaction.setTransaction_status("Rejected");
+            db.updateEntry(swapTransaction,swapTransaction.getAllData());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
