@@ -268,7 +268,7 @@ public class View implements Observer {
         Button btn_close = new Button("Close");
 
         btn_swapVacations.setOnAction(event -> {
-            m_controller.getUsersPosts(loggedUser);
+//            m_controller.getUsersPosts(loggedUser);
 
         });
 
