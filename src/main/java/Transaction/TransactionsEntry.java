@@ -110,6 +110,11 @@ public class TransactionsEntry extends AEntry {
             sendOfferFinishedMsg();
             deleteFlight();
         }
+        if(transaction_status.equals("user has paid") && this.transaction_status.equals("Offer Approved")){
+            this.transaction_status=transaction_status;
+            sendOfUserPaidMsg();
+            deleteFlight();
+        }
     }
 
     private void deleteFlight() {
@@ -132,8 +137,9 @@ public class TransactionsEntry extends AEntry {
 
     private void sendOfferApprovedMsg() {
         String flightDetails = getFlightDetails();
-        String msgContent="user: "+sellerUser_id+" approved your offer about flight post: "+flightDetails
-                                    +System.getProperty("line.separator")+"to purchase press on payment link below.";
+        String msgContent="user: "+sellerUser_id+" approved your offer regarding flight post: "+flightDetails
+                                    +System.getProperty("line.separator")+"please make the payment VIA the seller."+System.getProperty("line.separator")
+                + "after you have paid please press the \"I have paid\" button (seller will be asked to cofirm that the payment was recieved)";
         Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         sendMessage(buyerUser_id,message);
     }
@@ -148,7 +154,7 @@ public class TransactionsEntry extends AEntry {
 
     private void sendOfferFinishedMsg() {
         String flightDetails = getFlightDetails();
-        String msgContent="Transaction of flight post: "+flightDetails+" has been complete and payment has been paid"
+        String msgContent="Transaction of flight post: "+flightDetails+" has been complete and the post has been removed"
                 +System.getProperty("line.separator")+"thank you for using Vacation4U.";
         Message messageToSeller=new Message("Vacation4U",sellerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
         Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
@@ -274,4 +280,12 @@ public class TransactionsEntry extends AEntry {
         return null;
     }
     //</editor-fold>
+
+    private void sendOfUserPaidMsg() {
+        String flightDetails = getFlightDetails();
+        String msgContent="seller: "+buyerUser_id+"has confirmed that he has paid for the flight : "+flightDetails+"."+System.getProperty("line.separator")
+                +"if you have received the payment press \"confirm Received payment\".";
+        Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"buyer paid",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
+        sendMessage(buyerUser_id,messageToBuyer);
+    }
 }

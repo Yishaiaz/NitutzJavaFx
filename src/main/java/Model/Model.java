@@ -131,16 +131,29 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
-    public void confirmPayment(String transactionID, String cardNumber, String expYear,String expMonth, String csv, String payments,String ownerName) {
+    public void confirmPayment(String transactionID) {
         String[]transactionsEntry=null;
         try {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
             TransactionsEntry transaction=new TransactionsEntry(transactionsEntry[0],Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
                     ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
-            transaction.setTransaction_status("Closed");
+            transaction.setTransaction_status("user has paid");
             db.updateEntry(transaction,transaction.getAllData());
-            PaymentsEntry paymentsEntry=new PaymentsEntry(transactionID,cardNumber,expYear,expMonth,csv,Integer.valueOf(payments),ownerName);
-            db.insert(paymentsEntry);
+//            PaymentsEntry paymentsEntry=new PaymentsEntry(transactionID,cardNumber,expYear,expMonth,csv,Integer.valueOf(payments),ownerName);
+//            db.insert(paymentsEntry);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void transactionComplete(String transactionID) {
+        String[]transactionsEntry;
+        try {
+            transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
+            TransactionsEntry transaction=new TransactionsEntry(transactionsEntry[0],Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
+                    ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
+            transaction.setTransaction_status("closed");
+            db.updateEntry(transaction,transaction.getAllData());
         } catch (Exception e) {
             e.printStackTrace();
         }

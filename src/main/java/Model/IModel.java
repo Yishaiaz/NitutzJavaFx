@@ -54,7 +54,7 @@ public interface IModel {
 
     void declinePurchaseOffer(String transactionID);
 
-    void confirmPayment(String transactionID, String cardNumber, String expYear,String expMonth, String csv, String payments,String ownerName);
+    void confirmPayment(String transactionID);
 
     void createTables();
 
