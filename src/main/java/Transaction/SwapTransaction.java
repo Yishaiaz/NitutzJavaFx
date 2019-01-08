@@ -122,7 +122,7 @@ public class SwapTransaction extends AEntry {
         String secondflightDetails = getFlightDetails(secondflight_id);
         String msgContent="You got a \"SWAP\" offer from the user: "+buyerUser_id+" to swap your flight: "
                 +firstflightDetails+System.getProperty("line.separator")+"for his flight: "+secondflightDetails+System.getProperty("line.separator")+"confirm or deny.";
-        Message message=new Message("Vacation4U",sellerUser_id,"Offer Received",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
+        Message message=new Message("Vacation4U",sellerUser_id,"Offer Received",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",null,transaction_number);
         sendMessage(sellerUser_id,message);
     }
 
@@ -131,7 +131,7 @@ public class SwapTransaction extends AEntry {
         String secondflightDetails = getFlightDetails(secondflight_id);
         String msgContent="user: "+sellerUser_id+" approved your offer to swap between his flight: "+firstflightDetails
                 +System.getProperty("line.separator")+ "your flight: "+secondflightDetails+System.getProperty("line.separator")+" after you have paid the buyer (dont lie...) press the \"I have paid\" button";
-        Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
+        Message message=new Message("Vacation4U",buyerUser_id,"Offer Approved",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",null,transaction_number);
         sendMessage(buyerUser_id,message);
     }
 
@@ -139,7 +139,7 @@ public class SwapTransaction extends AEntry {
         String firstflightDetails = getFlightDetails(firstflight_id);
         String msgContent="user: "+sellerUser_id+" rejected your offer to make a swap flight on the flight: "+firstflightDetails
                 +System.getProperty("line.separator")+"better luck next time (: .";
-        Message message=new Message("Vacation4U",buyerUser_id,"Offer Rejected",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
+        Message message=new Message("Vacation4U",buyerUser_id,"Offer Rejected",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",null,transaction_number);
         sendMessage(buyerUser_id,message);
     }
 
@@ -148,8 +148,8 @@ public class SwapTransaction extends AEntry {
         String secondflightDetails = getFlightDetails(secondflight_id);
         String msgContent="Transaction of swapping the flights:"+System.getProperty("line.separator")+ "1. "+firstflightDetails+
                 System.getProperty("line.separator")+"2. "+secondflightDetails+System.getProperty("line.separator")+"has been succesfully complete, thank you for using Vacation4U.";
-        Message messageToSeller=new Message("Vacation4U",sellerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
-        Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
+        Message messageToSeller=new Message("Vacation4U",sellerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",null,transaction_number);
+        Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"Offer Closed",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",null,transaction_number);
         sendMessage(sellerUser_id,messageToSeller);
         sendMessage(buyerUser_id,messageToBuyer);
     }
