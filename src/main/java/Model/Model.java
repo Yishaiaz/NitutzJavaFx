@@ -61,6 +61,17 @@ public class Model extends Observable implements IModel {
     }
 
     @Override
+    public String getSwapStatus(String swapID) {
+        String status=null;
+        try{
+            status=db.getEntryById(swapID, new SwapTransaction())[4];
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    @Override
     public Collection<String[]> getUsersFlights() {
         if (loggedUser == null)
             return null;

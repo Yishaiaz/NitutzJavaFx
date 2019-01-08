@@ -198,6 +198,29 @@ public class View implements Observer {
                 });
                 dialogVbox.getChildren().add(btn_ok);
             }
+        } else if (md.isSwap()) {
+            String swapStatus = m_controller.getSwapStatus(mail.getSwapID());
+            ButtonBar bb = new ButtonBar();
+            if (swapStatus != null && swapStatus.equals("Offer Received")) {
+                Button btn_accept = new Button("Accept");
+                Button btn_decline = new Button("Decline");
+                btn_accept.setOnAction(event -> {
+                    onClickAcceptSwap(mail.getSwapID());
+                    dialog.close();
+                });
+                btn_decline.setOnAction(event -> {
+                    onClickDeclineSwap(mail.getSwapID());
+                    dialog.close();
+                });
+                bb.getButtons().addAll(btn_accept, btn_decline);
+            } else {
+                Button btn_ok = new Button("OK");
+                btn_ok.setOnAction(event -> {
+                    dialog.close();
+                });
+                bb.getButtons().addAll(btn_ok);
+            }
+                dialogVbox.getChildren().add(bb);
         }
         Scene dialogScene = new Scene(dialogVbox, 500, 500);
         dialog.setScene(dialogScene);
@@ -220,6 +243,14 @@ public class View implements Observer {
      */
     public void onClickDeclineMessage(String transactionID) {
         m_controller.declinePurchaseOffer(transactionID);
+    }
+
+    public void onClickAcceptSwap(String swapID) {
+        m_controller.acceptSwapOffer(swapID);
+    }
+
+    public void onClickDeclineSwap(String swapID) {
+        m_controller.declineSwapOffer(swapID);
     }
 
     /**
@@ -296,7 +327,7 @@ public class View implements Observer {
     }
 
     private void onClickedSwapVacations(FlightDisplayer ogFlight) {
-        if (ogFlight.getPublisher().equals(loggedUser)){
+        if (ogFlight.getPublisher().equals(loggedUser)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Swaping vacations with yourself is useless.");
             alert.showAndWait();
@@ -323,8 +354,8 @@ public class View implements Observer {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Swap request has been sent");
                         alert.setHeaderText("Your request has been sent to the seller");
-                        alert.setContentText("A request message has been sent to the seller."+
-                                System.getProperty("line.separator")+"please wait for his/her response");
+                        alert.setContentText("A request message has been sent to the seller." +
+                                System.getProperty("line.separator") + "please wait for his/her response");
                         alert.showAndWait();
                     }
                 }

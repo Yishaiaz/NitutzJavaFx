@@ -70,7 +70,7 @@ public class Message extends AEntry {
         this.swap_id = swapTransactionId;
         Class class1=this.getClass();
         Field[] fields = class1.getDeclaredFields();
-        this.entryColumnNames=new String[this.getClass().getDeclaredFields().length];
+        this.entryColumnNames=new String[fields.length];
         int i=0;
         for (Field field:this.getClass().getDeclaredFields()) {
             entryColumnNames[i]= field.getName();
@@ -148,6 +148,6 @@ public class Message extends AEntry {
      * @return
      */
     public boolean isSwap(){
-        return !(this.swap_id == null);
+        return this.swap_id != null;
     }
 }

@@ -38,4 +38,6 @@ public class MessageDisplayer extends VBox {
     public boolean isTransaction() {
         return message.isTransaction();
     }
+
+    public boolean isSwap() {return message.isSwap();}
 }
