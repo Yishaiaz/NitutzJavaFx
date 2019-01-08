@@ -48,7 +48,7 @@ public class TransactionsEntry extends AEntry {
      */
     public TransactionsEntry(Date date,String sellerUser_id,String buyerUser_id,String transaction_status,
                              String flight_id,String number_of_tickets,String amountPayed,IdbConnection idbConnection){
-        String[] initStatuses={"Offer Received","Offer Approved","Closed","Rejected"};
+        String[] initStatuses={"Offer Received","Offer Approved","Closed","Rejected", "user has paid"};
         statuses= new ArrayList<>();
         for(String s:initStatuses){
             statuses.add(s);
@@ -67,7 +67,7 @@ public class TransactionsEntry extends AEntry {
 
     public TransactionsEntry(String transaction_number, Date date,String sellerUser_id,String buyerUser_id,String transaction_status,
                              String flight_id,String number_of_tickets,String amountPayed,IdbConnection idbConnection){
-        String[] initStatuses={"Offer Received","Offer Approved","Closed","Rejected"};
+        String[] initStatuses={"Offer Received","Offer Approved","Closed","Rejected", "user has paid"};
         statuses= new ArrayList<>();
         for(String s:initStatuses){
             statuses.add(s);
@@ -105,7 +105,7 @@ public class TransactionsEntry extends AEntry {
             this.transaction_status=transaction_status;
             sendOfferRejectedMsg();
         }
-        if(transaction_status.equals("Closed") && this.transaction_status.equals("Offer Approved")){
+        if(transaction_status.equals("Closed") && this.transaction_status.equals("user has paid")){
             this.transaction_status=transaction_status;
             sendOfferFinishedMsg();
             deleteFlight();
@@ -113,7 +113,6 @@ public class TransactionsEntry extends AEntry {
         if(transaction_status.equals("user has paid") && this.transaction_status.equals("Offer Approved")){
             this.transaction_status=transaction_status;
             sendOfUserPaidMsg();
-            deleteFlight();
         }
     }
 
@@ -285,7 +284,7 @@ public class TransactionsEntry extends AEntry {
         String flightDetails = getFlightDetails();
         String msgContent="seller: "+buyerUser_id+"has confirmed that he has paid for the flight : "+flightDetails+"."+System.getProperty("line.separator")
                 +"if you have received the payment press \"confirm Received payment\".";
-        Message messageToBuyer=new Message("Vacation4U",buyerUser_id,"buyer paid",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
-        sendMessage(buyerUser_id,messageToBuyer);
+        Message messageToSeller=new Message("Vacation4U",sellerUser_id,"buyer paid",msgContent,new Date(System.currentTimeMillis()),"Vacation4U",transaction_number);
+        sendMessage(sellerUser_id,messageToSeller);
     }
 }
