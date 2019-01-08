@@ -301,7 +301,7 @@ public class Model extends Observable implements IModel {
             SwapTransaction swapTransaction=new SwapTransaction(swapEntry[0],Date.valueOf(swapEntry[1]),swapEntry[2],swapEntry[3],swapEntry[4],
                     swapEntry[5],swapEntry[6],swapEntry[7],swapEntry[8],db);
 
-            swapTransaction.setTransaction_status("Offer Approved");
+            swapTransaction.setTransaction_status("Closed");
             db.updateEntry(swapTransaction,swapTransaction.getAllData());
         } catch (Exception e) {
             e.printStackTrace();
