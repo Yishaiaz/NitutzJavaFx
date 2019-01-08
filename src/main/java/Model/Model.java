@@ -274,7 +274,7 @@ public class Model extends Observable implements IModel {
             String[] flight2Details=db.getEntryById(flightID2,new FlightEntry(""));
 
             java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
-            SwapTransaction swapTransaction=new SwapTransaction(sqlDate,flight1Details[1],loggedUser.getAllData()[0],"New SwapTransaction",flightID1,flightID2,flight1Details[6],flight2Details[6],db);
+            SwapTransaction swapTransaction=new SwapTransaction(sqlDate,flight1Details[1],loggedUser.getAllData()[0],"New SwTransaction",flightID1,flightID2,flight1Details[6],flight2Details[6],db);
             swapTransaction.setTransaction_status("Offer Received");
             db.insert(swapTransaction);
         } catch (Exception e) {

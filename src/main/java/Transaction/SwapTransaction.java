@@ -88,7 +88,7 @@ public class SwapTransaction extends AEntry {
         if(!statuses.contains(transaction_status)){
             throw new Exception("status not valid");
         }
-        if(transaction_status.equals("Offer Received") && this.transaction_status.equals("New Transaction") ){
+        if(transaction_status.equals("Offer Received") && this.transaction_status.equals("New SwTransaction") ){
             this.transaction_status=transaction_status;
             sendOfferRecivedMsg();
         }
