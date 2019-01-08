@@ -295,8 +295,8 @@ public class View implements Observer {
 
     }
 
-    private void onClickedSwapVacations(FlightDisplayer flight) {
-        if (flight.getPublisher().equals(loggedUser)){
+    private void onClickedSwapVacations(FlightDisplayer ogFlight) {
+        if (ogFlight.getPublisher().equals(loggedUser)){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("Swaping vacations with yourself is useless.");
             alert.showAndWait();
@@ -318,12 +318,13 @@ public class View implements Observer {
             flightDisplayer.setOnMouseClicked(event -> {
                 if (event.getButton().equals(MouseButton.PRIMARY)) {
                     if (event.getClickCount() == 2) {
-                        m_controller.requestSwapTransaction(flightDisplayer.getFlightID());
+                        m_controller.requestSwapTransaction(ogFlight.getFlightID(), flightDisplayer.getFlightID());
                         dialog.close();
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Swap request has been sent");
                         alert.setHeaderText("Your request has been sent to the seller");
-                        alert.setContentText("A request message has been sent to the sellet.\nplease wait for his/her response");
+                        alert.setContentText("A request message has been sent to the seller."+
+                                System.getProperty("line.separator")+"please wait for his/her response");
                         alert.showAndWait();
                     }
                 }
