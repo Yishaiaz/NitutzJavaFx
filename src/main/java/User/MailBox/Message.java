@@ -20,6 +20,7 @@ public class Message extends AEntry {
     protected Date message_date;
     protected String from_user_id;
     protected String transaction_id;
+    protected String swap_id;
 
     /**
      * a constructor with that only initializes the user owner field only.
@@ -47,6 +48,7 @@ public class Message extends AEntry {
         this.message_date=message_date;
         this.from_user_id =from_user_id ;
         this.transaction_id = transaction_id;
+        this.swap_id = null;
         Class class1=this.getClass();
         Field[] fields = class1.getDeclaredFields();
         this.entryColumnNames=new String[this.getClass().getDeclaredFields().length];
@@ -56,6 +58,26 @@ public class Message extends AEntry {
             i++;
         }
     }
+
+    public Message(String message_id,  String user_owner_id, String title, String message_content, Date message_date, String from_user_id, String transaction_id, String swapTransactionId) {
+        this.message_id=message_id;
+        this.user_owner_id =user_owner_id;
+        this.title=title;
+        this.message_content =message_content ;
+        this.message_date=message_date;
+        this.from_user_id =from_user_id ;
+        this.transaction_id = transaction_id==null?"":transaction_id;
+        this.swap_id = swapTransactionId;
+        Class class1=this.getClass();
+        Field[] fields = class1.getDeclaredFields();
+        this.entryColumnNames=new String[this.getClass().getDeclaredFields().length];
+        int i=0;
+        for (Field field:this.getClass().getDeclaredFields()) {
+            entryColumnNames[i]= field.getName();
+            i++;
+        }
+    }
+
     @Override
     public String getTableName() {
         return user_owner_id +"_mailbox";
@@ -85,6 +107,7 @@ public class Message extends AEntry {
         ans[4]= message_date.toString();
         ans[5]= from_user_id;
         ans[6]=transaction_id;
+        ans[7]=swap_id;
         return ans;
     }
 
@@ -118,5 +141,13 @@ public class Message extends AEntry {
      */
     public boolean isTransaction(){
         return !this.transaction_id.equals("");
+    }
+
+    /**
+     * returns a boolean representing whether this message is a swap request message
+     * @return
+     */
+    public boolean isSwap(){
+        return !(this.swap_id == null);
     }
 }

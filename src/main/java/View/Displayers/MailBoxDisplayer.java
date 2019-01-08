@@ -51,7 +51,7 @@ public class MailBoxDisplayer extends ListView {
             if (mailDisplayer.getMessageID().equals(messageID)){
                 messages.remove(mailDisplayer);
                 if (getItems().remove(mailDisplayer))
-                    return;;
+                    return;
             }
         }
     }

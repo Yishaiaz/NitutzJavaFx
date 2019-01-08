@@ -311,6 +311,7 @@ public class View implements Observer {
         //opens popup
         final Stage dialog = new Stage();
         dialog.initModality(Modality.NONE);
+        dialog.setTitle("Please choose a vacation to swap");
 
         //set action on flightDisplayers;
         for (FlightDisplayer flightDisplayer : flightBoard.getFlights()) {

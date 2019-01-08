@@ -70,7 +70,7 @@ public class MailDisplayer extends GridPane {
         lbl_title = new Label(msgData[2]);
         lbl_date = new Label("  "+msgData[4]);
         cb_isTransaction = new CheckBox();
-        if(msg.isTransaction()){
+        if(msg.isTransaction() || msg.isSwap()){
             cb_isTransaction.setSelected(true);
         }
         else{
@@ -84,6 +84,8 @@ public class MailDisplayer extends GridPane {
     }
 
     public String getTransactionID() {return msg.getAllData()[6];}
+
+    public String getSwapID() {return msg.getAllData()[7];}
 
     public MessageDisplayer getMessageDisplayer() {
         return new MessageDisplayer(msg);
