@@ -100,7 +100,7 @@ public class SwapTransaction extends AEntry {
             this.transaction_status=transaction_status;
             sendOfferRejectedMsg();
         }
-        if(transaction_status.equals("Closed") && this.transaction_status.equals("Offer Approved")){
+        if(transaction_status.equals("Closed") && this.transaction_status.equals("Offer Received")){
             this.transaction_status=transaction_status;
             sendOfferFinishedMsg();
             deleteFlight(firstflight_id);
