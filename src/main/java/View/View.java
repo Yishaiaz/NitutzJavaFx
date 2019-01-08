@@ -180,18 +180,32 @@ public class View implements Observer {
                 dialogVbox.getChildren().add(bb);
             } else if (transactionStatus != null && transactionStatus.equals("Offer Approved")) {
                 ButtonBar bb = new ButtonBar();
-                Button btn_pay = new Button("Pay");
+                Button btn_IPaid = new Button("I have Paid");
                 Button btn_cancel = new Button("Cancel");
-                btn_pay.setOnAction(event -> {
-                    showPaymentWindow(mail.getTransactionID());
+                btn_IPaid.setOnAction(event -> {
+                    m_controller.paymentAccepted(mail.getTransactionID());
                     dialog.close();
                 });
                 btn_cancel.setOnAction(event -> {
                     dialog.close();
                 });
-                bb.getButtons().addAll(btn_pay, btn_cancel);
+                bb.getButtons().addAll(btn_IPaid, btn_cancel);
                 dialogVbox.getChildren().add(bb);
-            } else if (transactionStatus != null && (transactionStatus.equals("Closed") || transactionStatus.equals("Rejected"))) {
+            } else if (transactionStatus != null && transactionStatus.equals("user has paid")){
+                ButtonBar bb = new ButtonBar();
+                Button btn_paymentReceived = new Button("I Received Payment");
+                Button btn_paymentNotReceived = new Button("I Have Not Received Payment");
+                btn_paymentReceived.setOnAction(event -> {
+                    m_controller.paymentReceived(mail.getTransactionID());
+                    dialog.close();
+                });
+                btn_paymentNotReceived.setOnAction(event -> {
+                    dialog.close();
+                });
+                bb.getButtons().addAll(btn_paymentReceived, btn_paymentNotReceived);
+                dialogVbox.getChildren().add(bb);
+            }
+            else if (transactionStatus != null && (transactionStatus.equals("Closed") || transactionStatus.equals("Rejected"))) {
                 Button btn_ok = new Button("OK");
                 btn_ok.setOnAction(event -> {
                     dialog.close();
@@ -752,138 +766,6 @@ public class View implements Observer {
                 return LocalDate.parse(dateString, dateTimeFormatter);
             }
         });
-    }
-
-    /**
-     * take the user to the payment window
-     *
-     * @param transactionID - the id of the transaction to pay
-     */
-    public void showPaymentWindow(String transactionID) {
-        Dialog dialog = new Dialog();
-        dialog.setHeaderText("Payment");
-        dialog.setResizable(true);
-
-        // Widgets
-        Label lbl_cardNumber = new Label("Card number: ");
-        Label lbl_expDate = new Label("exp Date(mm/yyyy):");
-        Label lbl_csv = new Label("csv:(3 dig)");
-        Label lbl_ownerName = new Label("Owner Full Name: ");
-        Label lbl_numOfPayments = new Label("number of payments:");
-
-        TextField txt_cardNumber = new TextField();
-        TextField txt_expDAte = new TextField();
-        TextField txt_csv = new TextField();
-        TextField txt_ownerName = new TextField();
-        TextField txt_payments = new TextField();
-
-        txt_cardNumber.setPromptText("(16 digits)");
-        txt_expDAte.setPromptText("(MM/YYYY)");
-        txt_csv.setPromptText(("(3 dig)"));
-        txt_payments.setPromptText("(1-12");
-
-        Button btn_pay = new Button("Confirm Payment");
-        Button btn_yaniv = new Button("Auto fill");
-
-
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 35, 20, 35));
-        grid.add(lbl_cardNumber, 1, 1);
-        grid.add(txt_cardNumber, 2, 1);
-        grid.add(lbl_expDate, 1, 2);
-        grid.add(txt_expDAte, 2, 2);
-        grid.add(lbl_csv, 1, 3);
-        grid.add(txt_csv, 2, 3);
-        grid.add(lbl_ownerName, 1, 4);
-        grid.add(txt_ownerName, 2, 4);
-        grid.add(lbl_numOfPayments, 1, 5);
-        grid.add(txt_payments, 2, 5);
-
-        grid.add(btn_pay, 2, 6);
-        grid.add(btn_yaniv, 1, 6);
-        dialog.getDialogPane().setContent(grid);
-
-        // Add button to dialog
-        ButtonType btn_cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        dialog.getDialogPane().getButtonTypes().add(btn_cancel);
-
-
-        btn_yaniv.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                txt_cardNumber.setText("1234567891234567");
-                txt_expDAte.setText("12/2020");
-                txt_csv.setText(("123"));
-                txt_payments.setText("1");
-
-            }
-        });
-
-        btn_pay.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("INPUT ERROR");
-                if (txt_cardNumber.getText().length() != 16 || !isNumber(txt_cardNumber.getText())) {
-
-                    alert.setContentText("card number must be 16 digits long");
-                    alert.showAndWait();
-                    return;
-                }
-                if (!legalExpDate(txt_expDAte.getText())) {
-                    alert.setContentText("illegal expiration date  (MM/YY)");
-                    alert.showAndWait();
-                    return;
-                }
-                if (txt_csv.getText().length() != 3 || !isNumber(txt_csv.getText())) {
-                    alert.setContentText("illegal csv  (123)");
-                    alert.showAndWait();
-                    return;
-                }
-                if (txt_ownerName.getText() == null || txt_ownerName.getText().length() == 0 || txt_ownerName.getText().split(" ").length < 2) {
-                    alert.setContentText("please type owner full name");
-                }
-                if (!validPayAmount(txt_payments.getText())) {
-                    alert.setContentText("illegal payments  (number: 1-12)");
-                    alert.showAndWait();
-                    return;
-                }
-                m_controller.paymentAccepted(transactionID, txt_cardNumber.getText(), txt_expDAte.getText().substring(3), txt_expDAte.getText().substring(0, 2), txt_csv.getText(), txt_payments.getText(), txt_ownerName.getText());
-                dialog.close();
-
-            }
-
-            private boolean validPayAmount(String text) {
-                try {
-                    if (Integer.valueOf(text) <= 12 && Integer.valueOf(text) >= 0)
-                        return true;
-
-                } catch (Exception e) {
-                    return false;
-                }
-                return false;
-            }
-
-            private boolean legalExpDate(String text) {
-                if (text.length() != 7 || text.charAt(2) != '/' || !isNumber(text.substring(0, 2)) || !isNumber(text.substring(text.length() - 4)))
-                    return false;
-                return true;
-            }
-
-            private boolean isNumber(String text) {
-                for (int i = 0; i < text.length(); i++) {
-                    if (text.charAt(i) < '0' || text.charAt(i) > '9')
-                        return false;
-                }
-                return true;
-            }
-
-        });
-
-        dialog.showAndWait();
     }
 
 }

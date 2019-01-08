@@ -69,4 +69,6 @@ public interface IModel {
     void acceptSwapOffer(String swapID);
 
     void declineSwapOffer(String swapID);
+
+    void transactionComplete(String transactionID);
 }

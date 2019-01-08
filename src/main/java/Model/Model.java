@@ -29,7 +29,7 @@ public class Model extends Observable implements IModel {
     public void createTables() {
         try {
             db.createNewTable(new TransactionsEntry());
-            db.createNewTable(new PaymentsEntry());
+//            db.createNewTable(new PaymentsEntry());
             db.createNewTable(new FlightEntry(""));
             db.createNewTable(new User());
             db.createNewTable(new SwapTransaction());
@@ -152,7 +152,7 @@ public class Model extends Observable implements IModel {
             transactionsEntry=db.getEntryById(transactionID,new TransactionsEntry());
             TransactionsEntry transaction=new TransactionsEntry(transactionsEntry[0],Date.valueOf(transactionsEntry[1]),transactionsEntry[2],transactionsEntry[3]
                     ,transactionsEntry[4],transactionsEntry[5],transactionsEntry[6],transactionsEntry[7],db);
-            transaction.setTransaction_status("closed");
+            transaction.setTransaction_status("Closed");
             db.updateEntry(transaction,transaction.getAllData());
         } catch (Exception e) {
             e.printStackTrace();

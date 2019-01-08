@@ -185,15 +185,13 @@ public class Controller extends Observable implements Observer {
     /**
      * * makes a request to the Model from the buyer to accept the payment, save it and change the transaction status
      * @param transactionID - the transaction id
-     * @param cardNumber - the credit card number
-     * @param expYear - credit card expiration year.
-     * @param expMonth - credit card expiration month
-     * @param csv - credit card csv
-     * @param payments - number of payments
-     * @param ownerName - name of credit card owner
      */
-    public void paymentAccepted(String transactionID, String cardNumber, String expYear,String expMonth, String csv, String payments,String ownerName) {
-        model.confirmPayment(transactionID,cardNumber,expYear,expMonth,csv,payments,ownerName);
+    public void paymentAccepted(String transactionID) {
+        model.confirmPayment(transactionID);
+    }
+
+    public void paymentReceived(String transactionID){
+        model.transactionComplete(transactionID);
     }
 
     public Collection<String[]> getUsersFlights() {
