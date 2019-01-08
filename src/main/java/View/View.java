@@ -48,6 +48,7 @@ public class View implements Observer {
 
     /**
      * setter for the controller
+     *
      * @param controller - the controller
      */
     public void setController(Controller controller) {
@@ -148,6 +149,7 @@ public class View implements Observer {
 
     /**
      * logged user clicked on the message to open
+     *
      * @param mail - the mail to open as a message
      */
     public void onClickMessage(MailDisplayer mail) {
@@ -162,7 +164,7 @@ public class View implements Observer {
         dialogVbox.getChildren().add(md);
         if (md.isTransaction()) {
             String transactionStatus = m_controller.getTransactionStatus(mail.getTransactionID());
-            if(transactionStatus != null && transactionStatus.equals("Offer Received")) {
+            if (transactionStatus != null && transactionStatus.equals("Offer Received")) {
                 ButtonBar bb = new ButtonBar();
                 Button btn_accept = new Button("Accept");
                 Button btn_decline = new Button("Decline");
@@ -176,8 +178,7 @@ public class View implements Observer {
                 });
                 bb.getButtons().addAll(btn_accept, btn_decline);
                 dialogVbox.getChildren().add(bb);
-            }
-            else if (transactionStatus != null && transactionStatus.equals("Offer Approved")){
+            } else if (transactionStatus != null && transactionStatus.equals("Offer Approved")) {
                 ButtonBar bb = new ButtonBar();
                 Button btn_pay = new Button("Pay");
                 Button btn_cancel = new Button("Cancel");
@@ -190,8 +191,7 @@ public class View implements Observer {
                 });
                 bb.getButtons().addAll(btn_pay, btn_cancel);
                 dialogVbox.getChildren().add(bb);
-            }
-            else if(transactionStatus != null && (transactionStatus.equals("Closed") || transactionStatus.equals("Rejected"))){
+            } else if (transactionStatus != null && (transactionStatus.equals("Closed") || transactionStatus.equals("Rejected"))) {
                 Button btn_ok = new Button("OK");
                 btn_ok.setOnAction(event -> {
                     dialog.close();
@@ -206,6 +206,7 @@ public class View implements Observer {
 
     /**
      * user clicked on accept message
+     *
      * @param transactionID - the transactionID of the message
      */
     public void onClickAcceptMessage(String transactionID) {
@@ -214,6 +215,7 @@ public class View implements Observer {
 
     /**
      * user clicked on decline message
+     *
      * @param transactionID - the transactionID of the message
      */
     public void onClickDeclineMessage(String transactionID) {
@@ -251,6 +253,7 @@ public class View implements Observer {
 
     /**
      * user clicked on flight displayer to open the flight
+     *
      * @param flightDisplayer - the flight to open as vacationDisplayer
      */
     public void onClickFlightDisplayer(FlightDisplayer flightDisplayer) {
@@ -268,7 +271,8 @@ public class View implements Observer {
         Button btn_close = new Button("Close");
 
         btn_swapVacations.setOnAction(event -> {
-//            m_controller.getUsersPosts(loggedUser);
+            onClickedSwapVacations(flightDisplayer);
+            dialog.close();
 
         });
 
@@ -279,11 +283,11 @@ public class View implements Observer {
         btn_close.setOnAction(event -> {
             dialog.close();
         });
-        if(loggedUser == null){
+        if (loggedUser == null) {
             btn_purchase.setDisable(true);
             btn_purchase.setText("Unsigned User");
         }
-        bb.getButtons().addAll(btn_purchase, btn_swapVacations,btn_close);
+        bb.getButtons().addAll(btn_purchase, btn_swapVacations, btn_close);
         dialogVbox.getChildren().add(bb);
         Scene dialogScene = new Scene(dialogVbox, 1000, 200);
         dialog.setScene(dialogScene);
@@ -291,15 +295,56 @@ public class View implements Observer {
 
     }
 
+    private void onClickedSwapVacations(FlightDisplayer flight) {
+        if (flight.getPublisher().equals(loggedUser)){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Swaping vacations with yourself is useless.");
+            alert.showAndWait();
+            return;
+        }
+
+        //init
+        Collection<String[]> flightEntries = m_controller.getUsersFlights();
+        FlightBoard flightBoard = new FlightBoard(flightEntries);
+
+
+        //opens popup
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.NONE);
+
+        //set action on flightDisplayers;
+        for (FlightDisplayer flightDisplayer : flightBoard.getFlights()) {
+            flightDisplayer.setOnMouseClicked(event -> {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 2) {
+                        m_controller.requestSwapTransaction(flightDisplayer.getFlightID());
+                        dialog.close();
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Swap request has been sent");
+                        alert.setHeaderText("Your request has been sent to the seller");
+                        alert.setContentText("A request message has been sent to the sellet.\nplease wait for his/her response");
+                        alert.showAndWait();
+                    }
+                }
+            });
+        }
+
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(flightBoard);
+        Scene dialogScene = new Scene(dialogVbox, 1000, 500);
+        dialog.setScene(dialogScene);
+        dialog.showAndWait();
+    }
+
     /**
      * user clicked on purchase flight
+     *
      * @param flightID
      */
     public void onClickPurchaseFlight(String flightID) {
         try {
             m_controller.purchaseFlight(flightID);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("you cant do that");
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setTitle("ILEGAL ACTION");
@@ -311,6 +356,7 @@ public class View implements Observer {
 
     /**
      * log in clicked
+     *
      * @throws IOException
      */
     public void onClickLogin() throws IOException {
@@ -477,6 +523,7 @@ public class View implements Observer {
 
     /**
      * search pressed
+     *
      * @param event
      */
     public void onSearchPressed(KeyEvent event) {
@@ -568,7 +615,7 @@ public class View implements Observer {
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                 java.util.Date dateobj = new java.util.Date();
                 String presentDate = df.format(dateobj);
-                if(validateDates(dp_depDate.getEditor().getText(),dp_arrDate.getEditor().getText()) &&   validateDates(presentDate,dp_depDate.getEditor().getText()))
+                if (validateDates(dp_depDate.getEditor().getText(), dp_arrDate.getEditor().getText()) && validateDates(presentDate, dp_depDate.getEditor().getText()))
                     validDates = true;
 
                 if (!validDates || txt_from.getText().equals("") || txt_to.getText().equals("") || dp_depDate.getEditor().getText().equals("") || dp_arrDate.getEditor().getText().equals("") || txt_price.getText().equals("") || txt_airLine.getText().equals("") || txt_luagage.getText().equals("")
@@ -624,7 +671,7 @@ public class View implements Observer {
             }
 
             private boolean validateDates(String small, String big) {
-                if(small == null || big == null || small.equals("") || big.equals(""))
+                if (small == null || big == null || small.equals("") || big.equals(""))
                     return false;
                 try {
                     if (Integer.valueOf(small.split("/")[2]) > Integer.valueOf(big.split("/")[2]))
@@ -633,8 +680,7 @@ public class View implements Observer {
                         return false;
                     if (Integer.valueOf(small.split("/")[0]) > Integer.valueOf(big.split("/")[0]))
                         return false;
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     return false;
                 }
                 return true;
@@ -653,35 +699,32 @@ public class View implements Observer {
      * "DD/MM/yyyy
      */
     private void setDateFormat(DatePicker dp) {
-        dp.setConverter(new StringConverter<LocalDate>()
-        {
-            private DateTimeFormatter dateTimeFormatter=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        dp.setConverter(new StringConverter<LocalDate>() {
+            private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
             @Override
-            public String toString(LocalDate localDate)
-            {
-                if(localDate==null)
+            public String toString(LocalDate localDate) {
+                if (localDate == null)
                     return "";
                 return dateTimeFormatter.format(localDate);
             }
 
             @Override
-            public LocalDate fromString(String dateString)
-            {
-                if(dateString==null || dateString.trim().isEmpty())
-                {
+            public LocalDate fromString(String dateString) {
+                if (dateString == null || dateString.trim().isEmpty()) {
                     return null;
                 }
-                return LocalDate.parse(dateString,dateTimeFormatter);
+                return LocalDate.parse(dateString, dateTimeFormatter);
             }
         });
     }
 
     /**
      * take the user to the payment window
+     *
      * @param transactionID - the id of the transaction to pay
      */
-    public void showPaymentWindow(String transactionID){
+    public void showPaymentWindow(String transactionID) {
         Dialog dialog = new Dialog();
         dialog.setHeaderText("Payment");
         dialog.setResizable(true);
@@ -714,18 +757,18 @@ public class View implements Observer {
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 35, 20, 35));
         grid.add(lbl_cardNumber, 1, 1);
-        grid.add(txt_cardNumber,2,1);
+        grid.add(txt_cardNumber, 2, 1);
         grid.add(lbl_expDate, 1, 2);
-        grid.add(txt_expDAte,2,2);
+        grid.add(txt_expDAte, 2, 2);
         grid.add(lbl_csv, 1, 3);
-        grid.add(txt_csv,2,3);
+        grid.add(txt_csv, 2, 3);
         grid.add(lbl_ownerName, 1, 4);
         grid.add(txt_ownerName, 2, 4);
         grid.add(lbl_numOfPayments, 1, 5);
-        grid.add(txt_payments,2,5);
+        grid.add(txt_payments, 2, 5);
 
         grid.add(btn_pay, 2, 6);
-        grid.add(btn_yaniv,1,6);
+        grid.add(btn_yaniv, 1, 6);
         dialog.getDialogPane().setContent(grid);
 
         // Add button to dialog
@@ -749,55 +792,55 @@ public class View implements Observer {
             public void handle(ActionEvent e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("INPUT ERROR");
-                if (txt_cardNumber.getText().length() != 16 || !isNumber(txt_cardNumber.getText())){
+                if (txt_cardNumber.getText().length() != 16 || !isNumber(txt_cardNumber.getText())) {
 
                     alert.setContentText("card number must be 16 digits long");
                     alert.showAndWait();
                     return;
                 }
-                if(!legalExpDate(txt_expDAte.getText())){
+                if (!legalExpDate(txt_expDAte.getText())) {
                     alert.setContentText("illegal expiration date  (MM/YY)");
                     alert.showAndWait();
                     return;
                 }
-                if(txt_csv.getText().length() != 3 || !isNumber(txt_csv.getText())){
+                if (txt_csv.getText().length() != 3 || !isNumber(txt_csv.getText())) {
                     alert.setContentText("illegal csv  (123)");
                     alert.showAndWait();
                     return;
                 }
-                if(txt_ownerName.getText() == null || txt_ownerName.getText().length()==0 || txt_ownerName.getText().split(" ").length <2){
+                if (txt_ownerName.getText() == null || txt_ownerName.getText().length() == 0 || txt_ownerName.getText().split(" ").length < 2) {
                     alert.setContentText("please type owner full name");
                 }
-                if(!validPayAmount(txt_payments.getText())){
+                if (!validPayAmount(txt_payments.getText())) {
                     alert.setContentText("illegal payments  (number: 1-12)");
                     alert.showAndWait();
                     return;
                 }
-                m_controller.paymentAccepted(transactionID, txt_cardNumber.getText(),txt_expDAte.getText().substring(3), txt_expDAte.getText().substring(0,2), txt_csv.getText(),txt_payments.getText(), txt_ownerName.getText() );
+                m_controller.paymentAccepted(transactionID, txt_cardNumber.getText(), txt_expDAte.getText().substring(3), txt_expDAte.getText().substring(0, 2), txt_csv.getText(), txt_payments.getText(), txt_ownerName.getText());
                 dialog.close();
 
             }
 
             private boolean validPayAmount(String text) {
-                try{
-                    if(Integer.valueOf(text) <=12 && Integer.valueOf(text) >= 0)
+                try {
+                    if (Integer.valueOf(text) <= 12 && Integer.valueOf(text) >= 0)
                         return true;
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     return false;
                 }
                 return false;
             }
 
             private boolean legalExpDate(String text) {
-                if(text.length()!= 7 || text.charAt(2) != '/' || !isNumber(text.substring(0,2)) || !isNumber(text.substring(text.length()-4)))
+                if (text.length() != 7 || text.charAt(2) != '/' || !isNumber(text.substring(0, 2)) || !isNumber(text.substring(text.length() - 4)))
                     return false;
                 return true;
             }
 
             private boolean isNumber(String text) {
-                for (int i = 0; i < text.length(); i++){
-                    if(text.charAt(i) < '0' || text.charAt(i) > '9')
+                for (int i = 0; i < text.length(); i++) {
+                    if (text.charAt(i) < '0' || text.charAt(i) > '9')
                         return false;
                 }
                 return true;

@@ -59,4 +59,6 @@ public interface IModel {
     void createTables();
 
     String getTransactionStatus(String transactionID);
+
+    Collection<String[]> getUsersFlights();
 }
