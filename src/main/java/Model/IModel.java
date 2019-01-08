@@ -60,6 +60,8 @@ public interface IModel {
 
     String getTransactionStatus(String transactionID);
 
+    String getSwapStatus(String swapID);
+
     Collection<String[]> getUsersFlights();
 
     void swapFlight(String flightID1,String flightID2) throws Exception;

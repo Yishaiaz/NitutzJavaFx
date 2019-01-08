@@ -178,6 +178,10 @@ public class Controller extends Observable implements Observer {
         return model.getTransactionStatus(transactionID);
     }
 
+    public String getSwapStatus(String swapID){
+        return model.getSwapStatus(swapID);
+    }
+
     /**
      * * makes a request to the Model from the buyer to accept the payment, save it and change the transaction status
      * @param transactionID - the transaction id
@@ -202,5 +206,13 @@ public class Controller extends Observable implements Observer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void acceptSwapOffer(String swapID) {
+        model.acceptSwapOffer(swapID);
+    }
+
+    public void declineSwapOffer(String swapID) {
+        model.declineSwapOffer(swapID);
     }
 }
